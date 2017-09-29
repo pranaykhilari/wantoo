@@ -1,0 +1,77 @@
+.comp-notificationsPreview
+	width 300px
+	height 500px
+	margin 0
+	overflow hidden
+	padding 0
+	
+	&.isEmpty
+		.-empty-message
+			display block
+		
+		.-btn-all-notifications
+			display none	
+	
+	&.isVisible
+		display block !important
+	
+	.-empty-message
+		display none
+		color #a7a7a7
+		text-align center
+		margin-top 20px
+		
+	
+	.-inner-scrollable
+		margin 0
+		padding 0 0 55px
+		height 500px
+		overflow-y scroll
+	
+	.-notification-item
+		width 100%
+		
+		&:hover
+			background-color #ECEBEB !important
+		
+		&.-is-unseen
+			background-color #FDFAFA
+			
+		a
+			padding 9px 17px
+			margin-top -13px
+			display flex
+			text-decoration none
+			
+			.-user-pic
+				flex 0 0 35px
+				height 35px
+				border 1px solid #a7a7a7
+				border-radius 50%
+				margin-right 15px
+				margin-top 4px
+			
+			.-description
+				color #a3a3a3
+				white-space normal
+				font-size 14px
+					
+					&.-time
+						color #a7a7a7
+	
+	.-btn-all-notifications
+		background-color highlightPrimary
+		text-align center
+		line-height 48px
+		height 48px !important
+		text-decoration none
+		left 0
+		position absolute
+		bottom 0
+		width 100%
+		color #fff
+		font-weight bold		
+
+@media (max-width: 400px)			
+	.comp-notificationsPreview
+		width 240px			

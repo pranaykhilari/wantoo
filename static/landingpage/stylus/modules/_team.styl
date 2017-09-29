@@ -1,0 +1,38 @@
+.m-team__title
+	font-size 45px
+	font-weight lighter
+	margin 52px 0
+	text-transform none
+.m-team
+	.m-teamContainer
+		@extend .clearfix
+		.m-team__box
+			float left
+			padding 0
+			margin-left 10%
+			width 40%
+			&:first-child
+				margin-left 5%
+			.m-team__blurb
+				font-size 18px
+				font-weight 100
+				color brown
+				text-align left
+				line-height 2em
+@media screen and (max-width: max-mobile-screen)
+	.m-team__title
+		font-size 36px
+		margin 30px 0
+	.m-team
+		.m-teamContainer
+			.m-team__box
+				display block
+				float none
+				padding 10px 3%
+				width 94%
+				text-align center
+				margin 0 auto
+				&:first-child
+					margin 0 auto
+				.m-team__blurb
+					font-size 14px

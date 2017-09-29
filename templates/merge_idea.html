@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script>
+    window.token = "{% csrf_token %}";
+    window.mergeIdeaTitle = "{{ idea.title }}";
+    window.mergeIdeaID = "{{ idea.id }}"
+</script>
+<div class="comp-contMain">
+<div class="view view-merge">
+    <div id="merge"></div>
+</div>
+</div>
+{% endblock content %}

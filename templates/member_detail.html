@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load mytags %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-my-activity x-white">
+	<div id="ideaList">
+		
+	</div>
+
+	<div class="_hideOnLiveSearch">
+		<div class="-member-header">
+			<div class="-left-col">
+				<img src="{% gravatar_url member 160 %}" alt="">
+			</div>
+			<div class="-right-col">
+				<h2 class="-name">{{ member.first_name }} {{ member.last_name }}</h2>
+				<div class="-settings-menu">
+		      <div class="-inner-cont">
+		        <a class="{% active request '/$' %}" href="/{{ company.slug }}/member/{{ member.id }}/">All</a> 
+
+		        <a class="{% active request include '/?filter=idea_submitted$' %}" href="/{{ company.slug }}/member/{{ member.id }}/?filter=idea_submitted">Ideas ({{ idea_count }})</a> 
+						
+		        <a class="{% active request '/?filter=idea_wanted$' %}" href="/{{ company.slug }}/member/{{ member.id }}/?filter=idea_wanted">Wants ({{ want_count }})</a>
+						
+		        <a class="{% active request '/?filter=comment_added$' %}" href="/{{ company.slug }}/member/{{ member.id }}/?filter=comment_added">Comments ({{ comment_count }})</a>
+		      </div>
+		    </div>
+			</div>
+		</div>
+
+
+  	{% include 'partials/_activity-stream.html' %} 
+  </div>       
+</div>
+</div>
+{% endblock content %}

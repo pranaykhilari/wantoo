@@ -1,0 +1,299 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+{% load account %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+{% get_admin_status as is_admin %}
+{% get_dark_launch "BOARD_STATS" as board_stats_enabled %}
+{% get_dark_launch "SLACK_INTEGRATION" as slack_integration_enabled %}
+{% get_dark_launch "SOCIAL_LISTENING" as socail_listening_enabled %}
+{% get_user_plan_type as user_plan_type %}
+
+<!-- header content -->
+<div class="comp-header _header {% small_logo %}">
+  {% include 'partials/_banner.html' %}
+  <div class="comp-header__inner-cont">
+
+    <div class="comp-header__brandCont">
+      <a href="/my-boards"><img class="my-boards-logo comp-header__logo comp-header__logo--left" src="/static/landingpage/img/wantoo_logo_pink.svg" alt="Wantoo Logo"></a>
+    </div>
+
+    <div class="mainNav">
+      <div class="mainNav__item mainNav__item--profile dropdown -dropdown -profile -item">
+        <a href="#" class=" dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="{% gravatar_url request.user %}"></a>
+        <ul class="dropdown-menu mainNav__dropdown" aria-labelledby="dropdownMenu1">
+          <li><a onclick="mixpanel.track('My Boards clicked / my-boards menu')" href="/my-boards/">My boards</a></li>
+          <li><a onclick="mixpanel.track('Account & Profile clicked / my-boards menu')" href="/accounts/preferences/">Account & Profile</a></li>
+          <li><a onclick="mixpanel.track('Feedback clicked / my-boards menu)" target="_blank" href="/wantoo">Feedback</a></li>
+          <li><a onclick="mixpanel.track('Help clicked / my-boards menu)" target="_blank" href="https://wantoo.zendesk.com/hc/en-us">Help</a></li>
+          <li><a onclick="mixpanel.track('Logout clicked / my-boards menu)" href="/accounts/logout/">Logout</a></li>
+        </ul>
+      </div>
+        {% if is_admin and not socail_listening_enabled and not slack_integration_enabled and not board_stats_enabled %}
+            <a onclick="mixpanel.track('PRO Upgrade clicked / my-boards menu)" href="{% url 'subscription' %}"  class="-activity mainNav__item -pro-upgrade">PRO Upgrade</a>
+        {% elif  user_plan_type == "free_monthly" %}
+            <a onclick="mixpanel.track('Create a board clicked by member / my-boards menu)" href="{% url 'subscription' %}" class="-activity mainNav__item -pro-upgrade my-boards-highlight">Create a board</a>
+        {% else %}
+            <a onclick="mixpanel.track('Create a board clicked / my-boards menu)" href="/accounts/signup/?next=/welcome/" class="-activity mainNav__item -pro-upgrade my-boards-highlight">Create a board</a>
+        {% endif %}
+      <div class="mainNav__mobileSearch _mobileSearch">
+        <div class="mainNav__mobileSearch__form-cont">
+          <input class="_searchInput" type="text" placeholder="Search / Add idea">
+        </div>
+        <button class="mainNav__mobileSearch__close _closeMobileSearch"></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- header content end -->
+
+<div id="auth" data-authed="{{ user.is_authenticated.value}}"></div>
+
+<div class="comp-contMain--large">
+    <div class="view view-my-boards">
+        <!-- <div class="page-wrap"> -->
+
+            <section class="my-boards__section">
+              <h1 class="my-boards__header">My Boards</h1>
+              <ul class="my-boards__list">
+
+              {% for board in my_boards %}
+                <li class="my-boards__list-item">
+                  <div onclick="mixpanel.track('User {{board.slug}} Board clicked / my-boards : User Board)" class="board-tile board-tile__user-board" style="border-color:#{{board.color}} !important;">
+                    <div class="board-tile__options">
+                        <a href="/{{ board.slug }}/manage/feedback/" class="is_admin_link"><span class="is_admin_icon"></span></a>
+                    </div>
+                    <a class="board-tile__details-nodec" href="/{{ board.slug }}/">
+                    <div class="board-tile__details">
+                      <div class="board-tile__details--name">{{ board.title|truncatechars:25 }}</div>
+                      <div class="board-tile__details--question">{{ board.question|truncatechars:55 }}</div>
+                    </div>
+                    </a>
+                  </div>
+                </li>
+              {% endfor %}
+
+
+                <li class="my-boards__list-item" style="clear: both;">
+                    {% if user_plan_type == "free_monthly" or is_admin and not socail_listening_enabled and not slack_integration_enabled and not board_stats_enabled %}
+                        <a href="{% url 'subscription' %}" class="board-tile board-tile__add-board">
+                            <span class="board-tile__call-to-action"><b>+</b> Create a board</span>
+                        </a>
+                    {% else %}
+                        <a href="/accounts/signup/?next=/welcome/" class="board-tile board-tile__add-board">
+                            <span class="board-tile__call-to-action"><b>+</b> Create a board</span>
+                        </a>
+                    {% endif %}
+                </li>
+
+                <!-- data-toggle="modal" data-target="#_modal-prowall" -->
+
+              </ul>
+
+              {% if check_closed %}
+                <div class="closed-boards__link"><a href="/my-boards/closed/">View closed boards...</a></div>
+              {% endif %}
+              
+            </section>
+
+            {% if memberships.count > 0 %}
+              <section class="my-boards__section">
+                <h1 class="my-boards__header">
+                    Boards I've joined
+                </h1>
+                <ul class="my-boards__list">
+
+                {% for membership in memberships %}
+                  <li class="my-boards__list-item">
+                    <div onclick="mixpanel.track('Member {{membership.company.slug}} Board clicked / my-boards : Member Boards)" class="board-tile board-tile__user-board" style="border-color:#{{membership.company.color}};">
+                      <div class="board-tile__options">
+                        {% if membership.company.slug in admin_groups %}
+                          <a class="is_admin_link" href="/{{ membership.company.slug }}/manage/feedback/">
+                            <span class="is_admin_icon"></span>
+                          </a>
+                        {% endif %}
+                      </div>
+                      <a class="board-tile__details-nodec" href="/{{ membership.company.slug }}/">
+                      <div class="board-tile__details">
+                        <div class="board-tile__details--name">{{ membership.company.title|truncatechars:25 }}</div>
+                        <div class="board-tile__details--question">{{ membership.company.question|truncatechars:55 }}</div>
+                      </div>
+                      </a>
+                    </div>
+                  </li>
+                {% endfor %}
+
+                </ul>
+              </section>
+            {% endif %}
+
+            {% if featured.count > 0 %}
+            <section class="my-boards__section">
+              <h1 class="my-boards__header">
+                  Wantoo’s Idea Boards: Tips, Tricks, and Inspiration
+              </h1>
+              <ul class="my-boards__list">
+
+              {% for board in featured %}
+                <li class="my-boards__list-item">
+                  <div onclick="mixpanel.track('Featured {{board.company.slug}} Board clicked / my-boards : Featured Boards)" class="board-tile board-tile__user-board" style="border-color:#{{board.company.color}};">
+                    <div class="board-tile__options">
+                      {% if board.company.slug in admin_groups %}
+                        <a class="is_admin_link" href="{% if board.url %}{{board.url}}{% else %}/{{board.company.slug}}/manage/feedback/{% endif %}"><span class="is_admin_icon"></span></a>
+                      {% endif %}
+                    </div>
+                    <a class="board-tile__details-nodec" href="{% if board.url %}{{board.url}}{% else %}/{{board.company.slug}}/{% endif %}">
+                    <div class="board-tile__details">
+                      <div class="board-tile__details--name">
+                        {% firstof board.title|truncatechars:25 board.company.title|truncatechars:25 %}
+                      </div>
+                      <div class="board-tile__details--question">{% firstof board.question|truncatechars:55 board.company.question|truncatechars:55 %}</div>
+                    </div>
+                    </a>
+                  </div>
+                </li>
+              {% endfor %}
+
+              </ul>
+            </section>
+            {% endif %}
+
+        <!-- </div> -->
+
+        <footer class="l-footer">
+          <div class="l-footer__inner">
+            <div class="l-footer__menu">
+              <ul class="m-footerList">
+                <li class="m-footerList__item t-item__footer"><a target="_blank" href="https://wantoo.zendesk.com/hc/en-us/articles/216243017-Getting-Started-with-Wantoo">Getting Started</a></li>
+                <li class="m-footerList__item t-item__footer"><a href="/team/" target="_blank">About</a></li>
+                <li class="m-footerList__item t-item__footer"><a href="https://wantoo.zendesk.com/hc/en-us" target="_blank">Support</a></li>
+                <li class="m-footerList__item t-item__footer"><a href="mailto:hello@wantoo.io">Contact</a></li>
+                <li class="m-footerList__item t-item__footer"><a href="http://wantoo.io/wantoo">Feedback</a></li>
+              </ul>
+            </div>
+            <div class="l-footer__contact">
+              <p class="l-footer__privacy t-note__privacy">&copy; Copyright 2016 Wantoo. All Rights Reserved. <a href="/privacy/"><u>Privacy</u></a> and <a href="/terms-of-use/"><u>Terms</u></a> </p>
+              <ul class="l-footer__social">
+                <li class="l-footer__item"><a target="_blank" href="https://twitter.com/allwantoo" class="l-footer__socialIcon"><img src="/static/landingpage/img/icon_twitter.svg" alt=""></a></li>
+                <li class="l-footer__item"><a target="_blank" href="https://www.facebook.com/allwantoo/" class="l-footer__socialIcon"><img src="/static/landingpage/img/icon_facebook.svg" alt=""></a></li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+        <!-- Pro Feature Gate -->
+{#        <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions" id="_modal-prowall" tabindex="-1" role="dialog" aria-labelledby="pro-features">#}
+{#          <div class="modal-dialog" style="max-width: 700px;" role="document">#}
+{#            <div class="modal-content">#}
+{#              <div class="modal-body">#}
+{#                 <h2 class="-title left">Need to Upgrade?</h2>#}
+{#                 <p class="-message"><b>Try a PRO account free for 14 days!</b><br/><br/></h2>Only $50/mo (paid annually). The Wantoo PRO upgrade unlocks many advanced features, such as Slack and Twitter integration, analytics, idea merging, and more. Upgrade now and discover the true power of the Wantoo platform.</p>#}
+{#                 <div class="-action-cont">#}
+{#                    <button type="button"  class="_confirmIdeaMerge btn-fill-primary" id="sendProEmail" data-toggle="modal" data-target="#_modal-thank-you" data-dismiss="modal" aria-label="Close">Try PRO free</button>#}
+{#                    <button style="margin-right: 10px;" type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Maybe later</button>#}
+{#                 </div>#}
+{#                 <p class="-message bottom-text">#}
+{#                  Want our enterprise account? <a href="mailto:hello@wantoo.io" target="_blank">Request</a> our Premium account details.<br/>#}
+{#                  Our customer serive support team is here to help, please <a href="mailto:hello@wantoo.io" target="_blank">email us</a> to get in touch.#}
+{#                 </p>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+        <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions" id="_modal-thank-you" tabindex="-1" role="dialog" aria-labelledby="pro-features">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                 <h2 class="-title">Thank You!</h2>
+                 <p class="-message center">Our team will be in touch with you shortly.</p>
+                 <div class="-action-cont">
+                    <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Close</button>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- href="#" data-toggle="modal" data-target="#_modal-prowall" -->
+
+        <script>
+
+          window.userInfo.company = {% if company %} "{{ company.slug }}" {% else %} undefined {% endif %};
+
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          // ga('set', 'page', '/new-page.html');
+          // ga('send', 'pageview');
+
+          function isUserAuthed() {
+            var auth = $('#auth');
+            if(auth.data('authed') === "True") {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
+          //console.log('Authed: ' + $('#auth').data('authed') );
+
+          function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = jQuery.trim(cookies[i]);
+                      // Does this cookie string begin with the name we want?
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+
+          function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+          }
+
+          if(isUserAuthed()) 
+            var csrftoken = getCookie('csrftoken');
+
+          console.log('CSR: ' + csrftoken);
+
+          $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                  }
+              }
+          });
+
+          $('#sendProEmail').on('click' ,function(){
+            mixpanel.track('Pro Request Button clicked on modal');
+            var endpoint = '/api/v1/' + window.userInfo.company + '/sendmail/';
+            $.ajax({
+              method: "POST",
+              url: endpoint,
+              data: {
+                 company: window.userInfo.company,
+                 email: window.userInfo.email
+              }
+            }).done(function (results) {
+               console.log(results);
+            });
+          });
+        </script>
+
+    </div>
+</div>
+{% endblock content %}

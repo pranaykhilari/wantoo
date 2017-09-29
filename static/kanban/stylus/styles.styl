@@ -1,0 +1,452 @@
+body 
+	background white
+	overflow hidden
+
+	.kanban-wrapper
+		position absolute
+		left 0
+		right 0
+		top 0
+		bottom 0
+		padding 80px 0 0 0
+		margin 0
+		min-width 100%
+
+		.view-kanban
+			overflow-y hidden
+			padding 0
+			height 100%
+			display -webki-box
+			display -webki-flex
+			display -m-flexbox
+			display flex
+			-webkit-flex-direction column
+			-ms-flex-direction column
+			flex-direction column
+
+			._hideOnLiveSearch
+				width 100%
+				height 100%
+
+				.btn
+					border-width 2px
+					border-style solid
+					font-size 18px
+					font-weight 600
+					text-decoration none
+					text-transform capitalize
+					padding 15px 50px
+					width 166px
+					height 40px
+
+
+
+			.kanban-header
+				width 100%
+				padding 20px
+				margin 0 auto
+				//max-width 1250px
+
+				.kanban-question
+					float left
+					font-size 16px
+					color #a9a9a9
+					max-height 65px
+					margin-left 5px
+
+				.kanban-action
+					.kanban-action--right
+						float right
+
+					.kanban-export
+						a
+							font-size 14px
+							cursor pointer
+							margin-left 15px
+
+			.kanban-content
+				position absolute
+				line-height 18px
+				height calc(100% - 65px)
+				width 100%
+
+				.board-wrapper
+					white-space nowrap
+					margin-bottom 10px
+					overflow-x auto
+					overflow-y hidden
+					padding-bottom 20px
+					position absolute
+					top 0
+					right 0
+					bottom 0
+					left 0
+
+					.lists-wrapper
+						height 100%
+						padding-left 20px
+						margin 0
+
+					.list-wrapper
+						width 270px
+						margin 0 5px
+						height 100%
+						box-sizing border-box
+						display inline-block
+						vertical-align top
+						white-space nowrap
+
+						.add-list-button__wrapper
+							padding 20px 8px
+							background #f0f1f2
+							margin-right 20px
+
+							.add-list
+								border none
+								background none
+								text-align left
+								color grey
+
+								&:hover
+									text-decoration underline
+									color #c0c0c0
+
+						.list-content
+							background #e2e4e6
+							display -webkit-box
+							display -webkit-flex
+							display -ms-flexbox
+							display flex
+							max-height 100%
+							position relative
+							white-space normal
+
+						.list-hide-wrap
+							background #e2e4e6
+							box-sizing border-box
+							display -webkit-box
+							display -webkit-flex
+							display -ms-flexbox
+							display flex
+							-webkit-flex-direction column
+							-ms-flex-direction column
+							flex-direction column
+							max-height 100%
+							position relative
+							white-space normal
+							width 100%
+
+							.list-header
+								padding 25px 10px 8px 15px
+								margin 0
+								min-height 80px
+
+								.list-header__color-band
+									position absolute
+									height 12px
+									width 100%
+									top 0
+									left 0
+
+								.list-header__text
+									position relative
+									width 80%
+									font-weight 700
+									font-size 18px
+
+								.list-header__subtext
+									font-weight normal
+									font-size 10px
+									color grey
+									padding 8px 0
+
+								.list-header__closed
+									background url("/static/dashboard/img/icons/kanban_eye.png")
+									width 20px
+									height 20px
+									background-size cover
+									float right
+									position absolute
+									top 25px
+									right 10px
+
+
+							.idea-list
+								-webkit-box-flex 1
+								-webkit-flex 1 1 auto
+								-ms-flex 1 1 auto
+								flex 1 1 auto
+								overflow-y auto
+								overflow-x hidden
+								margin 0 4px
+								padding 0 4px
+								// z-index 1
+								min-height 0
+
+								.idea-list__wrapper
+									list-style none
+									margin 0
+									padding 0
+
+									.list-card
+										background-color #fff										
+										min-height 70px
+										position relative
+
+										.card-hide-wrap
+											display flex
+											border-bottom 1px solid #ccc
+											cursor pointer
+											margin-bottom 6px
+											max-width 300px
+											min-height 20px
+											position relative
+											padding 10px
+											position static
+
+											.card-wants,
+											.card-data
+												flex-direction column
+
+											.card-data
+												padding 0 8px 8px 10px
+
+											.card-wants
+												margin-top 10px
+
+												.wants-num
+													font-weight bold
+													text-align center
+
+												.wants-img
+													font-size 40px
+													display inline-block
+													background-image url(/static/dashboard/img/icons/want_grey.jpg)
+													width 35px
+													height 17px
+													background-size cover
+
+											.card-header
+												padding-bottom 8px
+												margin 0
+												font-size 15px
+												text-align left
+
+											.card-supporters
+												bottom 2px
+												margin-left 15px
+
+												.-profile-link
+													color #a3a3a3
+													text-decoration none
+													
+													&:hover
+														color highlightPrimary
+
+												.-profile-pic
+													border 1px solid #a7a7a7
+													border-radius 50%
+													width 22px
+													margin-right 7px
+													
+
+												.-profile-left
+													margin-left -15px
+
+											.card-actions-button
+												top 5px
+
+											.card-actions
+												display none
+
+
+							.list-actions
+								padding 20px
+								min-height 60px
+
+								.add-card-button__wrapper
+									padding 0
+
+									.add-card
+										border none
+										background none
+										float left
+										color #808080
+										position relative
+										left -8px
+										padding 0
+
+										&:hover
+											text-decoration underline
+											color #b6b6b6
+
+								.actions-button
+									position relative
+									float right
+									background url("/static/dashboard/img/icons/b_icon_cog.svg")
+									width 20px
+									height 20px
+									background-size cover
+									postition relative
+									right -8px
+
+									cursor pointer
+									font-size 22px
+
+								.actions-list
+									display none
+
+
+
+.modal-form
+	padding 0 80px
+
+	.modal-header
+		padding-bottom 30px
+		border none
+		padding-left 0
+
+	.form-group
+		padding-bottom 30px
+
+		.form-control
+			border-radius 0px
+			-webkit-appearance none 
+
+	.form-clearfix-footer
+		clear both
+		padding-bottom 50px
+
+	.eye-form
+		background url("/static/dashboard/img/icons/kanban_eye.png")
+		width 20px
+		height 20px
+		background-size cover
+		float left
+	.single-idea
+		position relative
+		float left
+	.multiple-idea
+		position relative
+		float right
+	.idea-selection
+		position relative
+		width 65%
+
+.idea-title
+	color lightgrey
+	font-weight normal
+.no-padding
+	padding 0 30px
+
+.ReactModal__Body--open
+	overflow hidden
+
+.ReactModal__Content,
+.ReactModal__Content--after-open
+	min-width 600px
+	left 50% !important
+	transform translateX(-50%) !important
+	bottom auto !important
+	margin-bottom 50px !important
+
+.ReactModal__Overlay,
+.ReactModal__Overlay--after-open
+	overflow scroll !important
+
+
+.-btn-edit
+	top 5px
+	height 23px
+	float right
+	position absolute
+	right 0
+	display block
+	width 15px
+	margin-right 5px
+	padding 0
+	margin-left 30px
+
+
+.floating-dropdown
+	//not really working...
+	//background rgba(0,0,0,.6)
+	bottom 0
+	left 0
+	position fixed
+	right 0
+	top 0
+	z-index 500
+
+.kanban-dropdown-menu
+	display block !important
+
+
+.kanban-card-drop
+	height 100%
+	width 100%
+	-webkit-appearance none
+	border none
+	background none
+
+.kanban-card-menu
+	position fixed
+	z-index 800
+
+.kanban-card-drop__image
+	width 100%
+	height 100%
+
+.kanban-content .dropdown-menu
+	left auto
+	right 0
+
+.modal-error
+	position absolute
+	color red
+	font-size 14px
+	padding 10px 0 0 10px
+
+.title-field
+    display block
+    height 134px
+    padding 6px 12px
+    font-size 14px
+    line-height 1.42857143
+    color #555
+    background-color #fff
+    background-image none
+    border 1px solid #ccc
+    border-radius 4px
+	width 100%
+
+
+
+.mainNav__proFeature
+	display inline-block
+	margin-left 18px
+	width 20px
+	height 13px
+	background-image url("/static/dashboard/img/icons/pronav_icon.png")
+	background-position center center
+	background-repeat no-repeat
+	background-size 23px
+
+
+.kanban-search-format
+	padding 0 50px
+	overflow scroll
+
+
+
+@media only screen and (max-width : 650px)
+
+	.modal-form
+		padding 0 10px
+
+	.ReactModal__Content
+		min-width auto
+		max-width 90%
+		transform translateX(0px) !important
+		left 40px !important
+		right 40px

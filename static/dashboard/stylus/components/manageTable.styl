@@ -1,0 +1,279 @@
+.comp-manageTable
+	thead
+		tr
+			th
+				color #959595
+				font-size 16px
+				border-bottom 1px solid #f1f1f1
+
+				.-label
+					padding-right 20px
+
+				&.no-sort
+					background-image none
+
+				&.sorting
+					background-image none
+
+				&.sorting_asc
+					background-image none
+					.-label
+						//background-image url('/static/dashboard/img/icons/arrow-up.png')
+						background-size 10px
+						background-repeat no-repeat
+						background-position 100% center
+
+				&.sorting_desc
+					background-image none
+					.-label
+						//background-image url('/static/dashboard/img/icons/arrow-down.png')
+						background-size 10px
+						background-repeat no-repeat
+						background-position 100% center
+
+				input[type="checkbox"]
+					font-size 35px
+
+	tbody
+		.-btn-edit
+			background-image url('/static/dashboard/img/icons/edit.svg')
+			background-repeat no-repeat
+			display block
+			width 18px
+			height 18px
+			background-size 100%
+			float right
+			margin-right 11%
+
+		tr
+			height 109px
+
+			td
+
+				border-top 0 solid #dddddd
+				border-bottom 1px solid #f1f1f1
+				color #000
+				vertical-align middle
+				font-size 14px
+				padding-left 18px
+				padding-top 16px
+
+				input[type="checkbox"]
+					font-size 35px
+					float left
+
+				&.-italic
+					font-style italic
+
+				&.-bold
+					font-weight bold
+
+				&.-idea-author
+					a
+						color #000
+						text-decoration none
+
+				&.-idea-title
+					a
+						color #000
+						text-decoration none
+
+					&.new
+						.-flag
+							background #eb212e
+							color #fff
+							border-radius 3px
+							margin-right 10px
+							text-transform uppercase
+							font-weight bold
+							padding 2px 3px
+
+				&.-member-name
+					img
+						margin-right 10px
+
+				&.-member-action
+					a
+						text-decoration none
+						//text-transform uppercase
+						color highlightPrimary
+						//font-weight bold
+						font-size 14px
+
+						&:hover
+							opacity .8
+
+
+
+
+/* Bootstrap class override */
+.dataTables_wrapper
+		.dataTables_paginate
+			.paginate_button
+			&.hover
+				background none !important
+				border none !important
+
+.dataTables_wrapper
+		.row
+			.col-sm-6:first-child
+				display none;
+			.col-sm-5
+				display none;
+
+
+		.dataTables_length
+			display none
+
+		.dataTables_filter
+			float left
+			margin-left 18px
+			color white
+			margin-top 30px
+
+			input
+				height 20px
+				width 250px
+				float left
+				margin-left 0
+
+.dataTables_wrapper
+	max-width 100%
+	top 90px
+	margin 0 auto
+
+
+	.dataTables_info
+		margin-left 30px
+		margin-top 30px
+		font-family primaryFont
+		font-size 12px
+		color #959595
+		display none
+
+	.dataTables_paginate
+		float: left
+		position: relative;
+
+	.pagination
+		.paginate_button
+			background: none!important;
+			border: none!important;
+			margin: 0;
+			padding 0;
+			a
+				border 1px solid highlightPrimary
+			&.previous
+				a
+					position: relative;
+					margin-left: 0;
+					border-top-left-radius: 4px;
+					border-bottom-left-radius: 4px;
+					border-color: #672CBF;
+					border: 1px solid;
+			&.next
+				a
+					position: relative;
+					margin-left: 0;
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0
+					border-color: #672CBF;
+					border: 1px solid;
+
+			&.active
+				a
+					background: none
+					//border: 1px solid;
+
+
+
+			//&:hover
+			//	background none
+			//	border 1px solid transparent
+            //
+			//	a
+
+.search_members
+	position relative
+	float right
+	top 204px
+	height 40px
+	width 22%
+	border 1px solid #f1f1f1
+	border-radius 0px
+	color grey
+	font-size 14px
+	padding-left 18px
+	font-weight 300
+
+.invite_member
+	position absolute
+	top 241px
+	border-radius 0
+	width 190px
+	height 69px
+
+.checkbox_style
+	position relative
+	padding-top 8px
+	left 68px
+
+	p
+		margin: 1.5em 0
+		padding: 0
+	label
+		cursor: pointer
+		color: black
+		font-weight: normal
+	input[type="checkbox"] + label:before
+		border: 1px solid #7f83a2
+		content: "\00a0"
+		display: inline-block
+		font: 16px/1em sans-serif
+		height: 16px
+		margin: 0 .25em 0 0
+		padding: 0
+		vertical-align: top
+		width: 16px
+	input[type="checkbox"]:checked + label:before
+		color: white;
+		content: "\2713";
+		text-align: center;
+	input[type="checkbox"]:checked + label:after
+		font-weight: bold;
+	input[type="checkbox"]
+		display: none;
+
+.resend_position
+		position relative
+		left 85px
+
+.tr_first_child
+		word-break break-all
+		position relative
+		top 13px
+
+.datatable_profile
+		width 45px
+		border-radius 50%
+		position relative
+		top 10px
+
+.user_detail
+		position relative
+		font-size 18px
+		right 2px
+		padding-right 10%
+		left 52px
+		bottom 34px
+
+.user_name
+		position relative
+		font-size 18px
+		top 2px
+
+.user_email
+		font-weight normal
+		position relative
+		bottom 8px
+		font-size 14px

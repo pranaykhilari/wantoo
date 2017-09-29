@@ -1,0 +1,13 @@
+<p>Hey, {{ first_name }}!</p>
+
+<p>You might be onto something here.
+<strong><a href="{{ author_url }}">{{ vote.user.get_full_name }}</a></strong>  wants your idea, <a href="{{ idea_url }}">{{ vote.idea.title }}</a>. 
+</p>
+
+<br/><br/>
+<p>
+<small>
+<strong>Sent from {{ vote.idea.company.title }}.</strong><br/><br/>
+This message was sent to {{ user_email }}. If you don’t want to receive these emails in the future, <a href="{{ mute_url }}">mute email notifications</a> for this idea or see your <a href="{{ settings_url }}">preferences</a>. 
+</small>
+</p>

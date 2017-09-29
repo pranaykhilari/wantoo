@@ -1,0 +1,73 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container" style="margin-top: 60px; margin-bottom: 30px;">
+    <img style="width: 170px; float: left;" src="https://i.wantoo.io/static/dashboard/img/wantoo_logo_pink.svg"/>
+    <h1 style="float: left; margin-left: 20px; color: #E94095;">Staff Dashboard</h1>
+</div>
+
+<div class="container" style="padding-bottom: 100px;">
+    <h2>Featured Boards</h2>
+    <div style="float:right; display: inline-block; padding-bottom: 50px;">
+        <div style="float:right; margin-left: 20px;"><a href="/staff/boards/">Boards List</a></div>
+        <div style="float:right"><a href="/staff/users/">User List</a></div>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <h3><b>Add a New Featured Board</b></h3>
+    <form method="POST" action="." class="form-wantoo _addCounter form-validate" novalidate="novalidate">
+        {% bootstrap_form form %}
+        <button class="-btn-save btn-fill-primary" type="submit" style="margin: 20px 0 100px 0;">☞ Add Featured Board ☜</button>
+        {% csrf_token %}
+    </form>
+
+    <div style="clear:both;"></div>
+
+     <table class="table" id="currently-featured">
+        <h3><b>Current Featured Boards</b></h3>
+        {% if companies.count > 0 %}
+        <thead>
+            <tr>
+                <th>Board</th>
+                <th>Title</th>
+                <th>Question</th>
+                <th>Link</th>
+                <th>Created By</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fcompany in companies %}
+                <tr>
+                    <td><a href="/{{fcompany.company.slug}}">{{fcompany.company.title|truncatechars:25}}</td>
+                    <td><strong>{% firstof fcompany.title|truncatechars:25 fcompany.company.title|truncatechars:25 %}</strong></td>
+                    <td>{% firstof fcompany.question|truncatechars:55 fcompany.company.question|truncatechars:55 %}</td>
+                    <td>
+                            {% if fcompany.url %}
+                                <a target="_blank" href="{{ fcompany.url }}">{{fcompany.url|truncatechars:25}}</a>
+                            {% else %}
+                                <a target="_blank" href="/{{ fcompany.company.slug }}">http://wantoo.io/{{fcompany.company.slug}}</a>
+                            {% endif %}
+                    </td>
+                    <td>{{ fcompany.created_by.first_name }}</td>
+                    <td>  
+                        <form method="post" action="/staff/featured/delete/{{ fcompany.id }}/">
+                            <button class="btn-fill-primary" style="height: 30px; line-height: 30px; font-size: 12px; width: 100%; min-width: 0; background: red;" type="submit">☓ Delete</button>
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <span style="padding:50px;font-size:20px;color:red;">You haven't featured any boards yet.</span>
+        {% endif %}
+
+
+        </tbody>
+    </table>  
+</div>
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "base_plain.html" %}
+{% load mytags %}
+
+{% block content %}
+
+<div class="view view-error">
+	<div class="view-error__error-cont">
+		<h2 class="view-error__code">500</h2>
+		<p class="view-error__code-description">Sorry, we’re experiencing an internal server problem.</p>
+		<p class="view-error__msg">Please try again later or <a href="mailto:hello@wantoo.io">contact us</a> about a problem.</p>
+	</div>
+</div>
+
+    <script>
+    window.Intercom("trackEvent", " 500 error page");
+    </script>
+
+{% endblock content %}

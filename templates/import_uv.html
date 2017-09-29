@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+
+{% block inside_head %}
+ <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      var company_slug = '{{ company.slug }}';
+      var pusher = new Pusher('8d396c4a64f32d61c897', {
+        encrypted: true
+      });
+      var channel = pusher.subscribe(company_slug);
+      channel.bind('idea_imported', function(ideas) {
+        for (var key in ideas) {
+          $('<li class="list-group-item">' + ideas[key].idea + '</li>').hide().prependTo('#imported_ideas').slideDown("slow");
+
+        }
+      });
+
+       $("#import_ideas").click(function() {
+          $('#imported_ideas').html('');
+          $("#import_ideas").hide();
+          $("#loading").show();
+          var uv_url = $("#uv_url").val();
+          console.log('uv_url: ' + uv_url);
+
+         $.ajax({
+              type: "POST",
+              url: "/" + company_slug + "/import-uv/",
+              data: { 'uv_url': uv_url },
+              success: function(data){
+                  if (data.success) {
+                    console.log('Done!')
+                  } else {
+                    console.log('Could not import!')
+                  }
+                  console.log(data.message);
+                  $("#loading").hide();
+                  $("#import_ideas").show();
+              }
+          });
+          return false;
+        });
+
+    });
+  </script>    
+{% endblock inside_head %}
+
+
+{% block content %}
+<div class="comp-contMain">
+<div style="text-align: center;">
+        <h3>Import UserVoice</h3>
+
+        <form class="form" method="POST" action=".">
+          <div class="form-group">
+            <input type="text" class="form-control" id="uv_url" name="uv_url" placeholder="https://yourcompany.uservoice.com/..." style="width:100%;"
+              value="https://feedback.hootsuite.com/forums/40182--hootsuite-com-web-dashboard/category/90719-suggested-content-beta"
+            />
+          </div>
+          <button type="submit" id="import_ideas" class="btn btn-info btn-sm pull-right">Import ideas</button>
+          <br/>
+          {% csrf_token %}
+        </form>
+        <br/>
+        <img id="loading" style="width:30px; margin-bottom: 15px; display:none;" src="https://i1.wp.com/cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"></span>
+        <ul id="imported_ideas" class="list-group">
+        </ul>
+</div>
+</div>
+{% endblock content %}

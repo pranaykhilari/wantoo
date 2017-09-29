@@ -1,0 +1,20 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-caseStudies
+  @extend .clearfix
+  width 100%
+  .l-caseStudies__box
+    float left
+    margin-left 10%
+    width 45%
+    &:first-child
+      margin-left 0
+@media screen and (max-width: max-mobile-screen)
+  .l-caseStudies
+    .l-caseStudies__box
+      float none
+      margin 0 auto
+      max-width 480px
+      width 100%
+      &:first-child
+        margin 0 auto 60px

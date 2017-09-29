@@ -1,0 +1,28 @@
+{% extends "staff/base.html" %}
+{% load mytags %}
+
+{% block staff_content %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Votes</th>
+                <th>Comments</th>
+                <th>Created by</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idea in ideas  %}
+            <tr>
+                <td><a href="/{{ idea.id }}" target="_blank">{{ idea.title }}</a></td>
+                <td>{{ idea.vote_count }}</td>
+                <td>{{ idea.comment_count }}</td>
+                <td>{{ idea.created_by.get_full_name }}</td>
+                <td>{{ idea.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock staff_content %}

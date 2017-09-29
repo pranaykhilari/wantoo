@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load mytags %}
+
+{% block content %}
+{% get_admin_status as is_admin %}
+{% get_dark_launch "MERGE_IDEAS" as merge_ideas_enabled %} 
+<div class="comp-contMain">
+<div class="view view-addidea">
+    {% if idea %}
+        <h2 class="-title">Edit idea</h2>
+    {% else %}
+        <h2 class="-title">Add idea</h2>
+    {% endif %}
+
+	 <form id="form-add-idea" method="POST" action="." class="form-wantoo form-validate">
+
+	    {% bootstrap_field form.title %}
+
+        {% if not tweet %}
+            {% bootstrap_field form.category %}
+        {% endif %}
+
+        {% bootstrap_field form.description %}
+
+        {% if is_admin %}
+	       {% bootstrap_field form.status %}
+        {% endif %}
+
+        {% if tweet %}
+            <div class="form-group">
+                <label class="control-label" for="">Tweet</label>
+                <div class="-height-small">
+                    <blockquote width="100%" class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/allwantoo/status/{{ tweet.id }}"></a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </div>
+            <input type="hidden" name="tweet_id" value="{{ tweet.id }}"/>
+            <style>twitterwidget::shadow .EmbeddedTweet {width: 100% !important;max-width: 100% !important;}</style>
+        {% endif %}
+
+
+        {% if idea %}
+            <button class="btn-fill-primary" type="submit">Save changes</button>
+        {% else %}
+    	    <button class="btn-fill-primary" type="submit" disabled>Add</button>
+        {% endif %}
+
+        {% if tweet %}
+            <a href="/{{ company.slug }}/twitter/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+        {% else %}
+    	    <a href="/{{ idea.id }}" class="-btn-cancel btn-fill-transparent">Cancel</a>
+        {% endif %}
+        
+	    {% csrf_token %}
+	</form>
+        <script>
+        $('#form-add-idea').submit(function(e){
+            var desc = $("#id_description").val();
+            desc = $("<div/>").html(desc).text();
+            $("#id_description").val(desc);
+        });
+        </script>
+
+    {% if idea %}
+
+        
+        <div class="form-wantoo">
+            <a href="#" class="-btn-delete btn-fill-transparent-red" style="margin-top: 40px;" data-toggle="modal" data-target="#_modal-bulkActionsSingleDelete">Delete</a>
+
+            {% if merge_ideas_enabled %}
+                {% if not idea.merged_into %}
+                    <a href="/{{ company.slug }}/idea/{{ idea.id }}/merge/" class="-btn-delete btn-fill-transparent-red" style="margin-top: 40px; padding: 0; color: #000;">Merge</a>
+                {% endif %}
+            {% else %}
+                <a class="-btn-delete btn-fill-transparent-red" style="margin-top: 40px; padding: 0; color: #000;" href="{% url 'subscription' %}" >Merge<span class="mainNav__proFeature"></span></a>
+            {% endif %}
+
+        </div>
+
+    <!--<form method="POST" class="form-wantoo" action="/{{ company.slug }}/delete-idea/">
+
+        {% if merge_ideas_enabled %}
+            {% if not idea.merged_into %}
+            <a href="/{{ company.slug }}/idea/{{ idea.id }}/merge/" class="-btn-delete btn-fill-transparent-red" style="margin-top: 40px; padding: 0; color: #000;">Merge</a>
+            {% endif %}
+        {% endif %}
+
+        <input type="hidden" name="idea_id" value="{{ idea.id }}"/>
+        <button class="-btn-delete btn-fill-transparent-red" type="submit" onclick="return confirm('Are you sure to delete?')" >Delete</button>
+        {% csrf_token %}
+    </form>-->
+
+    {% endif %}
+</div>
+</div>
+{% endblock content %}

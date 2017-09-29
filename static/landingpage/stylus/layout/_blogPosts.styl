@@ -1,0 +1,26 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-blogPosts
+  @extend .clearfix
+  width 100%
+  padding 40px 0 160px 0
+  .l-blogPosts__title
+    color black
+    padding 20px 0 40px 0
+  .l-blogPostsContainer
+    width 100%
+    margin 0
+    padding 0
+    .l-blogPosts__box
+      width 30%
+      float left
+      padding 0 1.66%
+@media screen and (max-width: max-mobile-screen)
+  .l-blogPosts
+    .l-blogPostsContainer
+      .l-blogPosts__box
+        float none
+        margin 0 auto 30px
+        max-width 480px
+        width 100%
+        padding 0

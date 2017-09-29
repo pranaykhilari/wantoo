@@ -1,0 +1,1 @@
+New "{{ plan_type }}" Customer Sign up - {{ full_name }}

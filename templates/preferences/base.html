@@ -1,0 +1,109 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+{% load account %}
+{#{% load url from future %}#}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+{% get_admin_status as is_admin %}
+{% get_dark_launch "BOARD_STATS" as board_stats_enabled %}
+{% get_dark_launch "SLACK_INTEGRATION" as slack_integration_enabled %}
+{% get_dark_launch "SOCIAL_LISTENING" as socail_listening_enabled %}
+{% get_user_plan_type as user_plan_type %}
+
+<!-- header content -->
+<div class="comp-header _header {% small_logo %}">
+  {% include 'partials/_banner.html' %}
+  <div class="comp-header__inner-cont">
+
+    <div class="comp-header__brandCont">
+      <a href="/my-boards"><img class="my-boards-logo comp-header__logo comp-header__logo--left" src="/static/landingpage/img/wantoo_logo_pink.svg" alt="Wantoo Logo"></a>
+    </div>
+
+    <div class="mainNav">
+      <div class="mainNav__item mainNav__item--profile dropdown -dropdown -profile -item">
+        <a href="#" class=" dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="{% gravatar_url request.user %}"></a>
+        <ul class="dropdown-menu mainNav__dropdown" aria-labelledby="dropdownMenu1">
+          <li><a onclick="mixpanel.track('My boards clicked / prefrences menu')" href="/my-boards/">My boards</a></li>
+          <li><a onclick="mixpanel.track('Account & Profile clicked / prefrences menu')" href="/accounts/preferences/">Account & Profile</a></li>
+          <li><a onclick="mixpanel.track('Help clicked / prefrences menu)" target="_blank" href="https://wantoo.zendesk.com/hc/en-us">Help</a></li>
+          <li><a onclick="mixpanel.track('Feedback clicked / prefrences menu)" target="_blank" href="/wantoo">Feedback</a></li>
+          <li><a onclick="mixpanel.track('Logout clicked / prefrences menu)" href="/dashboard/">Logout</a></li>
+        </ul>
+      </div>
+      {% if is_admin and not socail_listening_enabled and not slack_integration_enabled and not board_stats_enabled %}
+          <a onclick="mixpanel.track('PRO Upgrade clicked / my-boards menu)" href="{% url 'subscription' %}" class="-activity mainNav__item -pro-upgrade">PRO Upgrade</a>
+      {% elif  user_plan_type == "free_monthly" %}
+          <a onclick="mixpanel.track('Start a board clicked / my-boards menu)" href="{% url 'subscription' %}" class="-activity mainNav__item -pro-upgrade">Start a board</a>
+      {% else %}
+          <a onclick="mixpanel.track('Start a board clicked / my-boards menu)" href="/accounts/signup/?next=/welcome/" class="-activity mainNav__item -pro-upgrade">Start a board</a>
+      {% endif %}
+      <div class="mainNav__mobileSearch _mobileSearch">
+        <div class="mainNav__mobileSearch__form-cont">
+          <input class="_searchInput" type="text" placeholder="Search / Add idea">
+        </div>
+        <button class="mainNav__mobileSearch__close _closeMobileSearch"></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- header content end -->
+
+<div class="comp-contMain">
+<div class="view x-white view-profileSettings">
+    <div id="ideaList"></div>
+    <div class="_hideOnLiveSearch">
+        <div class="-member-header">
+            <div class="-left-col">
+                <img src="{% gravatar_url request.user 160 %}" alt="">
+            </div>
+            <div class="-right-col">
+                <h2 class="-name">{{ request.user.get_full_name }}</h2>
+            </div>
+        </div>
+
+        <div class="-settings-menu">
+            <div class="-inner-cont">
+                <a class="{% active request 'preferences/$' %}" href="/accounts/preferences/">Profile</a>
+                <a class="{% active request 'notifications' %}" href="/accounts/preferences/notifications/">Notifications</a>
+                <!-- <a href="/accounts/email/">Email</a> -->
+                {% if not user.socialaccount_set.all %}
+                <a class="{% active request 'password' %}" href="/accounts/password/change/">Password</a>
+                {% endif %}
+                <a class="{% active request 'subscription' %}" href="/accounts/preferences/subscription/">Subscription</a>
+            </div>
+
+        </div>
+
+
+        <div class="subscription">
+        {% block settings_content %}
+            <form action="#" class="form form-wantoo -settings-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input class="form-control" type="text" name="username" placeholder="{{request.user}}">
+                </div>
+                
+                <div class="form-group">
+                    <label>Photo</label>
+                    <p>If you see a generic avatar next to your name it means you don't have<br>a Gravatar for that email address. Get one for free at <a target="_blank" href="http://gravatar.com">gravatar.com</a></p>
+                </div>
+                
+                <button type="submit" class="btn-fill-primary">Save changes</button>
+                <a href="#" class="-btn-cancel btn-fill-transparent" onclick="window.location.reload">Cancel</a>
+            </form>
+        
+            
+        {% endblock settings_content %}
+        </div>
+    </div>
+    
+</div>
+</div>
+{% endblock content %}

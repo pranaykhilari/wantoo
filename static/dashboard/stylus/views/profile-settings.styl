@@ -1,0 +1,243 @@
+.view-profileSettings
+	.-member-header
+		clearfix()
+		margin 40px 0 30px
+
+		.-left-col
+			margin-right 25px
+			width 80px
+			float left
+
+			img
+				width 100%
+				border-radius 50%
+
+		.-right-col
+			float left
+
+			.-name
+				font-size 30px
+				font-weight bold
+				margin 10px 0 5px
+
+			.-stats
+				font-weight 16px
+				color #959595
+
+	.-settings-menu
+		width 100%
+		padding-bottom 10px
+
+		.-inner-cont
+			padding-left 105px
+
+			a
+				display inline
+				font-size 18px
+				margin-right 64px
+				color #000
+				text-decoration none
+
+				&:last-child
+					margin-right 0
+
+				&:hover
+					opacity .8
+
+				&.active
+					color highlightPrimary
+					font-weight bold
+					border-bottom 2px solid highlightPrimary
+					padding-bottom 2px
+
+
+	.-settings-cont
+		padding-left 105px
+		margin-top 55px
+
+	.subscription
+		padding-left 105px
+		margin-top 31px
+
+		.-settings-form
+			label
+				margin-bottom 10px
+
+			input
+				max-width 284px
+
+			input[type="checkbox"]
+				float left
+				margin-left 0
+				margin-right 15px
+
+			button[type="submit"]
+				float left
+				// width 195px
+
+			.-btn-cancel
+				float left
+				margin-top 40px
+
+			.starter_list
+				position relative
+				padding-left 17%
+				padding-top 12%
+				font-weight bold
+				padding-bottom 54.3%
+
+			.subscription_container
+				width 100%
+
+				.starter_pricing_list
+					width 47%
+					padding: 5% 0 0 1%;
+					float: left
+
+			.pricing_plan_border
+				border 1px solid grey
+
+			.starter_plan_name
+				font-size 28px
+				font-weight bold
+				position relative
+				padding-top 9%
+				padding-left 31%
+
+			.starter_price
+				font-size 64px
+				position relative
+				padding-left 37%
+				font-weight 800
+
+			.plan_month
+				position relative
+				padding-left 40%
+				margin-bottom 0%
+				font-weight normal
+
+			.plan_cta
+				position relative
+				padding 0 0 38% 18%
+
+			.cta_width
+				min-width 79%
+
+				.starter_pricing_list
+					position relative
+					padding 12% 0 0 17%
+					font-weight bold
+					padding-bottom 43.50%
+
+
+			.starter_pricing_order
+				font-family proxima-nova, regular
+				line-height 30px
+
+			.pro_plan_name
+				font-size 28px
+				font-weight bold
+				position relative
+				padding-top 9%
+				padding-left 41%
+
+			.pro_container
+				width 47%
+				padding-top 5%
+				float right
+
+			.pro_plan_price
+				font-size 64px
+				position relative
+				padding-left 31%
+				font-weight 800
+
+			.pro_plan_list
+				position relative
+				padding 11% 0 10% 17%
+				font-weight bold
+
+		.edit_details_button
+			width 30%
+			float left
+
+		.upgrade_pro
+			width 30%
+			float right
+			position relative
+			right 39%
+
+		.upgrade_pro_button
+			position relative
+			padding-top 10%
+			font-weight 600
+
+		.downgrade_close_button
+			position relative
+			width 47%
+			float left
+			left: 37%
+		.upgrade_close_button
+			position relative
+			width 47%
+			float left
+			left: 41%
+
+
+		.update_subscription
+			width 47%
+			float right
+			position relative
+			left 9%
+
+		.pro_updation
+			width 47%
+			float right
+			position relative
+			left 9%
+			padding 0 27px
+
+
+
+@media (max-width: 650px)
+	.view-profileSettings
+		.-settings-menu
+			.-inner-cont
+				padding-left 0
+
+				a
+					margin-right 20px
+
+		.-settings-cont
+			padding-left 0
+
+@media screen and (min-width: 320px) and (max-width: 767px)
+	.view-profileSettings
+		.subscription
+			padding-left 22px
+			.-settings-form
+				.pricing_plan_border
+					position relative
+					float left
+				.starter_plan_name
+					font-size 13px
+					padding-left 28%
+				.starter_price
+					font-size 25px
+					padding-left 38%
+				.plan_month
+					padding-left: 32%
+				.starter_list
+					padding-left 0
+				.pro_plan_name
+					font-size 13px
+				.pro_plan_price
+					font-size 25px
+					padding-left 34%
+				.pro_plan_list
+					padding 11% 0 10% 4%
+				.starter_pricing_order
+					position relative
+					float left
+				//.starter_list
+				//	padding-bottom 203.3%

@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load mytags %}
+
+{% block content %}
+<div class="comp-contMain" style="margin-top: 100px;">
+<div class="view view-stats">
+{% include 'partials/_idea_list.html' %}
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart', 'timeline']}]}"></script>
+
+
+<script type="text/javascript">
+        google.load('visualization', '1', {packages: ['corechart']});
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Day');
+        data.addColumn('number', 'Activities');
+
+        data.addRows([
+        {% for day in activity_timeline %}[new Date('{{ day.0|date:'m' }}/{{ day.0|date:'d' }}/{{ day.0|date:'Y' }}'), {{ day.1 }}],
+        {% endfor %}
+        ]);
+
+
+        var options = {
+          title: 'Daily activities',
+          width: 760,
+          height: 300,
+          legend: 'none',
+          hAxis: {
+            format: 'M/dd',
+            gridlines: {count: 15}
+          },
+          chartArea:{left:30,top:40,bottom:40,width:"100%",height:"80%"},
+          vAxis: {
+            gridlines: {color: 'transparent'},
+            minValue: 0
+          },
+          colors: ['#{% if company.color %}{{ company.color }}{% else %}e94095{% endif %}'],
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        var button = document.getElementById('change');
+
+
+        //BAR CHART
+        var data = google.visualization.arrayToDataTable([
+            ["Element", "Votes", { role: "style" } ],
+            {% for status in statuses  %}
+                ["{{ status.label }}", {{ status.count }}, "#{{ status.color }}"],
+            {% endfor %}
+          ]);
+
+          var view = new google.visualization.DataView(data);
+
+          var options = {
+            width: 855,
+            height: 600,
+            bar: {groupWidth: "80%"},
+            legend: { position: "none" },
+            vAxis: {
+              title: "IDEAS",
+              titleTextStyle:{
+                color: "#aaaaaa",
+                italic: false
+              }
+            }
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById("barchart"));
+          chart.draw(view, options);
+
+
+           //BAR CHART
+        var data = google.visualization.arrayToDataTable([
+            ["Element", "People impacted", { role: "style" } ],
+            {% for status in statuses  %}
+                ["{{ status.label }}", {{ status.vote_count }}, "#{{ status.color }}"],
+            {% endfor %}
+          ]);
+
+          var view = new google.visualization.DataView(data);
+
+          var options = {
+            width: 855,
+            height: 600,
+            bar: {groupWidth: "80%"},
+            legend: { position: "none" },
+            vAxis: {
+              title: "PEOPLE IMPACTED",
+              titleTextStyle:{
+                color: "#aaaaaa",
+                italic: false
+              }
+            }
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById("barchart-people"));
+          chart.draw(view, options);
+
+
+          //DONUT CHART - members with ideas
+           var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              ['Ideas', {% widthratio members_with_ideas.count company.member_count 100 %}],
+              ['No ideas', 100 - {% widthratio members_with_ideas.count company.member_count 100 %}]
+            ]);
+
+            var options = {
+              pieHole: 0.75,
+              legend: 'none',
+              tooltip: { trigger: 'none' },
+              slices: [{color: '{{ company.color }}'}, {color: '#d9d9d9'}],
+              chartArea:{left:0,top:20,width:"100%",height:"70%"},
+              pieSliceTextStyle: {
+                color: 'transparent',
+              },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donut_members_ideas'));
+            chart.draw(data, options);
+
+            //DONUT CHART - members with votes
+           var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              ['Votes', {% widthratio members_with_votes.count company.member_count 100 %}],
+              ['No votes', 100 - {% widthratio members_with_votes.count company.member_count 100 %}]
+            ]);
+
+            var options = {
+              pieHole: 0.75,
+              legend: 'none',
+              tooltip: { trigger: 'none' },
+              slices: [{color: '{{ company.color }}'}, {color: '#d9d9d9'}],
+              chartArea:{left:0,top:20,width:"100%",height:"70%"},
+              pieSliceTextStyle: {
+                color: 'transparent',
+              },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donut_members_votes'));
+            chart.draw(data, options);
+
+            //DONUT CHART - members with comments
+           var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              ['Comments', {% widthratio members_with_comments.count company.member_count 100 %}],
+              ['No comments', 100 - {% widthratio members_with_comments.count company.member_count 100 %}],
+            ]);
+
+            var options = {
+              pieHole: 0.75,
+              legend: 'none',
+              tooltip: { trigger: 'none' },
+              slices: [{color: '{{ company.color }}'}, {color: '#d9d9d9'}],
+              chartArea:{left:0,top:20,width:"100%",height:"70%"},
+              pieSliceTextStyle: {
+                color: 'transparent',
+              }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donut_members_comments'));
+            chart.draw(data, options);
+
+      }
+    
+
+</script>
+  <div class="_hideOnLiveSearch">
+    <h2 class="-chart-title -first" style="position: absolute;">Idea status</h2>
+
+    
+    <div class="chartToggle _chartToggle">
+      <div id="barchart" class="chartToggle__barchart-votes"></div>
+      <div id="barchart-people" class="chartToggle__barchart-people"></div>
+    </div>
+    <div class="toggle-button-cont _toggle-buttons-cont">
+      <button class="_toggleCharts -btn-chart-toggle -btn-chart-toggle-people">People impacted</button>
+      <button class="_toggleCharts -btn-chart-toggle -btn-chart-charts">Ideas submitted</button>
+    </div>
+  
+    
+    
+    
+
+    <h2 class="-chart-title" style="margin-bottom:30px;">Members</h2>
+    <div class="cont-donuts" style="position:relative;height:260px;margin-top:0;margin-bottom:150px;">
+      <div id="donut_members_ideas" class="-donut" style="width: 255px; height:300px;float:left;"></div>
+      <div id="donut_members_votes" class="-donut" style="width: 255px;height:300px;float:left"></div>
+      <div id="donut_members_comments" class="-donut" style="width: 255px;height:300px;float:left;margin-right:0;"></div>
+      <div class="cont-donutScores">
+        <div class="-score">{% widthratio members_with_ideas.count company.member_count 100 %}%</div>
+        <div class="-score">{% widthratio members_with_votes.count company.member_count 100 %}%</div>
+        <div class="-score">{% widthratio members_with_comments.count company.member_count 100 %}%</div>
+      </div>
+      <div class="cont-donutLabels">
+        <div class="-label"><p>members with ideas</p></div>
+        <div class="-label"><p>members with votes</p></div>
+        <div class="-label"><p>members with comments</p></div>
+      </div>
+    </div>
+    
+    <h2 class="-chart-title">Activities</h2>
+    <div id="chart_div" style="margin: 40px 0 120px;"></div>
+   
+   <h2 class="-chart-title">Overview</h2>
+	<div class="comp-statsTable">
+	   <div class="comp-statsTable__stat">
+		  <p class="comp-statsTable__description">Members</p>
+		  <p class="comp-statsTable__number">{{ company.member_count }}</p>
+	   </div>
+     <div class="comp-statsTable__stat">
+      <p class="comp-statsTable__description">Ideas</p>
+      <p class="comp-statsTable__number">{{ company.idea_count }}</p>
+     </div>
+     <div class="comp-statsTable__stat">
+      <p class="comp-statsTable__description">Votes</p>
+      <p class="comp-statsTable__number">{{ company.vote_count }}</p>
+     </div>
+     <div class="comp-statsTable__stat">
+      <p class="comp-statsTable__description">Comments</p>
+      <p class="comp-statsTable__number">{{ company.comment_count }}</p>
+     </div>     
+     <div class="comp-statsTable__stat">
+      <p class="comp-statsTable__description">Activities</p>
+      <p class="comp-statsTable__number">{{ company.activity_count }}</p>
+     </div>
+	</div>
+ 
+     
+</div>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends "preferences/base.html" %}
+
+
+{% block settings_content %}
+    <form action="." method="POST" class="form form-wantoo -settings-form form-validate">
+        <div class="form-group">
+            <label for="username">First name</label>
+            <input class="form-control" type="text" name="first_name" value="{{request.user.first_name}}" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Last name</label>
+            <input class="form-control" type="text" name="last_name" value="{{request.user.last_name}}" required>
+        </div>        
+        <div class="form-group">
+            <label>Photo</label>
+            <p>If you see a generic avatar next to your name it means you don't have<br>a Gravatar for that email address. Get one for free at <a target="_blank" href="http://gravatar.com">gravatar.com</a></p>
+        </div>
+        
+        <button class="btn-fill-primary" type="submit" disabled>Save</button>
+        <a href="/my-boards/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+        {% csrf_token %}
+    </form>
+
+    
+{% endblock settings_content %}

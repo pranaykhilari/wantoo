@@ -1,0 +1,227 @@
+.btn-border
+	border 3px solid grey
+	max-width 216px
+	font-size 20px
+	color grey
+	display block
+	text-align center
+	padding 13px 0 11px
+	text-decoration none
+	font-weight bold
+	
+	&:hover
+		color grey
+		text-decoration none
+		opacity .8
+		
+		span
+			font-weight bold
+	
+.btn-vote
+	width 93px
+	outline none
+	font-size 20px
+	margin 0 auto
+	display block
+	padding 0
+	width 55px
+	
+		
+	&.voted
+		border 2px solid highlightPrimary 
+		background transparent
+		color highlightPrimary
+		
+	
+	&.not_voted
+		border 2px solid #959595
+		background transparent
+		color #959595	
+		
+		&:hover
+			border-color highlightPrimary 
+			color highlightPrimary
+		
+.btn-fill
+	width 140px
+	height 60px
+	background highlightPrimary
+	border none
+	font-size 18px
+	font-weight bold
+	color #fff
+		
+	&:disabled
+		background #a7a7a7	
+
+.btn-fill-transparent
+	color #000
+	min-width 140px
+	height 60px
+	background transparent
+	font-size 18px
+	font-weight bold
+	display block
+	text-decoration none !important
+	text-align center
+	line-height 60px 	
+	border none
+	padding 0	
+	outline none
+
+a.btn-fill-transparent
+	&:active, &:focus, &:hover
+		color #000	
+	
+.btn-fill-transparent-red
+	color red
+	min-width 140px
+	height 60px
+	background transparent
+	font-size 18px
+	font-weight bold
+	display block
+	text-decoration none !important
+	text-align center
+	line-height 60px 	
+	border none
+	padding 0	
+	outline none	
+	
+.btn-fill-transparent-small
+	color #000
+	width 140px
+	background transparent
+	font-size 16px
+	font-weight bold
+	display block
+	text-decoration none !important
+	text-align center
+	line-height 40px 	
+	border none
+	padding 0	
+	outline none
+
+.btn-fill-primary
+	color #fff
+	min-width 140px
+	padding 0 15px
+	height 60px
+	background highlightPrimary
+	font-size 18px
+	font-weight bold
+	display block
+	text-decoration none !important
+	text-align center
+	line-height 60px 	
+	border none
+	outline none
+	
+a.btn-fill-primary
+	&:active, &:focus, &:hover
+		color #fff		
+
+.btn-fill-primary-small
+	color #fff
+	min-width 140px
+	padding 0 15px
+	background highlightPrimary
+	font-size 16px
+	font-weight bold
+	display block
+	text-decoration none !important
+	text-align center
+	line-height 40px 	
+	border none
+	outline none
+	
+	
+
+.btn-dropdown-filter
+	background-image url('/static/dashboard/img/icons/arrow-down.png')
+	background-position 90% center
+	background-repeat no-repeat
+	background-size 12px
+	border 2px solid #a3a3a3
+	background-color transparent !important
+	padding-left 15px
+	font-size 16px
+	font-weight bold
+	color #a3a3a3
+	width 100%
+	text-align left
+	height 40px
+	
+	&:active
+		color black
+
+
+.btn-dropdown
+	float right
+	.-custom
+		border none
+		background-color transparent
+		text-transform uppercase
+		margin-right 40px
+		margin-left 10px
+		background-image url("/static/dashboard/img/icons/arrow-down.png")
+		background-size 10px
+		background-position 100% center
+		background-repeat no-repeat
+		padding-right 20px
+		color #a7a7a7
+		margin-top 9px
+		font-weight bold
+		margin 16px 0 0
+
+	.-custom__ideaList
+		border none
+		background-color transparent
+		text-decoration underline
+		margin-right 10px
+		margin-left 10px
+		padding-right 10px
+		color #E94095
+		margin-top 9px
+		font-weight normal
+		margin 16px 0 0
+			
+		&:first-child
+			margin-left 12px
+			
+		&:hover, &:focus, &:active
+			background-color transparent
+			box-shadow none		
+		
+		&:disabled
+			opacity .5	
+		
+	.-custom-dropdown
+		left auto
+		right 0
+		
+		li.active
+			a
+				background transparent
+				color highlightPrimary
+				font-weight bold
+		
+		li:hover
+			a
+				background transparent
+				text-decoration underline		
+				
+/* Stupid mother fucking annoying double tap, hover state bullshit fix */
+.no-touch
+	.btn-vote
+		&.not_voted
+			&:hover
+				border 3px solid #959595
+				background transparent 
+				color #959595 
+						
+
+@media (max-width: 650px)
+	.btn-fill-primary, .btn-fill-transparent, .btn-fill-transparent-red
+		min-width 100px
+				

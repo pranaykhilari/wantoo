@@ -1,0 +1,86 @@
+.comp-filterBar
+	
+	.btn-dropdown
+			.-custom
+				font-weight normal
+				font-size 13px
+	
+	.-filter-blurb
+		float left
+		//text-transform uppercase
+		color black
+		font-weight normal
+		font-size 13px
+		margin 22px 0 0
+		font-weight bold
+	
+	.btn-dropdown
+		float left
+		
+	clearfix()
+	margin-bottom 20px
+		
+	.-cat-title
+		float left
+		font-size 20px
+		
+		span
+			font-weight bold
+	
+	.dropdown-menu
+		max-height 300px
+		overflow-y scroll		
+		
+	.-dropdown
+		float right
+		
+		.-custom
+			border none
+			text-transform uppercase
+			margin-right 40px
+			margin-left 10px
+			background-image url("/static/dashboard/img/icons/arrow-down.png")
+			background-size 10px
+			background-position 100% center
+			background-repeat no-repeat
+			padding-right 20px
+			color #a7a7a7
+			font-weight bold 
+			margin 16px 0 0
+			
+			&:first-child
+				margin-left 12px
+			
+			&:hover, &:focus, &:active
+				background-color transparent
+				box-shadow none	
+			
+		.-custom-dropdown
+			left auto
+			right 0
+			
+			li.active
+				a
+					background transparent
+					color highlightPrimary
+					font-weight bold
+			
+			li:hover
+				a
+					background transparent
+					text-decoration underline		
+
+
+@media (max-width: 650px)		
+	.comp-filterBar
+		margin-bottom 10px
+		
+		.-filter-blurb
+			font-size 11px
+
+@media (max-width: 400px)	
+	.comp-filterBar
+		.btn-dropdown
+			.-custom
+				font-size 11px
+				margin-right 0 !important						

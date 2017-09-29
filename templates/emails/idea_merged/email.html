@@ -1,0 +1,16 @@
+<p>Hey, {{ first_name }}!</p>
+
+<p>
+    <a href="{{ idea_url }}">{{ idea.title|capfirst }}</a> was similar enough to <a href="{{ winning_idea_url }}">{{ winning_idea.title|capfirst }}</a> that it made sense to merge them. The supporters of these ideas have now joined forces to make <strong>{{ winning_idea.title|capfirst }}</strong> a reality. Please add your comments to give it further direction. Meanwhile, no more email notifications will be sent for <strong>{{ idea.title|capfirst }}</strong>, and it will no longer appear on the {{ idea.company.title }} Idea Board.
+</p>
+
+<p>
+</p>
+
+<br/><br/>
+<p>
+<small>
+<strong>Sent from {{ idea.company.title }}.</strong><br/><br/>
+This message was sent to {{ user_email }}.
+</small>
+</p>

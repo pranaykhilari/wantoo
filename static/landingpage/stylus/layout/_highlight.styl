@@ -1,0 +1,24 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-highlight
+  @extend .clearfix
+  width 100%
+  padding 120px 0
+  background-image url('/static/landingpage/img/background_dots.png')
+  background-position top left
+  background-size contain
+  .l-highlight__textContainer
+    float left
+    margin 20px 0 0 5%
+    max-width 600px
+    border-radius 15px
+    background-color rgba(255,255,255,0.8)
+    box-shadow 0 0 50px #FFF
+    .l-highlight__text
+      max-width 95%
+      margin 5%
+@media screen and (max-width: max-mobile-screen)
+  .l-highlight
+    .l-highlight__textContainer
+      max-width 480px
+      width 95%

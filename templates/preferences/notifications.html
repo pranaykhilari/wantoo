@@ -1,0 +1,15 @@
+{% extends "preferences/base.html" %}
+{% load bootstrap3 %}
+
+{% block settings_content %}
+		<p style="font-weight:bold;font-size:18px;margin-bottom:30px">Email notifications</p>
+    <form action="." method="POST" class="form form-wantoo form-validate form-wantoo--settingsNotifications -settings-form">
+  	
+		{% bootstrap_form notification_settings %}
+		
+    <button type="submit" class="btn-fill-primary" disabled>Save</button>
+    <a href="/my-boards/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+    {% csrf_token %}
+</form>
+
+{% endblock settings_content %}

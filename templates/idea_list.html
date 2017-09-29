@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load mytags %}
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-manageIdeas">
+	<div id="ideaList"></div>
+	<div class="_hideOnLiveSearch">
+		<a class="-export-members-link" style="float:right;" href="/{{ company.slug }}/import/">Import</a>
+		<a class="-export-members-link" style="float:right;padding-right:30px;" href="/{{ company.slug }}/export/">Export</a>
+		<h2 class="-title">Manage ideas</h2>
+	      <div class="-view__settings-menu">
+	        <div class="-inner-cont">
+	          <a class="active" href="/{{ company.slug }}/manage/ideas/">Ideas</a> 
+	          <a href="/{{ company.slug }}/manage/categories/">Categories</a> 
+	          <a href="/{{ company.slug }}/manage/members/">Members</a>
+	        </div>
+	      </div>
+		<div class="-controls">
+		{% if company.company_categories.all.count > 1 %}
+		<div class="dropdown btn-dropdown -filter">
+		  <button class="btn dropdown-toggle -custom" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		  All ideas  ({{company.company_ideas.all.count }})
+		  </button>
+		  
+		  <ul class="dropdown-menu dropdownMenu" aria-labelledby="dropdownMenu1">
+		  	{% for cat in company.company_categories.all %}
+		    <li><a href="/ideas/?category={{ cat.id }}">{{ cat.title }} ({{ cat.idea_count }}) </a></li>
+		    {% endfor %}
+		  </ul>
+		  
+		</div>
+		{% endif %}
+
+		<div class="dropdown btn-dropdown -filter">
+		  <button class="btn dropdown-toggle -custom _bulkActionsBtn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" disabled>
+		  Bulk actions
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		    <li><a class="_bulkActionMove" href="#">Move</a></li>
+		    <li><a class="_bulkActionDelete" href="#">Delete</a></li>
+		  </ul>
+		</div>
+
+<!-- 		<a class="-import" href="/{{ company.slug }}/import/">Import</a>
+	    &nbsp;&nbsp;
+	  	<a class="-export" href="/{{ company.slug }}/export/">Export</a> -->
+
+		</div>
+		<table id="ideasTable" class="comp-manageTable table" cellspacing="0" width="100%">
+			<thead>
+			  <tr>
+			  	<th class="no-sort"><input class="_selectAll _checkIfChecked" type="checkbox" name="" value=""></th>
+			  	<th><span class="-label">Idea</span></th>
+		      <th><span class="-label">Category</span></th>
+		      <th><span class="-label">Author</span></th>
+		      <th><span class="-label">Added</span></th>
+		      <th><span class="-label">Wants</span></th>
+		      <th class="no-sort"></th>
+			  </tr>
+			</thead>
+
+			<tbody>
+				{% for idea in admin_ideas %}
+			  <tr>
+			 		<td><input type="checkbox" class="_manageCheckBox _checkIfChecked" name="idea-id" value="{{ idea.id }}"></td>
+			  	<td class="-idea-title -bold new" width="200">
+			  	{% if idea.new %}<span class="-flag">New</span>{% endif %}
+			  		<a href="/{{ company.slug }}/{{ idea.id }}/{{ idea.slug }}">{{ idea.title|title }}</a>
+	  			</td>
+			  		
+			  	<td class="-italic">{{ idea.category }}</td>
+		      <td class="-idea-author"><a href="/{{ company.slug }}/member/{{ idea.created_by.id }}">{{ idea.created_by.get_full_name }}</a></td>
+		      <td>{{ idea.created_at|better_timesince }}</td>
+		      <td style="text-align:center">{{ idea.vote_count }}</td>
+		      <td><a class="-btn-edit" href="/{{ company.slug }}/edit-idea/{{ idea.id }}/"></a></td>
+			  </tr>
+			 {% endfor %} 
+			</tbody>
+	 </table>
+	 <img src="/ideas/reset-new/" class="hidden" width="1px" height="1px"/>
+
+	</div>
+	
+</div>
+</div>
+
+{% endblock content %}

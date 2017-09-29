@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load mytags %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-activity x-white">
+	<div id="ideaList"></div>
+	<div class="_hideOnLiveSearch">
+		<h2 class="-title">Activity</h2>
+		<div class="-settings-menu">
+      <div class="-inner-cont">
+        <a class="{% active request '/$' %}" href="/{{ company.slug }}/activity/">All</a> 
+
+        <a class="{% active request '/?filter=idea_submitted$' %}" href="/{{ company.slug }}/activity/?filter=idea_submitted">Ideas ({{ company.idea_count }})</a> 
+				
+        <a class="{% active request '/?filter=idea_wanted$' %}" href="/{{ company.slug }}/activity/?filter=idea_wanted">Wants ({{ company.vote_count }})</a>
+				
+        <a class="{% active request '/?filter=comment_added$'%}" href="/{{ company.slug }}/activity/?filter=comment_added">Comments ({{ company.comment_count }})</a>
+      </div>
+    </div>
+	    
+		{% include 'partials/_activity-stream.html' %}
+	</div>
+</div>
+</div>
+{% endblock content %}

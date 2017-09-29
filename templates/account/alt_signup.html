@@ -1,0 +1,576 @@
+{% extends "landing/base_plain.html" %}
+
+{% load render_bundle from webpack_loader %}
+
+{% load bootstrap3 %}
+{#{% load url from future %}#}
+{% load i18n %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+<section class="l-section l-section--white l-section--main l-section--funnel">
+	<div class="l-section__inner l-section__gutter">
+		<div class="l-funnel">
+			<div class="l-funnelContainer">
+				<div class="l-funnel__box">
+					<div class="m-funnel__text">
+						<h2 class="m-funnel__title t-title__header">
+
+						{% if ad_group == "customer-feedback" %}
+							{% if ad_type = "1" %}
+								Making sense of customer feedback has never been easier
+							{% elif ad_type = "2" %}
+								Welcome to the next generation of customer feedback management
+							{% elif ad_type = "3" %}
+								Managing customer feedback has never been easier
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "idea-management" %}
+							{% if ad_type = "1" %}
+								Welcome to the next generation of Idea Management
+							{% elif ad_type = "2" %}
+								Simple, sensible Idea Management with Wantoo
+							{% elif ad_type = "3" %}
+								With Wantoo, Idea Management is easy
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "voice-of-customer" %}
+							{% if ad_type = "1" %}
+								Simple, fast Voice of Customer intelligence
+							{% elif ad_type = "2" %}
+								Wantoo will help you finally understand what your customers want
+							{% elif ad_type = "3" %}
+								Next-generation Voice of Customer intelligence
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "clarabridge-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need Clarabridge
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "qualtrics-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need Qualtrics
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "maritzcx-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need MaritzCX
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "responsetek-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need ResponseTek
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "medallia-alternative" %}
+							{% if ad_type = "1" %}
+								Powerful Customer Experience software that fits your budget
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "kindling-alternative" %}
+							{% if ad_type = "1" %}
+								Manage ideas and drive innovation (without Kindling)
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "soapbox-alternative" %}
+							{% if ad_type = "1" %}
+								Manage ideas and drive innovation (without Soapbox)
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "ideascale-alternative" %}
+							{% if ad_type = "1" %}
+								Manage ideas and drive innovation (without IdeaScale)
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "qmarkets-alternative" %}
+							{% if ad_type = "1" %}
+								Manage ideas and drive innovation (without Qmarkets)
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "aha-alternative" %}
+							{% if ad_type = "1" %}
+								VoC software you need, lighter and easier than Aha!
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "uservoice-alternative" %}
+							{% if ad_type = "1" %}
+								VoC software you need, lighter and easier than UserVoice
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "prodpad-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need ProdPad
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "receptive-alternative" %}
+							{% if ad_type = "1" %}
+								You need VoC software, but you don't need Receptive
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "government" %}
+							{% if ad_type = "1" %}
+								Civic engagement made simple
+							{% elif ad_type = "2" %}
+								Powerful civic engagement tools that fit your budget.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "foundations" %}
+							{% if ad_type = "1" %}
+								Feedback management made simple.
+							{% elif ad_type = "2" %}
+								Feedback management that fits your budget.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "education" %}
+							{% if ad_type = "1" %}
+								Feedback management made simple.
+							{% elif ad_type = "2" %}
+								Feedback management that fits your budget.
+							{% endif %}
+						{% endif %}
+
+						</h2>
+						<p class="m-funnel__blurb">
+
+						{% if ad_group == "customer-feedback" %}
+							{% if ad_type = "1" %}
+								Find out how Wantoo can connect your business to the voices that matter most, with customer intelligence at glance. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% elif ad_type = "2" %}
+								Find out how Wantoo can connect you with the people who keep you in business, with customer intelligence at glance. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here.
+							{% elif ad_type = "3" %}
+								Find out how Wantoo can connect you with the people who keep you in business, with customer intelligence at glance. Sign up here and see how fast and easy it is to listen and act upon what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "idea-management" %}
+							{% if ad_type = "1" %}
+								Find out how Wantoo can drive innovation in your business, with customer intellgience at glance. With Wantoo's lightweight, cloud-based tools, you'll be up and running in moments. Sign up here and we'll help you get ROI on your innovation. There's no obligation, and no credit card required.
+							{% elif ad_type = "2" %}
+								Find out how Wantoo can drive innovation in your business by making sense of your customers' ideas. No complicated setup and no pricey consultants: with Wantoo's lightweight, cloud-based tools, you'll be up and running in moments. Sign up here and we'll help you get ROI on your innovation. There's no obligation, and no credit card required.
+							{% elif ad_type = "3" %}
+								Find out how Wantoo can drive innovation in your business by making sense of your customers' ideas. No complicated setup and no pricey consultants: with Wantoo's lightweight, cloud-based tools, you'll be up and running in moments. Sign up here and we'll help you get ROI on your innovation.  There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "voice-of-customer" %}
+							{% if ad_type = "1" %}
+								Find out how Wantoo can connect you with the people who keep you in business, with simple, fast, and elegant Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here.
+							{% elif ad_type = "2" %}
+								Find out how Wantoo can connect you with the people who keep you in business, with simple, fast, and elegant Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here.
+							{% elif ad_type = "3" %}
+								Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based software, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "clarabridge-alternative" %}
+							{% if ad_type = "1" %}
+								Customer Experience management is now affordable. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) and CX management at your fingertips. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.  Sign up here and see how fast and easy it is to listen to what your customers are truly saying.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "qualtrics-alternative" %}
+							{% if ad_type = "1" %}
+								Customer Experience management is now affordable. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) and CX management at your fingertips. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required. Sign up here and see how fast and easy it is to listen to what your customers are truly saying.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "maritzcx-alternative" %}
+							{% if ad_type = "1" %}
+								Customer Experience management is now affordable. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) and CX management at your fingertips. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.  Sign up here to see how fast and easy it is to listen to what your customers are truly saying.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "responsetek-alternative" %}
+							{% if ad_type = "1" %}
+								Customer Experience management is now affordable. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) and CX management at your fingertips. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.  Sign up here and see how fast and easy it is to listen to what your customers are truly saying.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "medallia-alternative" %}
+							{% if ad_type = "1" %}
+								The CX software you really need is now affordable. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments, without consultancy contracts or a lengthy training period. Sign up here––there's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "kindling-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of innovation management software. Find out how Wantoo can connect you with the the ideas that will take your company to the next level. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. Innovating just got easier. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "soapbox-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of innovation management software. Find out how Wantoo can connect you with the the ideas that will take your company to the next level. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. Innovating just got a lot easier. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "ideascale-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of innovation management software. Find out how Wantoo can connect you with the the ideas that will take your company to the next level. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. Innovating just got easier. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "qmarkets-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of innovation management software. Find out how Wantoo can connect you with the the ideas that will take your company to the next level. With our lightweight, cloud-based software, you'll be up and running in moments. Innovating just got easier. There's no obligation, and no credit card required. Sign up here.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "aha-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of Voice of Customer software. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "uservoice-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of Voice of Customer software. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "prodpad-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of Voice of Customer software. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required. 
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "receptive-alternative" %}
+							{% if ad_type = "1" %}
+								Meet the new generation of Voice of Customer software. Find out how Wantoo can connect you with the people who keep you in business, with Voice of Customer (VoC) management at your fingertips. Sign up here and see how fast and easy it is to listen to what your customers are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required. 
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "government" %}
+							{% if ad_type = "1" %}
+								The next generation of civic engagement software is easy, friendly, and inclusive. Find out how Wantoo can connect you with the people who make your city move, with stakeholder idea management at your fingertips. Sign up here and see how fast and easy it is to listen to what citizens are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% elif ad_type = "2" %}
+								The next generation of civic engagement software is easy, friendly, and inclusive. Find out how Wantoo can connect you with the people who make your city move, with VoC (Voice of Customer) tools that quickly connect stakeholders and decision-makers. Sign up here and see how fast and easy it is to listen to what citizens are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+						
+						{% if ad_group == "foundations" %}
+							{% if ad_type = "1" %}
+								The next generation of stakeholder engagement software is easy, efficient, and inclusive. Find out how Wantoo can connect you with the voices that matter most, so you can quickly connect stakeholders and decision-makers. Sign up here and see how fast and easy it is to listen to what citizens are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% elif ad_type = "2" %}
+								The next generation of stakeholder engagement software is easy, efficient, and inclusive. Find out how Wantoo can connect you with the voices that matter most, so you can quickly connect great ideas with the decision-makers who bring them to life. Sign up here and see how fast and easy it is to listen to what citizens are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						{% if ad_group == "education" %}
+							{% if ad_type = "1" %}
+								The next generation of stakeholder engagement software is easy, efficient, and inclusive. Find out how Wantoo can connect you with the voices that matter most, so you can quickly connect great ideas to key decision-makers. Sign up here and see how fast and easy it is to listen to what students, faculty, and staff are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% elif ad_type = "2" %}
+								The next generation of idea management software is easy, efficient, and inclusive. Find out how Wantoo can connect you with the voices that matter most, so you can quickly connect stakeholders with decision-makers. Sign up here and see how fast and easy it is to listen to what citizens are truly saying. With Wantoo's lightweight, cloud-based platform, you'll be up and running in moments. There's no obligation, and no credit card required.
+							{% endif %}
+						{% endif %}
+
+						</p>
+						<p class="m-funnel__contact">Have a question? Ask us at <a href="mailto:hello@wantoo.io">hello@wantoo.io</a></p>
+					</div>
+				</div>
+				<div class="l-funnel__box">
+					<div class="m-funnel__form">
+						<div class="m-signupForm ">
+
+							<h2 class="m-signupForm__title">
+							SIGN UP FOR FREE
+							</h2>
+
+
+							<div class="-cont -loginFormCont m-signupForm">
+								<form signup-form class="form-wantoo form-validate x-no-label x-cta-centred m-signupForm__form m-signupForm__form" id="signup_form" method="post" action="{% url 'account_signup' %}">
+				                {% if company %}
+<!-- 				                	<div class="form-group">
+				                    	<a href="{% provider_login_url "facebook" method="js_sdk" %}" next="/{{ company.slug }}/"><img src="https://i.stack.imgur.com/pZzc4.png" style="width: 85%;position:relative;display:block;margin: 0 auto;"/></a>
+				                    </div>
+				                    <div class="form-group" style="text-align:center;color:grey;">
+				                    	OR
+				                   	</div>  -->
+				                {% endif %}
+
+				                <!-- hard coded form -->
+<!-- 				            <form signup-form="" class="form-wantoo form-validate x-no-label x-cta-centred m-signupForm__form m-signupForm__form" id="signup_form" method="post" action="/accounts/signup/" novalidate="novalidate"> -->
+								{% csrf_token %}
+								<div class="form-group"><label class="control-label" for="id_full_name">Full name</label><input class="form-control error" id="id_full_name" maxlength="50" name="full_name" placeholder="Full name" required="required" title="" type="text" aria-required="true"></div>
+								<div class="form-group"><label class="control-label" for="id_email">E-mail</label><input class="form-control valid" id="id_email" name="email" placeholder="Email" required="required" title="" type="email" aria-required="true" maxlength="30"></div>
+								<div class="form-group"><label class="control-label" for="id_password1">Password</label><input class="form-control valid" id="id_password1" name="password1" placeholder="Password" required="required" title="" type="password" aria-required="true"></div>
+								<div class="form-group"><div class="checkbox"><label for="id_casl"><input class="" id="id_casl" name="casl" type="checkbox"> It's okay to send me email about the wantoo service</label></div></div>
+								<input type="hidden" name="next" value="/welcome/"> 
+								<!--end of hard coded form -->
+
+								{% if redirect_field_value %}
+								<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> 
+								{% endif %}
+								<div class="form-group">
+								<p class="-copy checkbox">By signing-up, you agree to our <a href="http://wantoo.io/terms-of-service/" target="_blank" class="_trackLinkEvent" data-label="Terms of use- signup page">Terms of Service</a></p>
+								</div>
+								{% buttons %}
+					            <button class="btn-fill-primary btn-fill-pink m-signupForm__submit getStarted" type="submit" data-label="Sign up - signup page" disabled onClick="this.form.submit(); this.disabled=true;trackClick('link', 'Adwords landing Signup button click', 'Signup Funnel');" >Get Started</button>
+					            {% endbuttons %}
+								</form>
+							</div>
+							<!-- <div class="-terms-cont">
+				                <p class="-copy">Already have an account? <a href="/accounts/login/?next=/{{ company.slug }}/" class="_trackLinkEvent" data-label="Privacy policy - signup page">Login</a></p>
+				            </div>-->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="l-section l-section--white l-section--funnelQuote">
+	<div class="l-section__inner l-section__nospace l-section__gutter">
+		<div class="m-funnelQuote">
+			<h2 class="m-funnelQuote__title t-title__section">
+				"Wantoo is simple, easy to set up, and integrates with the programs we use, and they are very helpful - you really couldn't ask for more."
+			</h2>
+			<div class="m-funnelQuote__authorContainer">
+				<div class="m-funnelQuote__imageContainer">
+					<img class="m-funnelQuote__image" src="/static/landingpage/img/profile_wadhwa.png" />
+				</div>
+				<div class="m-funnelQuote__textContainer">
+					<h3 class="m-funnelQuote__author">
+						Kul Wadhwa
+					</h3>
+					<p class="m-funnelQuote__authorTitle">
+						Technology Advisor, Bill and Melinda Gates Foundation <br />
+						Head of Mobile, Wikimedia Foundation
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="l-section l-section--offwhite l-section--funnelCompanies">
+	<div class="l-section__inner l-section__gutter">
+		<div class="m-funnelCompanies">
+			<h2 class="m-funnelCompanies__title t-title__section">Trusted by the world's best</h2>
+			<div class="m-funnelCompaniesContainer">
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_newslab.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_rockfeller.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_nycu.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_emilycarr.png" />
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- START OF THE HOMEPAGE TEMPLATE BLOCKS -->
+<section id="Product" class="l-section l-section--white l-section--textContent">
+    <div class="l-section__inner l-section__gutter">
+      <div class="m-textContent">
+        <h2 class="m-textContent__title t-title__header">How it works</h2>
+        <img class="m-textContent__image image__large" src="/static/landingpage/img/hero_3steps.png" />
+        <p class="m-textContent__blurb t-subtitle__section">
+          Our customer feedback platform adapts to fit your needs, whether you’re a marketer working on customer engagement and feedback, 
+a tech company building a new application, or a retail enterprise launching an ad campaign.
+        </p>
+        <p class="m-textContent__cta t-cta__section">Learn More:</p>
+      </div>
+    </div>
+  </section>
+  <section class="l-section l-section--white l-section--feature l-section--border">
+    <div class="l-section__inner">
+      <div class="l-feature">
+        <div class="l-feature__textContainer">
+          <div class="l-feature__text">
+            <div class="m-featureItem">
+              <p class="m-featureItem__tag t-tag__feature">Journey Mapping</p>
+              <h2 class="m-featureItem__title t-title__feature">
+                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_journey.png" />
+                <span class="m-featureItem__titleText">Listen</span>
+              </h2>
+              <p class="m-featureItem__blurb t-subtitle__feature">
+                Wantoo Idea Boards help you get feedback wherever and whenever customers interact with your company, so you’re collecting data at every point along the customer journey—physical, web, or mobile—with just a single line of code. Plays well with Salesforce, Zendesk, Twitter, and more.
+              </p>
+              <div class="m-featureItem__integrations">
+                <p class="m-featureItem__blurb t-subtitle__integrations">Integrations include:</p>
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_salesforce.png" />
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_zendesk.png" />
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_twitter.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="l-feature__imageContainer">
+          <img class="m-featureItem__image" src="/static/landingpage/img/feature_collect.png" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="l-section l-section--white l-section--feature l-section--border">
+    <div class="l-section__inner">
+      <div class="l-feature">
+        <div class="l-feature__textContainer">
+          <div class="l-feature__text">
+            <div class="m-featureItem">
+              <p class="m-featureItem__tag t-tag__feature">Leaderboards</p>
+              <h2 class="m-featureItem__title t-title__feature">
+                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_todo.png" />
+                <span class="m-featureItem__titleText">Analyze</span>
+              </h2>
+              <p class="m-featureItem__blurb t-subtitle__feature">
+                Not all customer feedback is equal, so don’t waste time, money, and goodwill treating all feedback the same way. Wantoo helps you structure and prioritize every suggestion, so you can feed the winners directly to the teams best equipped to act. Go beyond dumb data and get deeper insight into what makes your customers tick.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="l-feature__imageContainer">
+          <img class="m-featureItem__image" src="/static/landingpage/img/feature_prioritize.png" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="l-section l-section--white l-section--feature l-section--border">
+    <div class="l-section__inner">
+      <div class="l-feature">
+        <div class="l-feature__textContainer">
+          <div class="l-feature__text">
+            <div class="m-featureItem">
+              <p class="m-featureItem__tag t-tag__feature">Workflows</p>
+              <h2 class="m-featureItem__title t-title__feature">
+                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_kanban.png" />
+                <span class="m-featureItem__titleText">Act</span>
+              </h2>
+              <p class="m-featureItem__blurb t-subtitle__feature">
+                Avoid the black hole of Customer Experience management software. Don’t let valuable insights die on the way to the product team: Wantoo helps you finish the job by syncing your data with the tools you use to organize your tasks, including Slack, Trello, and Jira. Meanwhile, automatically close the feedback loop by keeping customers up to speed on the changes they suggested.
+              </p>
+              <div class="m-featureItem__integrations t-subtitle__integrations">
+                <p class="m-featureItem__blurb t-subtitle__integrations">Integrations include:</p>
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_slack.png" />
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_trello.png" />
+                <img class="m-featureItem__integrationLogo" src="/static/landingpage/img/logo_jira.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="l-feature__imageContainer">
+          <img class="m-featureItem__image" src="/static/landingpage/img/feature_act.png" />
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- END OF THE HOMEPAGE TEMPLATE BLOCKS-->
+
+<section class="l-section l-section--white l-section--funnelQuote" style="padding:120px 0;">
+	<div class="l-section__inner l-section__nospace l-section__gutter">
+		<h2 class=" t-title__section">
+			Turn Feedback into Action
+		</h2>
+
+		<a href="#Top" style="left: 50%;transform: translateX(-50%);position: absolute;"
+}" class="m-pricingItem__link btn-fill-pink" onclick="trackClick('link', 'Adwords landing bottom button click', 'Signup Funnel')">
+          Get Started for Free
+        </a>
+
+	</div>
+</section>
+
+<!-- <script src="/static/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% render_bundle 'vendor' 'js' %}
+<script>
+	//loop for multiple forms on page
+	$('.form-validate').each(function(index, form){
+		$(form).validate({ errorPlacement: function(error, element) {} });
+	});
+
+	$('.form-validate').on('keyup', function(){
+		var self = this;
+		console.log($(this).valid());
+
+		//if valid, enalbed button. If not valid keep button disabled
+		if($(this).valid()) {
+			console.log("here");
+			console.log($(self).find('button[type="submit"]'));
+			$(self).find('button[type="submit"]').prop('disabled', false);
+		} else {
+			if(!$(self).find('button[type="submit"]').prop('disabled')) {
+				$(self).find('button[type="submit"]').prop('disabled', true);
+			}
+		}
+	});
+
+	$('.form-validate').on('change', function(){
+		var self = this;
+		console.log($(this).valid());
+
+		//if valid, enalbed button. If not valid keep button disabled
+		if($(this).valid()) {
+			console.log("here");
+			console.log($(self).find('button[type="submit"]'));
+			$(self).find('button[type="submit"]').prop('disabled', false);
+		} else {
+			if(!$(self).find('button[type="submit"]').prop('disabled')) {
+				$(self).find('button[type="submit"]').prop('disabled', true);
+			}
+		}
+	});
+</script>
+
+<script type="text/javascript">
+	adroll_adv_id = "XMKEGVQWEBHC3CIF7X733L";
+	adroll_pix_id = "DG3MDSLH5RFZNLCESJX2R6";
+	(function () {
+	var _onload = function(){
+	if (document.readyState && !/loaded|complete/.test(document.readyState)){setTimeout(_onload, 10);return}
+	if (!window.__adroll_loaded){__adroll_loaded=true;setTimeout(_onload, 50);return}
+	var scr = document.createElement("script");
+	var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+	scr.setAttribute('async', 'true');
+	scr.type = "text/javascript";
+	scr.src = host + "/j/roundtrip.js";
+	((document.getElementsByTagName('head') || [null])[0] ||
+	document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+	};
+	if (window.addEventListener) {window.addEventListener('load', _onload, false);}
+	else {window.attachEvent('onload', _onload)}
+	}());
+</script>
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '840263572738436');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=840263572738436&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+{% endblock %}
+
+

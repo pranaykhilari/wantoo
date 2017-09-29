@@ -1,0 +1,67 @@
+{% load mytags %}
+{% get_admin_status as is_admin %} 
+
+<div class="comp-navSide">
+    <div class="-nav-header">
+       <div class="-company-cont">
+        <h1 class="-name">{{ company.title }}</h1>
+        </div>
+        <a href="/{{ company.slug }}/add-idea/" class="btn-border -btn-add-idea"><span>Add idea</span></a> 
+    </div>
+    
+   <ul class="-upper-nav">
+    <li class="{% active request 'all ideas' %}"><a href="/{{ company.slug }}/">All ideas 
+    {% if company.company_ideas.all %}
+          ({{company.company_ideas.all.count }})
+    {% endif %}
+    </a></li>
+    {% for cat in company.company_categories.all %}
+    {% if not cat.parent %}
+        <li class="{% active request cat.id %}"><a  href="/{{ company.slug }}/category/{{ cat.id }}/">{{ cat.title }} 
+        {% if cat.idea_count %}
+           ({{ cat.idea_count }}) 
+        {% endif %}
+        </a>
+
+        {% if category == cat or category.parent == cat %}
+            <ul class="-nested">
+            <li><a class="-all" href="#">All ideas</a></li>
+            {% for sub_cat in cat.children_categories.all %}
+                <li class="{% active request sub_cat.id %}"><a  href="/{{ company.slug }}/category/{{ sub_cat.id }}/">{{ sub_cat.title }} 
+                {% if sub_cat.idea_count %}
+                    ({{ sub_cat.idea_count }})
+                {% endif %}
+                </a>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if not company.company_categories.all and is_admin %}
+        <li><a href="/{{ company.slug }}/add-category/">Add category</a></li>
+        {% endif %}
+    </ul> 
+
+    <ul class="-middle-nav">
+        <li><a href="/{{ company.slug }}/activity/">Activity</a></li>
+    </ul>
+
+    {% if is_admin %}
+	<ul class="-lower-nav">
+		<li><a class="{% active request 'manage ideas' %}" href="/{{ company.slug }}/manage/ideas/">Manage Ideas
+        {% if company.new_idea_count  %}
+            <div class="-flag">{{ company.new_idea_count }}</div>
+        {% endif %}
+        </a></li>
+		<li>
+        <a class="{% active request 'manage categories' %}" href="/category-list/">Manage Categories</a></li>
+		<li><a class="{% active request 'settings' %}" href="/{{ company.slug }}/settings/">Settings</a></li>
+	</ul>
+    {% endif %}
+
+    <div class="-nav-footer">
+        <p class="-copy">&copy; Innovation by <span>wantoo</span></p>
+    </div>
+</div>

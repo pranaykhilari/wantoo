@@ -1,0 +1,31 @@
+
+
+
+<p>Hi,</p>
+{% if not email_text %}
+<p>{{ full_name }} wants your feedback! You’ve been invited to contribute to {{ full_name }}’s Idea Board: <a
+        href="http://wantoo.io/{{ company_url }}/">{{ company_title }}</a>. They want to know: {{ company_question }}.
+</p>
+
+<a href="http://wantoo.io/{{ company_url }}/">Check it out</a>
+{% else %}
+
+{{ email_text | safe }}
+
+<p>Wantoo gives you the ability to listen, collect, and analyze feedback and bring innovation to life. As a board
+    member, you can vote and comment on ideas, as well as contribute new ideas of your own. <a
+            href="https://wantoo.zendesk.com/hc/en-us/articles/223147128-Wantoo-Pro-Tips-for-Board-Members">Learn
+        more</a> about what you can do here</p>
+
+
+<br/>
+
+<p>from Wantoo
+
+<p>This message was sent to {{ member_email }}.</p>
+
+<b>Wait, what’s Wantoo? Learn more at wantoo.io, send us a tweet to @allwantoo, or reply to this email to talk with
+    us.</b>
+
+
+{% endif %}

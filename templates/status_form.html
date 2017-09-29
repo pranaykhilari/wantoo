@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<a href="/{{ company.slug }}/manage/statuses/">&larr; Statuses</a>
+
+{% if category %}
+    <h1>Edit status</h1>
+{% else %}
+    <h1>Add status</h1>
+{% endif %}
+ <form method="POST" action="." class="form-wantoo form-validate">
+    {% bootstrap_form form %}
+
+    <button class="btn-fill-primary" type="submit">
+    {% if category %}
+        Save
+    {% else %}
+        Add status
+    {% endif %}        
+    </button>
+    <a href="/{{ company.slug }}/manage/statuses/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+    {% csrf_token %}
+</form>
+
+{% if status %}
+<form method="POST" class="form-wantoo" action="/{{ company.slug }}/manage/statuses/delete/">
+    <input type="hidden" name="status_id" value="{{ status.id }}"/>
+    <button class="-btn-delete btn-fill-transparent-red" type="submit" onclick="return confirm('Are you sure to delete?')" >Delete</button>
+    {% csrf_token %}
+</form>
+{% endif %}
+</div>
+{% endblock content %}

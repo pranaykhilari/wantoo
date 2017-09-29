@@ -1,0 +1,57 @@
+{% load mytags %}
+<style type="text/css">
+    blockquote { 
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        color: #959595;
+        border-left-color: #959595;
+    }
+</style> 
+<div class="comp-activity">
+    <div class="-activity-cont">
+         {% for a in activity  %}
+        <div class="-activity-item">
+            <div class="-left-col">
+                <img class="-profile-pic" src="{% gravatar_url a.user %}" alt="">
+            </div>
+            <div class="-right-col">
+                <p class="-message"><a href="/{{ company.slug }}/member/{{ a.user.id }}">{{ a.user.get_full_name }}</a>
+                {% if a.action == 'idea_submitted' %}
+                added 
+
+                {% elif a.action == 'comment_added' %}
+                commented on
+
+                {% elif a.action == 'idea_wanted' %}
+                wants
+
+                {% elif a.action == 'status_changed' %}
+                updated the status to <strong>{{ a.status }}</strong> for               
+                {% endif %}
+
+                the idea <a href="{{ a.idea.get_absolute_url }}">{{ a.idea.title }}</a></p>
+                {% if a.action == 'comment_added' %}
+                    <blockquote>{{ a.comment.comment|truncatewords:30 }}</blockquote>
+                {% endif %}
+                <p class="-time">{{ a.created_at|better_timesince }}</p>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if activity.paginator.num_pages > 1 %}
+    <ul class="pagination pagination-centered">
+        {% if activity.has_previous %}
+            <li><a href="?page={{ activity.previous_page_number }}&filter={{ request.GET.filter }}">&laquo; Prev</a></li>
+        {% endif %}
+
+            <li class="active"><a>{{ activity.number }} of {{ activity.paginator.num_pages }}</a></li>
+
+        {% if activity.has_next %}
+            <li><a href="?page={{ activity.next_page_number }}&filter={{ request.GET.filter }}">Next &raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endif %}

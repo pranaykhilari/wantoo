@@ -1,0 +1,124 @@
+.comp-yourIdea
+	text-align center
+	font-size 40px
+	margin-bottom 55px
+	position relative
+	
+	.-idea-link
+		//color #959595
+		color black
+		margin-top -49px
+		display block
+		font-size 16px
+		text-decoration underline
+
+	.-yourIdea-mainQuestion
+		color #a2a2a2
+		//margin-bottom 30px
+		margin-top 20px
+		font-size 22px
+		font-weight light
+
+	&.isCategoryMenuActive
+		.-cat-dropdown-menu
+			display block
+	
+	&.showButtons
+		.-buttons-cont
+			opacity 1
+			visibility visible
+			
+	&.addCategory
+		.-copy.-idea
+			display none
+		
+		.-copy.-category
+			display block			
+	
+	.-funny-gif
+		display none	
+	
+	.-highlight
+		color wantooPrimary
+		cursor pointer
+		padding-bottom 5px
+		border-bottom 2px dotted wantooPrimary
+		display inline-block
+		padding-right 9px
+		padding-left 10px
+		text-align center
+		max-width 80%
+		font-family "proxima-nova", sans-serif
+		font-size 45px
+		text-decoration none
+		list-style none
+	
+	
+	.-copy
+		margin-bottom 30px
+		font-size 45px
+		font-weight bold
+		//margin-top 60px
+		margin-top 40px
+		
+		&.-category, &.-success
+			display none
+	
+	.-buttons-cont
+		transition opacity .3s ease
+		opacity 0
+		visibility hidden
+
+		.-btn-action
+			display inline-block	
+			
+			&:disabled
+				background #959595	
+				opacity .5
+	
+	.-cat-dropdown-menu
+		background #fff
+		display none
+		position absolute
+		z-index 10000	
+		border-radius 2px
+		height 206px
+		overflow-y scroll
+		width 189px
+		-webkit-box-shadow 0px 0px 23px -1px rgba(0,0,0,0.53)
+		-moz-box-shadow 0px 0px 23px -1px rgba(0,0,0,0.53)
+		box-shadow 0px 0px 23px -1px rgba(0,0,0,0.53)
+		
+		ul
+			margin 0
+			padding 0
+			list-style none
+			padding-top 20px
+
+			li
+				height 30px
+				width 100%
+				text-align left
+				padding-left 20px
+				
+				a
+					color #000
+					font-size 16px
+					float left
+					position 3px
+					
+					&._active
+						color highlightPrimary
+						font-weight bold
+
+
+@media (max-width: 650px)
+	.comp-yourIdea
+		.-highlight
+			max-width 100%
+			font-size 40px
+
+		.-copy
+			font-size 40px
+			
+			

@@ -1,0 +1,214 @@
+.view-companySettings
+	padding-top 50px
+
+	.-btn-save, .-btn-cancel
+		float left
+
+	form
+		max-width 600px
+
+	.slack-form
+		margin 40px 0 30px 0
+
+		.slack-form__label
+			position relative
+			float left
+		.slack-form__button
+		    position relative
+			float right
+			margin-top 5px
+		.slack_logo
+			position absolute
+			display inline-block
+			height 55px
+			width 50px
+			background-image url("/static/dashboard/img/icons/slack_small.png")
+			background-position 0 7px
+			background-repeat no-repeat
+			background-size 40px
+        .trello_logo
+			position absolute
+			display inline-block
+			height 55px
+			width 50px
+			background-image url("/static/dashboard/img/icons/trello.png")
+			background-position 0 7px
+			background-repeat no-repeat
+			background-size 40px
+        .jira_logo
+			position absolute
+			display inline-block
+			height 55px
+			width 50px
+			background-image url("/static/dashboard/img/icons/JIRA.png")
+			background-position 0 7px
+			background-repeat no-repeat
+			background-size 40px
+		.text
+			margin-left 50px
+
+			h4
+				font-weight bold
+				margin 6px 0
+			h5
+				margin 0
+
+
+input.format_radio[type="radio"] {
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  margin-right: 20px;
+  position: relative;
+  width: 20px;
+  font-family: proxima-nova, sans-serif;
+  -webkit-appearance: none;
+
+}
+
+input.format_radio[type="radio"]:after {
+  background-color: #fff;
+  border-radius: 33px;
+  content: '';
+  display: block;
+  height: 6px;
+  left: 6px;
+  position: relative;
+  top: 6px;
+  font-family: proxima-nova, sans-serif;
+  width: 7px;
+}
+
+input.format_radio[type="radio"]:checked:after {
+  background-color: #fff;
+}
+
+input.format_radio[type="radio"]:checked {
+  background-color: #3284FF;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  margin-right: 20px;
+  position: relative;
+  width: 20px;
+  font-family: proxima-nova, sans-serif;
+  -webkit-appearance: none;
+}
+
+.visibility_label {
+  position: relative;
+  left: 30px;
+  bottom: 28px;
+  font-family: proxima-nova, sans-serif;
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+.font_set {
+  font-family: proxima-nova, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.main_label {
+  font-family: proxima-nova, sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.form-group-space {
+  padding: 35px 0 35px 0;
+  margin-bottom: 0 !important;
+}
+
+.-stupid-counter.id_title_counter {
+  display: inline-block;
+  width: 63.8%;
+  color: #a7a7a7 !important;
+}
+
+.-stupid-counter.id_question_counter {
+  display: inline-block;
+  width: 37.3%;
+  color: #a7a7a7 !important;
+}
+
+.help_font {
+  color: #a7a7a7 !important;
+}
+
+.text_field {
+  width: 38%;
+  border 1px solid #a7a7a7!important
+}
+
+.field_text {
+  width: 64.8%;
+  border 1px solid #a7a7a7!important
+}
+
+.input_font {
+  font-size: 16px !important;
+   color : black;
+}
+
+input.format-radio[type="radio"] {
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 19px;
+  margin-right: 9px;
+  position: relative;
+  width: 19px;
+  float left
+  border 0.1px solid grey
+  margin-top 0
+  font-family: proxima-nova, sans-serif;
+  -webkit-appearance: none;
+
+}
+
+input.format-radio[type="radio"]:after {
+  background-color: #fff;
+  border-radius: 33px;
+  content: '';
+  display: block;
+  height: 6px;
+  left: 6px;
+  position: relative;
+  top: 6px;
+  font-family: proxima-nova, sans-serif;
+  width: 7px;
+}
+
+input.format-radio[type="radio"]:checked:after {
+  background-color: #fff;
+}
+
+input.format-radio[type="radio"]:checked {
+  background-color: #3284FF;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  margin-right: 9px;
+  position: relative;
+  width: 20px;
+  float left
+  margin-top 0
+  font-family: proxima-nova, sans-serif;
+  -webkit-appearance: none;
+
+}
+
+@media only screen and (max-width : 480px)
+	.view-companySettings
+		.slack-form
+			.slack-form__button
+				float left
+				position relative
+				margin 30px 0

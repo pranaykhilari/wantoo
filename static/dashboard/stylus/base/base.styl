@@ -1,0 +1,156 @@
+clearfix()
+  zoom 1
+  &:after
+  &:before
+    content ""
+    display table
+  &:after
+    clear both
+
+body
+	width 100%
+	background #fff
+	
+	&.is-bannerVisible
+		.banner
+			display block
+		
+		.main-logo
+			margin-top 20px	
+			//margin-bottom -30px
+		.private_main-logo
+			margin-top 20px
+		
+		.comp-contMain, .comp-contMain--large	
+			margin-top 130px
+			
+	
+//remove focus outline	
+:focus
+	outline 0 !important
+
+a
+	color textHighlight
+	
+
+.select, .select-bootstrap select
+	-webkit-appearance none
+	-moz-appearance none
+	background-color transparent
+	background-image url('/static/dashboard/img/icons/arrow-down.png')
+	background-position 96% center
+	background-repeat no-repeat
+	background-size 12px
+	text-indent 0.01px
+	text-overflow ""
+
+	/*My custom style for fonts*/
+	font-family "proxima-nova", sans-serif
+	height 37px
+	border 1px solid #b1b1b1
+	border-radius 5px
+	color #000
+	padding-left 20px
+	width 100%
+	max-width 391px
+
+
+/* Layout */
+
+.row-sm
+	width 100%
+	max-width 850px
+
+.col
+	float left
+	min-height 1px	
+	
+.col-row
+	clearfix()
+	width 100%
+	
+	.left-two-col
+		@extends .col
+		width 11%
+		margin-right 9%
+		float left
+	
+	.right-two-col
+		@extends .col
+		width 80%
+		float left
+
+.main-logo
+	display block
+	max-width 165px
+	width 100%		
+	margin 0 auto
+	transition opacity .3s ease
+	opacity 1
+	
+	&.isHidden
+		opacity 0
+	
+	img
+		width 100%
+
+.private_main-logo
+	display block
+	max-width 165px
+	width 100%
+	margin 0 auto
+	transition opacity .3s ease
+	opacity 1
+
+	&.isHidden
+		opacity 0
+
+	img
+		width 100%
+.private_signup-logo
+	display block
+	max-width 165px
+	width 100%
+	margin 0 auto
+	transition opacity .3s ease
+	opacity 1
+
+	&.isHidden
+		opacity 0
+
+	img
+		width 100%
+	
+.main-company-title
+	margin 90px auto 0
+	color #000 !important
+	text-align center
+	max-width 500px
+	font-size 32px	
+	text-decoration none !important
+	display block
+	transition opacity .3s ease
+	opacity 1
+	
+	&.isHidden
+		opacity 0
+		
+.mainNav__proFeature {
+	display: inline-block;
+	margin-left: 18px;
+	width: 20px;
+	height: 13px;
+	background-image: url("/static/dashboard/img/icons/pronav_icon.png");
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: 23px;
+}
+
+@media (max-width: 650px)
+	.private_main-logo
+		position relative
+	.private_signup-logo
+		position relative
+	.main-company-title
+		display none				
+	

@@ -1,0 +1,72 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+{% load account %}
+{#{% load url from future %}#}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+<style>
+h5 { width:100%; text-align:center; border-bottom: 1px solid grey; line-height:0.1em; margin:10px 0 20px; }
+h5 span { color:grey; background:#fff; padding:0 10px; }
+</style>
+<div class="view view-login">
+  <div class="-inner-cont">
+    {% if company %}
+      {% if company.logo_url %}
+      <a class="-logo" href="/{{ company.slug }}/"><img src="{{ company.logo_url }}" alt="Wantoo"></a>
+      {% else %}
+      <h2>{{ company.title }}</h2>
+      {% endif %}
+    {% else %}
+      <a class="-logo" href="http://wantoo.io"><img src="/static/dashboard/img/wantoo_logo_pink.svg" alt="Wantoo"></a>
+    {% endif %}
+
+    <div class="-cont -loginFormCont">
+      <form signin-form class="form-wantoo form-validate x-no-label x-cta-centred" method="POST" action="{% url 'account_login' %}">
+{#        {% if company %}#}
+{#          <div class="form-group">#}
+{#                 <a href="{% provider_login_url "facebook" method="js_sdk" %}" next="/{{ company.slug }}/"><img src="https://i.stack.imgur.com/pZzc4.png" width="200px"/></a>#}
+{#             </div>#}
+{#              <div class="form-group">#}
+{#                 Or login via email#}
+{#           </div>  #}
+{#        {% endif %}#}
+
+        {# Login through facebook #}
+          <div class="form-group">
+              <a href="{% provider_login_url "facebook" method="js_sdk" %}" next="/"><img
+                      src="/static/dashboard/img/facebook_login_button.png"
+                      style="width: 85%;position:relative;display:block;margin: 0 auto;"/></a>
+              <p class="-fb-disclaimer" style="margin-left: 12%; margin-top: 5%; font-size: 11px; color : grey">We will never post to Facebook without your permission.</p>
+          </div>
+          <h5><span>Or</span></h5>
+          <p style="margin-bottom: 10%" ></p>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% else %}
+          <input type="hidden" name="next" value="/dashboard/" />
+        {% endif %}
+
+        {% buttons %}
+        <button class="btn-fill-primary" type="submit" data-label="Login - login page" disabled onClick="this.form.submit(); this.disabled=true;">Login</button>
+        {% endbuttons %}
+        <a href="{% url 'account_reset_password' %}" class="-text-link" data-label="Forgot password - login page">Forgot password?</a>
+      </form>
+    </div>
+    {% if company %}
+      <p class="-signup">Don't have an account? <a href="/accounts/signup/?next=/{{ company.slug }}/">Sign up</a></p>
+    {% else %}
+      <p class="-signup">Don't have an account? <a href="/signup/starter/">Sign up now</a></p>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock content %}

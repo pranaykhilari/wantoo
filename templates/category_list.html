@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-manageCategories">
+	<div id="ideaList"></div>
+	<div class="_hideOnLiveSearch">
+		<a class="-export-members-link" style="float:right;" href="/{{ company.slug }}/add-category">Add category</a>
+		<h2 class="-title">Manage categories</h2>
+      	<div class="-view__settings-menu">
+	        <div class="-inner-cont">
+	          <a href="/{{ company.slug }}/settings/">Settings</a> 
+	          <a href="/{{ company.slug }}/manage/members/">Members</a>
+	          <a class="active" href="/{{ company.slug }}/manage/categories/">Categories</a> 
+	        </div>
+      	</div>
+		<!-- <a class="-btn-add btn-fill-primary-small" href="/{{ company.slug }}/add-category">Add category</a> -->
+		{% if company.company_categories.all.count >= 1 %}
+		<table id="categoriesTable" class="comp-manageTable table" cellspacing="0" width="100%">
+			<thead>
+			  <tr>
+			  	<th><span class="-label">Category</span></th>
+		      <th><span class="-label">Added</span></th>
+		      <th><span class="-label">Ideas</span></th>
+		      <th></th>
+			  </tr>
+			</thead>
+
+			<tbody>
+					{% for cat in company.company_categories.all %}
+				  <tr>
+				  	<td class="-idea-title -bold new">{{ cat.title }}</td>
+			      <td>{{ cat.created_at }}</td>
+			      <td>{{ cat.idea_count }}</td>
+			      <td><a class="-btn-edit" href="/{{ company.slug }}/category/{{ cat.id }}/edit/"></a></td>
+				  </tr>
+				 {% endfor %} 
+			 
+			</tbody>
+	 </table>
+		{% else %}
+			<p class="-no-ideas-message">No categories have been added. Add categories to organize and filter ideas.</p>
+	 	{% endif %}
+	</div>
+	
+</div>
+</div>
+
+{% endblock content %}
+
+
+

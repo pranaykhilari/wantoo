@@ -1,0 +1,84 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-featureItem
+  width 100%
+  .m-featureItem__tag
+    margin 0
+    text-transform uppercase
+    font-weight 600
+    color brandPrimary
+  .m-featureItem__title
+    margin 20px 0
+    text-align left
+    font-weight 400
+    .m-featureItem__icon
+      user-drag none
+      user-select none
+      -moz-user-select none
+      -webkit-user-drag none
+      -webkit-user-select none
+      -ms-user-select none
+      margin 0 0 auto auto
+      width 55px
+      height auto
+      display inline-block
+      vertical-align middle
+    .m-featureItem__titleText
+      display inline-block
+      vertical-align middle
+  .m-featureItem__blurb
+    color brown
+    font-weight 100
+    line-height 2em
+    margin 0
+  .m-featureItem__integrations
+    margin 40px 0
+    .m-featureItem__blurb
+      margin 0 0 10px 0
+    .m-featureItem__integrationLogo
+      margin 10px
+      height auto
+      display inline-block
+      vertical-align middle
+
+.m-featureItem__image
+  margin 0
+  max-width 100%
+  max-height 100%
+  user-drag none
+  user-select none
+  -moz-user-select none
+  -webkit-user-drag none
+  -webkit-user-select none
+  -ms-user-select none
+
+@media screen and (max-width: max-mobile-screen)
+  .m-featureItem
+    .m-featureItem__integrations
+      display block
+      .m-featureItem__integrationLogo
+        width 75px
+
+@media screen and (min-width: max-mobile-screen)
+  .m-featureItem
+    .m-featureItem__integrations
+      .m-featureItem__integrationLogo
+        width 65px
+
+@media screen and (min-width: 880px)
+  .m-featureItem
+    .m-featureItem__integrations
+      .m-featureItem__integrationLogo
+        width 80px
+
+@media screen and (min-width: 1055px)
+  .m-featureItem
+    .m-featureItem__integrations
+      .m-featureItem__integrationLogo
+        width 100px
+
+@media screen and (min-width: 1500px)
+  .m-featureItem
+    .m-featureItem__integrations
+      .m-featureItem__integrationLogo
+        width 120px

@@ -1,0 +1,131 @@
+.comp-merge
+	&.is-default
+		.comp-merge__selected-cont
+			display none
+	
+	&.is-selected
+		.comp-merge__search-cont		
+			display none
+		
+		.comp-merge__selected-cont
+			display block	
+			
+	.comp-merge__main-title
+		font-size 30px
+		font-weight bold
+		margin-bottom 25px
+	
+	.comp-merge__info
+		color #a7a7a7
+		font-size 14px	
+		margin-bottom 13px
+	
+	.comp-merge__selected-cont	
+		position relative
+		width 100%
+		max-width 630px
+	
+	.comp-merge__status
+		color #fff
+		border-radius 10px
+		padding 0 12px
+		font-size 8px
+		text-transform uppercase
+		line-height 19px
+		display inline-block
+	
+	.comp-merge__selected-item
+		background #f2f2f2
+		height 70px
+		max-width 630px
+		width 100%
+		text-overflow ellipsis
+		overflow hidden
+		
+		.comp-merge__selected-item__title
+			font-size 18px
+			font-weight bold	
+			line-height 70px
+			margin-left 30px
+			max-width 570px
+			margin 0 0 0 25px
+	
+	.comp-merge__sub-title
+		font-size 16px
+		font-weight bold		
+		margin 35px 0 25px
+		text-transform uppercase
+	
+	.comp-merge__search
+		background-image url('/static/dashboard/img/icons/magnify.png')
+		background-position 16px center
+		background-repeat no-repeat
+		background-size 25px
+		border 1px solid #dadada
+		height 45px
+		font-size 16px
+		max-width 630px
+		width 100%
+		padding-left 67px
+		margin-bottom 40px
+		
+	.comp-merge__search-results	
+		max-width 630px
+		width 100%	
+	
+	.comp-merge__btn-clear
+		right 0
+		top 25px
+		right -34px
+		display block
+		width 13px	
+		position absolute
+		
+		img
+			width 100%
+	
+	.comp-merge__result-item
+		position relative
+		margin-bottom 50px
+		width 100%
+		
+		&:last-child
+			margin-bottom 0
+		
+		.comp-merge__result-item__title
+			font-size 20px
+			font-weight 600
+			line-height 28px
+			margin 0 0 5px
+		
+		.comp-merge__result-item__meta
+			color #a3a3a3
+			font-size 13px	
+			margin 0
+		
+		.comp-merge__result-item__btn-select
+			background #e94095
+			border none
+			color #fff
+			height 40px
+			font-size 16px
+			font-weight bold
+			left 0
+			top 50%
+			margin-top -20px
+			position absolute
+			width 77px
+		
+		.comp-merge__result-item__info
+			padding-left 112px	
+		
+		&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder
+			color #959595	
+			
+	.comp-merge__controls
+		margin-top 65px
+		
+		button, a
+			float left
+				
+				

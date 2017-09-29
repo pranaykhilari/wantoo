@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+{% load mytags %}
+{% get_dark_launch "SLACK_INTEGRATION" as slack_integration_enabled %}
+
+<div class="comp-contMain setting_container">
+<div class="view view-manageIdeas view-companySettings setting_view">
+	<div id="ideaList"></div>
+	<div class="_hideOnLiveSearch">
+<!-- 		<a class="-export-members-link" style="float:right;" href="/{{ company.slug }}/import/">Import</a>
+		<a class="-export-members-link" style="float:right;padding-right:30px;" href="/{{ company.slug }}/export/">Export</a> -->
+		<h2 class="-title">Board settings</h2>
+	      <div class="-view__settings-menu">
+	        <div class="-inner-cont">
+	          <a class="active" href="/{{ company.slug }}/settings/">Settings</a>
+	          <a href="/{{ company.slug }}/manage/members/">Members</a>
+	          <a href="/{{ company.slug }}/manage/categories/">Categories</a>
+	        </div>
+	      </div>
+
+	      <!--Settings form -->
+
+		      <form method="POST" action="." class="form-wantoo _addCounter form-validate"  style="max-width: 100%;padding-top: 3.87%;">
+
+				    {% bootstrap_form form %}
+                  <br>
+                  <hr>
+
+                  <div class="form-group form-group-space">
+
+                      <p class="main_label">Board visibility</p><br>
+                      {% if not company.is_private %}
+                          <input class="format_radio" type="radio" name="is_private_1" value="False" checked="checked">
+                      {% else %}
+                          <input class="format_radio" type="radio" name="is_private_1" value="False">
+                      {% endif %}
+                      <p class="visibility_label font_set ">Public</p>
+                      <p class="visibility_label">This board is public. It's visible to anyone with the
+                          link and will show up in search engines.
+                          Only people who join the board can contribute to it.<a href="/{{ company.slug }}/invite/"
+                                                                                 style="color: #{{ company.color }}">
+                              Invite members.</a></p>
+                  {% if slack_integration_enabled %}
+                      {% if company.is_private %}
+                          <input class="format_radio" type="radio" name="is_private_1" value="True" checked="checked">
+                      {% else %}
+                          <input class="format_radio" type="radio" name="is_private_1" value="True">
+                      {% endif %}
+
+                          <p class="visibility_label font_set"> Private
+                  {% else %}
+                          {% if company.is_private %}
+                          <a onclick="window.location.assign('/accounts/preferences/subscription/')"><input class="format_radio" type="radio"  value="True" checked="checked" style="background-color: white;"></a>
+                          {% else %}
+                          <a onclick="window.location.assign('/accounts/preferences/subscription/')"><input class="format_radio" type="radio"  value="True" style="background-color: white;" ></a>
+                          {% endif %}
+
+                          <p class="visibility_label font_set"> Private<span class="mainNav__proFeature"></span>
+                  {% endif %}
+{#                      <p class="visibility_label font_set"> Private<span class="mainNav__proFeature"></span>#}
+                      <p class="visibility_label">This board is private. Only people added
+                          to the board can view and contribute to it.<a href="/{{ company.slug }}/invite/" class="active"
+                                                                        style="color: #{{ company.color }}"> Add
+                              members.</a></p>
+
+                  </div>
+                  <hr>
+
+
+
+              <div style="width: 100%; position: relative;display: block;float: left;padding-top: 7px">
+					<div class="form-group slack-form horizantal_width setting_form_width" id="slack-integration">
+                        <p class="main_label">Board integrations</p>
+                        <br>
+						{% if company.slack %}
+							<div class="slack-form__label setting_width">
+								<span class="slack_logo"></span>
+								<div class="text">
+									<h4>Slack</h4>
+									<h5>
+										<b>Team:</b> {{ company.slack.team_name }} &nbsp;&nbsp;&nbsp;
+										<b>Channel:</b> {{ company.slack.incoming_webhook.channel }}</h5>
+								</div>
+							</div>
+							<div class="slack-form__button" style="width: 15%">
+								<a class="-btn-delete btn-fill-transparent-red" href="/{{ company.slug }}/slack/?reset=True">Disconnect</a>
+							</div>
+							<div class="clearfix"></div>
+						{% else %}
+							<div class="slack-form__label setting_width">
+								<span class="slack_logo"></span>
+								<div class="text">
+									<h4>Slack</h4>
+									<h5>Send real-time activity notifications to your Slack channel.</h5>
+								</div>
+							</div>
+							<div class="slack-form__button" style="width: 15%">
+
+								{% if slack_integration_enabled %}
+								<a href="https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=3943897829.16305580643&redirect_uri={{redirect_url}}">
+								{% else %}
+								<a href="#prowall" data-toggle="modal" data-target="#_modal-prowall">
+								{% endif %}
+
+									<img alt="Add to Slack" height="40" width="139" src="/static/dashboard/img/icons/slack_button.png">
+								</a>
+							</div>
+							<div class="clearfix"></div>
+						{% endif %}
+					</div>
+
+                  <div class="form-group slack-form horizantal_width setting_form_width" id="slack-integration">
+                          <div class="slack-form__label setting_width">
+                              <span class="trello_logo"></span>
+                              <div class="text">
+                                  <h4>Trello</h4>
+                                  <h5>Synchronize your board and cards from Trello with Wantoo.</h5>
+                              </div>
+                          </div>
+                          <div class="slack-form__button trello_button">
+                              <a href="https://wantoo.io/wantoo/892/trello-integration/">
+                              <img alt="Add to Trello" height="40" width="139"
+                                   src="/static/dashboard/img/icons/trello_button.png">
+                              </a>
+                          </div>
+                          <div class="clearfix"></div>
+                  </div>
+
+                  <div class="form-group slack-form horizantal_width setting_form_width" id="slack-integration">
+                          <div class="slack-form__label setting_width">
+                              <span class="jira_logo"></span>
+                              <div class="text">
+                                  <h4>JIRA</h4>
+                                  <h5>Convert ideas to JIRA tasks or tickets.</h5>
+                              </div>
+                          </div>
+                          <div class="slack-form__button jira_button">
+                              <a href="https://wantoo.io/wantoo/893/jira-integration">
+
+                              <img alt="Add to JIRA" height="40" width="139"
+                                   src="/static/dashboard/img/icons/jira_button.png">
+                              </a>
+                          </div>
+                          <div class="clearfix"></div>
+                  </div>
+              </div>
+                  <br>
+                  <hr style="width: 100%;display: block;position: relative; float: left">
+
+				    <button class="-btn-save btn-fill-primary" type="submit">
+				        Save
+				    </button>
+				    <a href="/{{ company.slug }}/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+				    <a href="#status-delete" data-toggle="modal" data-target="#_modal-bulkActionsDeleteStatus" class="-btn-delete btn-fill-transparent-red" style="float:right;margin-top: 40px;position: relative;left: 13px">Close Board</a>
+
+				    {% csrf_token %}
+				</form>
+
+	      <!-- end of settings form -->
+
+	</div>
+</div>
+</div>
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-bulkActionsDeleteStatus" tabindex="-1" role="dialog" aria-labelledby="Delete status">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Close board?</h2>
+         <p class="-message">Closing your Idea Board will make your board URL unavailable to your board members to contribute. All notifications will be turned off as well. Are you sure?</p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close" >Cancel</button>
+          <a href="/{{ company.slug }}/closed/admin/"><button type="button" class="_bulkActionsConfirmSingleDelete btn-fill-primary">Yes, close</button></a>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="comp-contMain">
+<div class="view view-companySettings">
+
+	<div id="ideaList"></div>
+
+	<div class="_hideOnLiveSearch">
+		<h1 class="-title">Settings</h1>
+
+
+	</div>
+</div>
+</div> -->
+{% endblock content %}

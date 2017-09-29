@@ -1,0 +1,394 @@
+.color-picker
+  z-index 999
+
+.intro-hide
+  display none
+
+.introView,
+.introView__container
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  width 100%
+  height 100%
+  overflow scroll
+  min-height 660px
+
+  .body2 
+    display none
+
+  .introView__backgroundHeader
+    position fixed
+    width 100%
+    height 50px
+    background white
+    z-index 5
+
+  .introView__backgroundHeader--left 
+    float left
+    width 200px
+    height 100%
+    background url('/static/dashboard/img/intro/intro_left.jpg') no-repeat
+    background-position 0 0
+    background-size 100% auto
+
+
+  .introView__backgroundHeader--right 
+    float right
+    width 150px
+    height 100%
+    background url('/static/dashboard/img/intro/intro_right.jpg') no-repeat
+    background-position 0 0
+    background-size 100% auto
+
+  .introView__mainBody 
+    position relative
+    width 100%
+    margin-top 40px
+    height 100%
+
+  .introView__logoWrap 
+    display block
+    width 100%
+    margin 0 auto
+    margin-top 50px
+    z-index 10
+
+
+  .introView__logoWrap--image 
+    position relative
+    width 100%
+    max-height 300px
+    max-width 165px
+    left 50%
+    transform translateX(-50%)
+
+
+  .introView__tempIdeaField
+    position absolute
+    top 260px
+    left 50%
+    transform translateX(-50%)
+    background blue
+    height 150px
+    margin-top 20px
+    width 250px
+    background  url('/static/dashboard/img/intro/intro_bottom.jpg') no-repeat
+    background-position 0 0
+    background-size 100% auto
+    z-index -10
+
+
+  .introView__tempIdeaList
+    margin 0 auto
+    background blue
+    height 500px
+    margin-top 150px
+    margin-left 100px
+    width 70%
+    background  url('/static/dashboard/img/intro/intro_list.jpg') no-repeat
+    background-position 0 0
+    background-size 100% auto
+
+
+  .introView__questionWrap 
+    margin 0 auto
+    margin-top 20px
+    text-align center
+    font-size 2rem
+    width 100%
+
+    .introView__questionWrap--text
+      width 80%
+      padding 0 10px
+
+
+  .introView__questionWrap--text
+    color #A9A9A9
+
+
+  .introView__backgroundFooter
+    position absolute
+    bottom 10px
+    padding 0
+    width 80%
+    left 50%
+    transform translateX(-50%)
+    margin 0
+    color #ADADAD
+    max-width 640px
+
+  .introView__backgroundFooter a
+    color #e94095
+    font-size 16px
+
+
+  .introView__backgroundFooter--center 
+    text-align center
+
+  #_modal-Summary,
+  #_modal-Title,
+  #_modal-Theme
+    padding-top 60px
+
+  #_modal-Question,
+  #_modal-Profile
+    position relative
+
+@media only screen and (max-width : 480px)
+  .introView,
+  .introView__container
+    min-height 100%
+
+    .introView__backgroundHeader--left
+      display none
+
+    .introView__logoWrap 
+      display block
+      position fixed
+      max-width 35px
+      width 100%
+      margin 0
+      top 10px
+      left 10px
+
+    .introView__logoWrap--image 
+      width 100%
+      max-height 300px
+
+    .body1,
+    .introView__mainBody,
+    .introView__questionWrap 
+      margin-top 0
+
+    .introView__questionWrap--text
+      display none
+
+    .introView__tempIdeaField
+      position relative
+      top 15px
+      display none
+
+    #_modal-Question,
+    #_modal-Profile
+      position fixed
+
+      .mainModal__toolTipTop:after
+        content none
+
+    #_modal-Summary,
+    #_modal-Theme,
+    #_modal-Title
+      padding-top 0
+
+    .introView__tempIdeaList
+      margin-top 80px
+      margin-left 30px
+
+    .introView__backgroundFooter,
+    .introView__backgroundFooter a
+      font-size 12px
+
+
+
+/** =======================================* 
+*
+* ============= Modal Styles
+*
+* ======================================*/
+
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop, 
+.modal-backdrop.fade,
+.modal-backdrop.in {
+  opacity: 0; //was 0.1
+  z-index: -10;
+  background-color: transparent;
+}
+
+//start of mainModal styles
+.introView__mainModal {
+
+}
+
+.modal {
+  padding-bottom 50px
+  bottom: initial!important;
+}
+
+.introView__mainModal .modal-dialog {
+  padding-bottom:60px;
+}
+
+.introView__mainModal .modal-content {
+  -webkit-filter: drop-shadow(16px 16px 20px rgba(black, 0.25));
+  filter: drop-shadow(16px 16px 20px rgba(black, 0.25));
+}
+
+.introView__mainModal .left {
+  text-align: left !important; 
+  font-weight: normal !important; 
+  color:black !important;
+}
+
+.introView__mainModal input {
+  margin-top:20px
+}
+
+.introView__mainModal .-message a {
+  color: #e94095; 
+  font-size: 16px;
+}
+
+.introView__mainModal .-message {
+  text-align: left;
+}
+
+.introView__mainModal .center {
+  font-weight: normal !important; 
+  color:black !important;
+  text-align: center !important;
+}
+
+.introView__mainModal .fade {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+#_modal-Profile .mainModal__toolTipTop::after,
+#_modal-Question .mainModal__toolTipTop::after {
+    content: " ";
+    position: absolute;
+    bottom: 99%; 
+    left: 50%;
+    margin-left: -20px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+    -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,0.3));
+}
+
+.btn-fill-primary[type="button"]:disabled {
+    background: #959595;
+    opacity: .5;
+}
+
+
+.colum_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+}
+
+.colum {
+    float: left;
+    position: relative;
+    width: 25%;
+    text-align: center;
+}
+
+.colum_image img {
+  width: 55%;
+  height: auto;
+
+}
+
+.colum_text {
+  padding: 10px 0;
+
+}
+
+.colum_button a {
+
+  text-decoration: none;
+
+}
+
+.colum_button button {
+
+  margin: 0 auto;
+
+}
+
+.offset-0 {
+  position: absolute;
+  left: 30px;
+}
+
+.offset-1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.offset-2 {
+  position: absolute;
+  right: 30px;
+}
+
+.final-text {
+  margin-top: 230px;
+  text-align: center;
+  padding: 30px 0;
+
+}
+
+.introView__mainModal .final-text a {
+  font-size: 1.7rem;
+  color: #e94095;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media only screen and (max-width : 480px) {
+  
+  .comp-modal .modal-dialog .modal-content .-title {
+    font-size: 18px !important; 
+  }
+
+  .x-bulkActions .modal-dialog .modal-content .-message {
+    font-size: 12px !important; 
+  }
+
+  .introView__mainModal .-message a {
+    font-size: 12px;
+  }
+
+  .btn-fill-primary,
+  .btn-fill-transparent {
+    height: 40px;
+    min-width: 60px;
+    line-height: 40px;
+    font-size: 14px;
+    padding: 0 5px;
+  }
+
+  .colum_text {
+    font-size: 10px;
+  }
+
+  .final-text {
+    margin-top: 150px;
+    padding: 10px 0;
+  }
+  .final-text a {
+    font-size: 10px !important;
+  }
+
+}
+
+.modal input {
+    font-size: 16px;
+}
+
+

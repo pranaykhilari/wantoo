@@ -1,0 +1,297 @@
+{% extends "landing/base.html" %}
+
+{% load render_bundle from webpack_loader %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+{#    {% providers_media_js %}#}
+    {% get_company as company %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <section class="l-section l-section--white l-section--main l-section--funnel">
+        <div class="l-section__inner l-section__gutter">
+            <div class="l-funnel">
+                <div class="l-funnelContainer">
+                    <div class="l-funnel__box">
+                        <div class="main_signup_container">
+                            <div class="m-funnel__text">
+                                <h2 class="m-funnel__title t-title__header">
+                                    {% if plan_type == "starter" %}
+                                        Get Wantoo STARTER
+                                    {% elif plan_type == "pro" %}
+                                        Go Wantoo PRO
+                                    {% elif plan_type == "premium" %}
+                                        Meet and surpass your Customer Experience objectives.
+                                    {% endif %}
+                                </h2>
+                                <p class="m-funnel__blurb">
+                                    {% if plan_type == "starter" %}
+                                        <b> Free 30-day trial, then $7/mo - cancel anytime.</b>
+                                        <br><br>Wantoo is a simple, powerful platform that makes it easy to listen,
+                                        analyse, and act on feedback from your team, your customers, or anyone else.
+                                        Helping you make more confident product decisions. Keep your customers in the
+                                        loop with automatic updates. Start your free trial now! Wantoo STARTER includes:
+                                        <ul class="plan_feature_list">
+                                            <li class="plan_feature_list">Voting</li>
+                                            <li class="plan_feature_list">Leaderboard</li>
+                                            <li class="plan_feature_list">Discussion</li>
+                                            <li class="plan_feature_list">Real-time notifications</li>
+                                            <li class="plan_feature_list">Custom branding</li>
+                                        </ul>
+
+
+                                    {% elif plan_type == "pro" %}
+                                        <b> Free 30-day trial, then $25/mo - cancel anytime.</b>
+                                        <br><br> Unlock more powerful tools with Wantoo PRO. You can merge ideas,
+                                        integrate your work with a Slack channel, listen in on Twitter, view community
+                                        analytics, and much more. Wantoo PRO includes everything in STARTER, plus:
+                                        <ul class="plan_feature_list">
+                                            <li class="plan_feature_list">Private boards</li>
+                                            <li class="plan_feature_list">Slack integration</li>
+                                            <li class="plan_feature_list">Twitter integration</li>
+                                            <li class="plan_feature_list">Idea merging & deduplication</li>
+                                            <li class="plan_feature_list">Machine learning</li>
+                                            <li class="plan_feature_list">Statistics dashboard</li>
+                                            <li class="plan_feature_list">Multiple admins</li>
+                                            <li class="plan_feature_list">Dedicated support</li>
+                                            <li class="plan_feature_list">Custom coaching</li>
+                                        </ul>
+                                    {% elif plan_type == "premium" %}
+                                        Go deeper. Reach out directly to your customers through social media and
+                                        integrate insights through your existing productivity tools. Merge similar ideas
+                                        to surface emerging themes in customer sentiment. Enhanced statistics will make
+                                        more informed decisions toward a competitive advantage. A dedicated Account
+                                        Manager will be with you each step of the way. Smarter innovation starts here.
+                                    {% endif %}
+                                </p>
+                                <p class="m-funnel__contact">
+                                    Have a question? Ask us at <a href="mailto:hello@wantoo.io" class="mail_color">hello@wantoo.io</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="l-funnel__box">
+                        <div class="m-funnel__form">
+                            <div class="m-signupForm ">
+                                <h2 class="m-signupForm__title">
+                                    {% if plan_type == "starter" %}
+                                        <span class="plan_title">Start your plan today</span>
+                                    {% elif plan_type == "pro" %}
+                                        <span class="plan_title">Start your plan today</span>
+                                    {% elif plan_type == "premium" %}
+                                        Start your PREMIUM plan today
+                                    {% endif %}
+                                </h2>
+                                <div class="-cont -loginFormCont m-signupForm">
+                                    <div class="-cont -loginFormCont m-signupForm">
+                                        <form signup-form
+                                              class="form-wantoo form-validate x-no-label x-cta-centred m-signupForm__form m-signupForm__form"
+                                              id="signup_form" method="post" action=".">
+
+                                            {% csrf_token %}
+                                            {% bootstrap_form form %}
+
+                                            {% if redirect_field_value %}
+                                                <input type="hidden" name="{{ redirect_field_name }}"
+                                                       value="{{ redirect_field_value }}"/>
+                                            {% else %}
+                                                {% if plan_type == "starter" %}
+                                                    <input type="hidden" name="{{ redirect_field_name }}"
+                                                           value="{% url 'starter_subscription' %}"/>
+                                                {% else %}
+                                                    <input type="hidden" name="{{ redirect_field_name }}"
+                                                           value="{% url 'pro_subscription' %}"/>
+                                                {% endif %}
+                                            {% endif %}
+
+                                            {% if plan_type == "premium" or plan_type == "pro" %}
+
+                                                <input type="hidden" name="plan_type" value="pro"/>
+
+                                            {% else %}
+
+                                                <input type="hidden" name="plan_type" value="starter"/>
+
+                                            {% endif %}
+
+                                            <div class="form-group">
+                                                <p class="-copy checkbox">By signing-up, you agree to our <a
+                                                        href="http://wantoo.io/terms-of-service/" target="_blank"
+                                                        class="_trackLinkEvent" data-label="Terms of use- signup page"
+                                                        style="color: #e94095;">Terms of Service</a></p>
+                                            </div>
+                                            <div class="plan_submit_button">
+                                            {% buttons %}
+                                                <button class="btn-fill-primary btn-fill-pink m-signupForm__submit getStarted"
+                                                        type="submit" data-label="Sign up - signup page" disabled
+                                                        onClick="this.form.submit(); this.disabled=true;">Get Started
+                                                </button>
+                                            {% endbuttons %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--white l-section--funnelQuote">
+        <div class="l-section__inner l-section__nospace l-section__gutter div_logos">
+            <div class="m-funnelQuote">
+                <h2 class="m-funnelQuote__title t-title__section">
+                    "Wantoo is a simple and really intuitive tool. We now have a very clear list of insights,
+                    prioritized by our users, of what we should build next."
+                </h2>
+                <div class="m-funnelQuote__authorContainer">
+                    <div class="m-funnelQuote__imageContainer">
+                        <img class="m-funnelQuote__image" src="/static/landingpage/img/Quote_Customer_Photo.png"/>
+                    </div>
+                    <div class="m-funnelQuote__textContainer">
+                        <h3 class="m-funnelQuote__author">
+                            Alec Morgana
+                        </h3>
+                        <p class="m-funnelQuote__authorTitle">
+                            Head of Marketing, ZenHub (Axiom Zen)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--offwhite l-section--funnelCompanies">
+        <div class="l-section__inner l-section__gutter">
+            <div class="m-funnelCompanies full_width" style="padding: 60px 0;">
+                <h2 class="m-funnelCompanies__title t-title__section">Trusted by the world's best</h2>
+                <div class="m-funnelCompaniesContainer full_width">
+                    <div class="logos_inline" style="margin-bottom: 4%">
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/google.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/DarkRoom.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/PRO_Signup_Website.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/ECU.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/voxist.png"/></div>
+
+                    </div>
+                    <div class="logos_inline">
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/ElasticPath.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/Van_Hack.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/AxiomZen.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/AirForge.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/queens.png"/></div>
+
+
+                    </div>
+
+                    <div class="starter_footer_button">
+                        <a href="#" class="btn-fill-pink starter_try_it_button">Try it free</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <script src="/static/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {% render_bundle 'vendor' 'js' %}
+    <script>
+        //loop for multiple forms on page
+        $('.form-validate').each(function (index, form) {
+            $(form).validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        });
+
+        $('.form-validate').on('keyup', function () {
+            var self = this;
+            console.log($(this).valid());
+
+            //if valid, enalbed button. If not valid keep button disabled
+            if ($(this).valid()) {
+                console.log("here");
+                console.log($(self).find('button[type="submit"]'));
+                $(self).find('button[type="submit"]').prop('disabled', false);
+            } else {
+                if (!$(self).find('button[type="submit"]').prop('disabled')) {
+                    $(self).find('button[type="submit"]').prop('disabled', true);
+                }
+            }
+        });
+
+        $('.form-validate').on('change', function () {
+            var self = this;
+            console.log($(this).valid());
+
+            //if valid, enalbed button. If not valid keep button disabled
+            if ($(this).valid()) {
+                console.log("here");
+                console.log($(self).find('button[type="submit"]'));
+                $(self).find('button[type="submit"]').prop('disabled', false);
+            } else {
+                if (!$(self).find('button[type="submit"]').prop('disabled')) {
+                    $(self).find('button[type="submit"]').prop('disabled', true);
+                }
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        adroll_adv_id = "XMKEGVQWEBHC3CIF7X733L";
+        adroll_pix_id = "DG3MDSLH5RFZNLCESJX2R6";
+        (function () {
+            var _onload = function () {
+                if (document.readyState && !/loaded|complete/.test(document.readyState)) {
+                    setTimeout(_onload, 10);
+                    return
+                }
+                if (!window.__adroll_loaded) {
+                    __adroll_loaded = true;
+                    setTimeout(_onload, 50);
+                    return
+                }
+                var scr = document.createElement("script");
+                var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+                scr.setAttribute('async', 'true');
+                scr.type = "text/javascript";
+                scr.src = host + "/j/roundtrip.js";
+                ((document.getElementsByTagName('head') || [null])[0] ||
+                document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+            };
+            if (window.addEventListener) {
+                window.addEventListener('load', _onload, false);
+            }
+            else {
+                window.attachEvent('onload', _onload)
+            }
+        }());
+    </script>
+
+{% endblock %}
+
+
+

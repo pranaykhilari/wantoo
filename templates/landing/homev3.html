@@ -1,0 +1,408 @@
+{% extends "landing/base-vid.html" %}
+{% load mytags %}
+
+{% block content %}
+
+
+    <section class="l-section l-section--trans l-section--main-vid l-section--aboveFold">
+        <div class="l-section__inner-vid">
+            <div class="l-main">
+                <div class="m-mainTitleContainer">
+                    <div class="m-mainTitle">
+                        <h1 class="m-mainTitle__title t-title__page">Managing Feedback Has Never Been Easier</h1>
+                        <p class="m-mainTitle__subtitle t-subtitle__page">Wantoo is a simple, powerful cloud-based
+                            platform that makes it easy to listen, analyze, and act on feedback from your team, your
+                            customers or anyone else. Set it up in seconds.</p>
+                        <a href="/signup/pro/" class="m-mainTitle__link btn-fill-pink">Try It Free</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-mainButton">
+            <a href="/#Fold"><img class="m-mainButton__image" src="/static/landingpage/img/icon_chevron_white.png"/></a>
+        </div>
+        <div class="m-mainVideoContainer">
+            <video class="m-mainVideo" loop="loop" preload="none" autoplay="autoplay"
+                   data-poster="/static/landingpage/vid/landing_intro_poster.png">
+                <!-- Problem - videos will not play in Safari unless hosted externally -->
+                <source type="video/mp4" src="https://s3-us-west-2.amazonaws.com/wantoo-mars/landing_intro.mp4"/>
+                <source type="video/mov" src="https://s3-us-west-2.amazonaws.com/wantoo-mars/landing_intro.mov"/>
+            </video>
+        </div>
+    </section>
+
+
+
+    <section id="Fold" class="l-section l-section--brown l-section--peopleBlocks">
+        <div class="l-section__inner l-section__gutter">
+            <div class="l-peopleBlocks">
+                <h2 class="l-peopleBlocks__title m-textContent__title t-title__section">
+                    Wantoo is the leading feedback management platform teams love to use
+                </h2>
+                <div class="l-peopleBlocksContainer">
+
+                    <div class="l-peopleBlocks__box">
+                        <div class="m-peopleBlock">
+                            <div class="m-peopleBlock__imageWrap"><img class="m-peopleBlock__image"
+                                                                       src="/static/landingpage/img/people/customer.png"/>
+                            </div>
+                            <div class="m-peopleBlock__textContainer">
+                                <h4 class="m-peopleBlock__mainTitle">Customer Experience</h4>
+                                <p class="m-peopleBlock__mainText">
+                                    “We were able to get feedback, improve on our customers’ experience and turn them
+                                    passionate advocates.”
+                                    <br/><br/>
+                                    ~ Jas
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="l-peopleBlocks__box">
+                        <div class="m-peopleBlock">
+                            <div class="m-peopleBlock__imageWrap"><img class="m-peopleBlock__image"
+                                                                       src="/static/landingpage/img/people/market.png"/>
+                            </div>
+                            <div class="m-peopleBlock__textContainer">
+                                <h4 class="m-peopleBlock__mainTitle">Marketers</h4>
+                                <p class="m-peopleBlock__mainText">
+                                    “Without a lot of effort, Wantoo got us the feedback we needed to improve customer
+                                    retention.”
+                                    <br/><br/>
+                                    ~ Amanda
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="l-peopleBlocks__box">
+                        <div class="m-peopleBlock">
+                            <div class="m-peopleBlock__imageWrap"><img class="m-peopleBlock__image"
+                                                                       src="/static/landingpage/img/people/product.png"/>
+                            </div>
+                            <div class="m-peopleBlock__textContainer">
+                                <h4 class="m-peopleBlock__mainTitle">Product Innovators</h4>
+                                <p class="m-peopleBlock__mainText">
+                                    “We got valuable insight from our customers which helped us build a product people
+                                    would pay for.”
+                                    <br/><br/>
+                                    ~ Theo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="l-peopleBlocks__box">
+                        <div class="m-peopleBlock">
+                            <div class="m-peopleBlock__imageWrap"><img class="m-peopleBlock__image"
+                                                                       src="/static/landingpage/img/people/human.png"/>
+                            </div>
+                            <div class="m-peopleBlock__textContainer">
+                                <h4 class="m-peopleBlock__mainTitle">Human Resources</h4>
+                                <p class="m-peopleBlock__mainText">
+                                    “We got great ideas from our employees on how to drive our business, and our
+                                    employees felt more engaged in the company’s success.”
+                                    <br/><br/>
+                                    ~ Geoffrey
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section id="Product" class="l-section l-section--white l-section--textContent">
+        <div class="l-section__inner l-section__gutter">
+            <div class="m-textContent">
+                <h2 class="m-textContent__title t-title__header">How it works</h2>
+                <img class="m-textContent__image image__large" src="/static/landingpage/img/hero_3steps.png"/>
+                <p class="m-textContent__blurb t-subtitle__section">
+                    Our customer feedback platform adapts to fit your needs, whether you’re a marketer working on
+                    customer engagement and feedback,
+                    a tech company building a new application, or a retail enterprise launching an ad campaign.
+                </p>
+                <p class="m-textContent__cta t-cta__section">Learn More:</p>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--white l-section--feature l-section--border">
+        <div class="l-section__inner">
+            <div class="l-feature">
+                <div class="l-feature__textContainer">
+                    <div class="l-feature__text">
+                        <div class="m-featureItem">
+                            <p class="m-featureItem__tag t-tag__feature">Journey Mapping</p>
+                            <h2 class="m-featureItem__title t-title__feature">
+                                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_journey.png"/>
+                                <span class="m-featureItem__titleText">Listen</span>
+                            </h2>
+                            <p class="m-featureItem__blurb t-subtitle__feature">
+                                Wantoo Idea Boards help you get feedback wherever and whenever customers interact with
+                                your company, so you’re collecting data at every point along the customer
+                                journey—physical, web, or mobile—with just a single line of code. Plays well with
+                                Salesforce, Zendesk, Twitter, and more.
+                            </p>
+                            <div class="m-featureItem__integrations">
+                                <p class="m-featureItem__blurb t-subtitle__integrations">Integrations include:</p>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_salesforce.png"/>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_zendesk.png"/>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_twitter.png"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-feature__imageContainer">
+                    <img class="m-featureItem__image" src="/static/landingpage/img/listen_forum.png"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--white l-section--feature l-section--border">
+        <div class="l-section__inner">
+            <div class="l-feature">
+                <div class="l-feature__textContainer">
+                    <div class="l-feature__text">
+                        <div class="m-featureItem">
+                            <p class="m-featureItem__tag t-tag__feature">Leaderboards</p>
+                            <h2 class="m-featureItem__title t-title__feature">
+                                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_todo.png"/>
+                                <span class="m-featureItem__titleText">Analyze</span>
+                            </h2>
+                            <p class="m-featureItem__blurb t-subtitle__feature">
+                                Not all customer feedback is equal, so don’t waste time, money, and goodwill treating
+                                all feedback the same way. Wantoo helps you structure and prioritize every suggestion,
+                                so you can feed the winners directly to the teams best equipped to act. Go beyond dumb
+                                data and get deeper insight into what makes your customers tick.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-feature__imageContainer">
+                    <img class="m-featureItem__image" src="/static/landingpage/img/feature_prioritize.png"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--white l-section--feature l-section--border">
+        <div class="l-section__inner">
+            <div class="l-feature">
+                <div class="l-feature__textContainer">
+                    <div class="l-feature__text">
+                        <div class="m-featureItem">
+                            <p class="m-featureItem__tag t-tag__feature">Workflows</p>
+                            <h2 class="m-featureItem__title t-title__feature">
+                                <img class="m-featureItem__icon" src="/static/landingpage/img/icon_kanban.png"/>
+                                <span class="m-featureItem__titleText">Act</span>
+                            </h2>
+                            <p class="m-featureItem__blurb t-subtitle__feature">
+                                Avoid the black hole of Customer Experience management software. Don’t let valuable
+                                insights die on the way to the product team: Wantoo helps you finish the job by syncing
+                                your data with the tools you use to organize your tasks, including Slack, Trello, and
+                                Jira. Meanwhile, automatically close the feedback loop by keeping customers up to speed
+                                on the changes they suggested.
+                            </p>
+                            <div class="m-featureItem__integrations t-subtitle__integrations">
+                                <p class="m-featureItem__blurb t-subtitle__integrations">Integrations include:</p>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_slack.png"/>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_trello.png"/>
+                                <img class="m-featureItem__integrationLogo"
+                                     src="/static/landingpage/img/logo_jira.png"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-feature__imageContainer">
+                    <img class="m-featureItem__image" src="/static/landingpage/img/feature_act.png"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="Pricing" class="l-section l-section--white l-section--pricing">
+        <div class="l-section__inner l-section__gutter">
+            <h2 class="l-pricing__title t-title__header">Simple plans hosted in the cloud</h2>
+            <div class="l-pricing">
+                <div class="l-pricing__item">
+                    <div class="m-pricingItem m-pricingItem__free">
+                        <h4 class="m-pricingItem__title">Starter</h4>
+                        <h3 class="m-pricingItem__price">$7</h3>
+                        <p class="m-pricingItem__commitment">Monthly</p>
+                        <a href="/signup/starter/" class="m-pricingItem__link btn-fill-pink"
+                           onclick="trackClick('link', 'Free Account Info', 'Signup Funnel')">
+                            Try It Free
+                        </a>
+                        <p class="m-pricingItem__blurb">Starter includes:</p>
+                        <ul class="m-pricingList">
+                            <li class="m-pricingList__item">Voting</li>
+                            <li class="m-pricingList__item">Leaderboard</li>
+                            <li class="m-pricingList__item">Discussion</li>
+                            <li class="m-pricingList__item">Real-time notifications</li>
+                            <li class="m-pricingList__item">Custom branding</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="l-pricing__item">
+                    <div class="m-pricingItem m-pricingItem__basic">
+                        <h5 class="m-pricingItem__tag t-tag__pricing">Most Popular</h5>
+                        <h4 class="m-pricingItem__title t-title__pricing">Pro</h4>
+                        <h3 class="m-pricingItem__price t-price__pricing">$25</h3>
+                        <p class="m-pricingItem__commitment t-commitment__pricing">Monthly</p>
+                        <a href="/signup/pro/" class="m-pricingItem__link btn-fill-pink"
+                           onclick="trackClick('link', 'Basic Account Info', 'Signup Funnel')">
+                            Try It Free
+                        </a>
+                        <p class="m-pricingItem__blurb t-subtitle__pricing">Everything in <strong>Starter</strong>, and:
+                        </p>
+                        <ul class="m-pricingList">
+                            <li class="m-pricingList__item t-item__pricing">Private boards</li>
+                            <li class="m-pricingList__item">Slack integration</li>
+                            <li class="m-pricingList__item">Twitter integration</li>
+                            <li class="m-pricingList__item">Idea merging & deduplication</li>
+                            <li class="m-pricingList__item">Machine learning</li>
+                            <li class="m-pricingList__item">Statistics dashboard</li>
+                            <li class="m-pricingList__item">Multiple admins</li>
+                            <li class="m-pricingList__item">Dedicated support</li>
+                            <li class="m-pricingList__item">Custom coaching</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="l-pricing__item">
+                    <div class="m-pricingItem m-pricingItem__premium">
+                        <h4 class="m-pricingItem__title">Pro Plus</h4>
+                        <h3 class="m-pricingItem__price" style="font-size: 38px;padding-top: 5%;padding-bottom: 4.4%;">
+                            CUSTOM</h3>
+                        <p class="m-pricingItem__commitment">Monthly</p>
+                        <a href="https://wantoo.zendesk.com/hc/en-us/requests/new"
+                           class="m-pricingItem__link btn-fill-pink"
+                           onclick="trackClick('link', 'Premium Account Info', 'Signup Funnel')">
+                            Contact Us
+                        </a>
+                        <p class="m-pricingItem__blurb">Everything in <strong>Pro</strong>, plus add-ons: </p>
+                        <ul class="m-pricingList">
+                            <li class="m-pricingList__item">Single sign-on</li>
+                            <li class="m-pricingList__item">Trello integration</li>
+                            <li class="m-pricingList__item">Jira integration</li>
+                            <li class="m-pricingList__item">CRM integration</li>
+                            <li class="m-pricingList__item">JavaScript snippet & SDKs</li>
+                            <li class="m-pricingList__item">Deep analytic reporting</li>
+                            <li class="m-pricingList__item">Language localisation</li>
+                            <li class="m-pricingList__item">White labelling</li>
+                            <li class="m-pricingList__item">DNS branding</li>
+                            <li class="m-pricingList__item">Strategic account manager</li>
+                            <li class="m-pricingList__item">And more...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="l-section l-section--white l-section--textContent">
+        <div class="l-section__inner">
+            <div class="m-textContent">
+                <h2 class="m-textContent__title t-title__section">Any questions about anything?</h2>
+                <p class="m-textContent__blurb t-subtitle__section">
+                    If you have any questions about pricing, policies, refunds, or absolutely anything else,
+                    drop our incredible <a class="m-textContent__link" target="_blank" href="mailto:help@wantoo.io">support
+                    team</a> a note and they’ll get back to you within a few minutes – promise!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="l-section l-section--offwhite l-section--blogPosts">
+        <div class="l-section__inner l-section__gutter">
+            <div class="l-blogPosts">
+                <h2 class="l-blogPosts__title m-textContent__title t-title__section">Wantoo customer success
+                    stories</h2>
+                <div class="l-blogPostsContainer">
+
+                    <div class="l-blogPosts__box">
+                        <a class="main-link" target="_blank"
+                           href="https://blog.wantoo.io/first-mars-then-managing-feedback-how-an-innovation-lab-is-iterating-a-popular-product-70d45a78355b">
+                            <div class="m-blogPost">
+                                <div class="m-blogPost__imageWrap"><img class="m-blogPost__image" style="height: 235px"
+                                                                        src="/static/landingpage/img/blog/wantoo.io_Axiom_Zen.jpg"/>
+                                </div>
+                                <div class="m-blogPost__textContainer">
+                                    <p class="m-blogPost__mainText">
+                                        <b>Axiom Zen</b><br/>
+                                        How an Innovation Lab is Iterating a Popular Product and Managing Feedback
+                                    </p>
+                                    <button class="m-blogPost__mainButton"><a target="_blank"
+                                                                              href="https://blog.wantoo.io/first-mars-then-managing-feedback-how-an-innovation-lab-is-iterating-a-popular-product-70d45a78355b"
+                                                                              class="mainButton__link">Read story</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="l-blogPosts__box">
+                        <a class="main-link" target="_blank"
+                           href="https://blog.wantoo.io/emily-carr-university-uses-wantoo-to-test-ideas-for-new-curriculum-9d5af9b5b99c">
+                            <div class="m-blogPost">
+                                <div class="m-blogPost__imageWrap"><img class="m-blogPost__image"
+                                                                        src="/static/landingpage/img/blog/emily-carr.jpg"/>
+                                </div>
+                                <div class="m-blogPost__textContainer">
+                                    <p class="m-blogPost__mainText">
+                                        <b>Emily Carr University</b><br/>
+                                        How a university gathered the right ideas to build a brand-new curriculum
+                                    </p>
+                                    <button class="m-blogPost__mainButton"><a target="_blank"
+                                                                              href="https://blog.wantoo.io/emily-carr-university-uses-wantoo-to-test-ideas-for-new-curriculum-9d5af9b5b99c"
+                                                                              class="mainButton__link">Read story</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="l-blogPosts__box">
+                        <a class="main-link" target="_blank"
+                           href="https://blog.wantoo.io/connect-ideating-a-better-global-news-industry-fa3eafef428a">
+                            <div class="m-blogPost">
+                                <div class="m-blogPost__imageWrap"><img class="m-blogPost__image"
+                                                                        src="/static/landingpage/img/blog/people.jpg"/>
+                                </div>
+                                <div class="m-blogPost__textContainer">
+                                    <p class="m-blogPost__mainText">
+                                        <b>Google News Labs</b><br/>
+                                        How Hacks/Hackers managed worldwide feedback to plan smarter conferences
+                                    </p>
+                                    <button class="m-blogPost__mainButton"><a target="_blank"
+                                                                              href="https://blog.wantoo.io/connect-ideating-a-better-global-news-industry-fa3eafef428a"
+                                                                              class="mainButton__link">Read story</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+
+
+<a target="_blank"
+   href="https://blog.wantoo.io/first-mars-then-managing-feedback-how-an-innovation-lab-is-iterating-a-popular-product-70d45a78355b#.5dsjw4f6i"
+   class="mainButton__link hover">Read story</a>
+<a target="_blank"
+   href="https://blog.wantoo.io/first-mars-then-managing-feedback-how-an-innovation-lab-is-iterating-a-popular-product-70d45a78355b#.5dsjw4f6i"
+   class="mainButton__link hover">Read story</a>

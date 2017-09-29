@@ -1,0 +1,14 @@
+Hello!
+
+A new customer has signed up for a "{{ plan_type }}" account.
+
+Here's their contact info:
+
+{{ full_name }}
+{{ author_email }}
+
+Staff Dashboard - https://wantoo.io/staff/users/
+
+Woohoo!
+
+~ Wantoobot

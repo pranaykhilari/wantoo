@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load mytags %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-activity x-white">
+    <div id="ideaList"></div>
+    <div class="_hideOnLiveSearch">
+        
+        <h2 class="-title">Notifications</h2>
+
+        <div class="comp-activity">
+            <div class="-activity-cont">
+                 {% for n in all_notifications  %}
+                <div class="-activity-item">
+                    <div class="-left-col">
+                        <img class="-profile-pic" src="{% gravatar_url n.created_by %}" alt="">
+                    </div>
+                    <div class="-right-col">
+                        <p class="-message"><a href="/{{ company.slug }}/member/{{ n.created_by.id }}/">{{ n.created_by.get_full_name }}</a>
+                        {% if n.action == 'comment_added' %}
+                            {% if n.idea.created_by == request.user %}
+                                commented on your "<a href="{{ n.idea.get_absolute_url }}">{{ n.idea.title }}</a>" idea.
+                            {% else %}                                      
+                                commented on the idea "<a href="{{ n.idea.get_absolute_url }}">{{ n.idea.title }}</a>".
+                            {% endif %}
+                        {% elif n.action == 'status_changed' %}
+                                updated the status to <strong>{{ n.status.title }}</strong> for the idea "<a href="{{ n.idea.get_absolute_url }}">{{ n.idea.title }}</a>".
+                        {% elif n.action == 'idea_submitted' %}
+                            added an idea "<a href="{{ n.idea.get_absolute_url }}">{{ n.idea.title }}</a>".
+                        {% elif n.action == 'idea_wanted' %}
+                            wants your "<a href="{{ n.idea.get_absolute_url }}">{{ n.idea.title }}</a>" idea.
+                        {% endif %}
+                        </p>
+                        <p class="-time">{{ n.created_at|better_timesince }}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock content %}

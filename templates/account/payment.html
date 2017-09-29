@@ -1,0 +1,163 @@
+{% extends "landing/base.html" %}
+
+{% load render_bundle from webpack_loader %}
+
+{% load bootstrap3 %}
+{#{% load url from future %}#}
+{% load i18n %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+
+
+  <div class=""><h2>Payment Form</h2></div>
+  <div class="-cont -loginFormCont m-signupForm">
+    <form id="signup_form" class="form-wantoo form-validate x-no-label x-cta-centred m-signupForm__form m-signupForm__form" method="post" action="">
+
+    <!--START STRIPE-->
+
+    <div class="form-group" style="border-top: 1px grey solid; padding-top: 15px;"><label class="control-label">Card Number</label><input value="4242 4242 4242 4242"class="form-control valid" id="card_number" placeholder="Card Number" required="required" type="text" size="20" data-stripe="number" aria-required="true"></div>
+
+    <div class="form-group">
+    <label class="control-label">Expiration</label>
+    <input value="12" style="width: 40%; float: left;" class="form-control valid" id="exp_month" placeholder="Month" required="required" type="text" size="2" data-stripe="exp_month" aria-required="true">
+    <input value="17" style="width: 40%; float: left; margin-left: 9px;" class="form-control valid" id="exp_year" placeholder="Year" required="required" type="text" size="2" data-stripe="exp_year" aria-required="true">
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div class="form-group"><label value="123" class="control-label">CVC</label><input value="123" class="form-control valid" id="card_ccv" placeholder="CVC" required="required" type="text" size="4" data-stripe="cvc" aria-required="true"></div>
+
+    <!--END STRIPE-->
+
+    {% csrf_token %}
+
+    <div class="form-group" style="display: none;">
+      <label class="control-label" for="id_password1">Plan Type</label>
+      <input value="free" class="form-control valid" id="plan_type" name="plan_type">
+    </div>
+
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> 
+    {% endif %}
+    {% buttons %}
+          <button class="btn-fill-primary btn-fill-pink m-signupForm__submit getStarted" type="submit" data-label="Sign up - signup page" onClick="this.form.submit();" >Get Started</button>
+          {% endbuttons %}
+          <span class="payment-errors"></span>
+    </form>
+  </div>
+
+              
+<section class="l-section l-section--offwhite l-section--funnelCompanies">
+  <div class="l-section__inner l-section__gutter">
+    <div class="m-funnelCompanies">
+      <h2 class="m-funnelCompanies__title t-title__section">Trusted by the world's best</h2>
+      <div class="m-funnelCompaniesContainer">
+          <img class="m-funnelCompanies__image" src="/static/landingpage/img/company_newslab.png" />
+          <img class="m-funnelCompanies__image" src="/static/landingpage/img/company_rockfeller.png" />
+          <img class="m-funnelCompanies__image" src="/static/landingpage/img/company_nycu.png" />
+          <img class="m-funnelCompanies__image" src="/static/landingpage/img/company_emilycarr.png" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/static/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  Stripe.setPublishableKey('pk_test_vlmK04meXjl57pC5tWKXRzGJ');
+</script>
+<script>
+  //loop for multiple forms on page
+  $('.form-validate').each(function(index, form){
+    $(form).validate({ errorPlacement: function(error, element) {} });
+  });
+
+  $('.form-validate').on('keyup', function(){
+    var self = this;
+    console.log($(this).valid());
+
+    //if valid, enalbed button. If not valid keep button disabled
+    if($(this).valid()) {
+      console.log("here");
+      console.log($(self).find('button[type="submit"]'));
+      $(self).find('button[type="submit"]').prop('disabled', false);
+    } else {
+      if(!$(self).find('button[type="submit"]').prop('disabled')) {
+        $(self).find('button[type="submit"]').prop('disabled', true);
+      }
+    }
+  });
+
+  $('.form-validate').on('change', function(){
+    var self = this;
+    console.log($(this).valid());
+
+    //if valid, enalbed button. If not valid keep button disabled
+    if($(this).valid()) {
+      console.log("here");
+      console.log($(self).find('button[type="submit"]'));
+      $(self).find('button[type="submit"]').prop('disabled', false);
+    } else {
+      if(!$(self).find('button[type="submit"]').prop('disabled')) {
+        $(self).find('button[type="submit"]').prop('disabled', true);
+      }
+    }
+  });
+
+  function stripeResponseHandler(status, response) {
+    // Grab the form:
+    var $form = $('#signup_form');
+
+    if (response.error) { // Problem!
+
+      // Show the errors on the form:
+      $form.find('.payment-errors').text(response.error.message);
+      $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+      console.log('STRIPE FAILURE');
+
+    } else { // Token was created!
+
+      // Get the token ID:
+      var token = response.id;
+
+      // Insert the token ID into the form so it gets submitted to the server:
+      $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+      console.log('STRIPE SUCCESS');
+
+      // Submit the form:
+      //$form.get(0).submit();
+    }
+  };
+
+  $(function() {
+    var $form = $('#signup_form');
+    $form.submit(function(event) {
+      event.preventDefault();
+
+      console.log('STRIPE SUMBITED');
+      // Disable the submit button to prevent repeated clicks:
+      $form.find('.submit').prop('disabled', true);
+
+      // Request a token from Stripe:
+      Stripe.card.createToken($form, stripeResponseHandler);
+
+      // Prevent the form from being submitted:
+      return false;
+    });
+  });
+</script>
+
+{% endblock %}
+
+

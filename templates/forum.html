@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load mytags %}
+
+{% block content %}
+
+<div class="comp-contMain">
+<div class="view view-main">
+
+<h2 class="-idea-count _idea-count"> {{ company.question }} </h2>
+<div class="row-sm _filterBar" {% if company.blank_home %}style="display:none;"{% endif %}>
+
+{% include 'partials/_filter_bar.html' %}
+</div>
+
+{% include 'partials/_idea_list.html' %}
+
+{% if ideas.paginator.num_pages > 1 %}
+    <ul class="pagination pagination-centered">
+        {% if ideas.has_previous %}
+            <li><a href="?page={{ ideas.previous_page_number }}&status={{ status.id }}&sort={{request.GET.sort}}">&laquo; Prev</a></li>
+        {% endif %}
+
+            <li class="active"><a>{{ ideas.number }} of {{ ideas.paginator.num_pages }}</a></li>
+
+        {% if ideas.has_next %}
+            <li><a href="?page={{ ideas.next_page_number }}&status={{ status.id }}&sort={{request.GET.sort}}">Next &raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endif %}
+</div>
+</div>
+{% endblock content %}

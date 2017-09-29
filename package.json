@@ -1,0 +1,60 @@
+{
+  "name": "wantoo-mars",
+  "version": "1.0.0",
+  "description": "Wantoo is a software platform for customer feedback.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allwantoo/wantoo-mars.git"
+  },
+  "bugs": {
+    "url": "https://github.com/allwantoo/wantoo-mars/issues"
+  },
+  "author": "Wantoo Networks Inc.",
+  "scripts": {
+    "dev": "webpack --progress --colors && webpack-dev-server",
+    "build": "webpack --config webpack.prod.config.js --progress --colors",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.1.0",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "classnames": "^2.2.1",
+    "clean-webpack-plugin": "^0.1.9",
+    "css-loader": "^0.23.1",
+    "cssnext": "^1.8.4",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "grunt": "^0.4.5",
+    "grunt-cache-breaker": "^2.0.1",
+    "grunt-contrib-stylus": "^0.22.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "install": "^0.4.0",
+    "load-grunt-config": "^0.17.2",
+    "npm": "^3.5.1",
+    "react": "^0.14.6",
+    "react-dnd": "^2.1.4",
+    "react-dnd-html5-backend": "^2.1.2",
+    "react-dom": "^0.14.3",
+    "react-hot-loader": "^1.3.0",
+    "react-modal": "^1.4.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
+    "style-loader": "^0.13.0",
+    "stylus-loader": "^2.3.1",
+    "uglify-loader": "^1.3.0",
+    "webpack": "^1.12.12",
+    "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "react-color": "^2.2.2",
+    "redux-form": "^5.3.2",
+    "redux-thunk": "^2.1.0",
+    "striptags": "^2.1.1",
+    "uuid": "^2.0.2"
+  }
+}

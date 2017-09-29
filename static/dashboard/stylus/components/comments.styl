@@ -1,0 +1,152 @@
+.comp-comments
+	position relative
+	width 100%
+	clearfix()
+	
+	.-col-left
+		width 53px
+		left 0
+		top 0
+		
+	.-col-right	
+		margin-left 53px
+	
+	.-pill
+		cursor pointer
+		display none
+		position fixed
+		top 230px
+		margin-left 35%
+		z-index 1002
+		padding 5px 15px
+		background #fff
+		border-radius 15px
+	
+	.-comments-title
+		font-size 18px
+		
+		span
+			font-weight bold
+			
+			&.-comment-count
+				font-weight normal
+			
+	
+	.-inner-cont
+		clearfix()
+		max-width 875px
+		width 100%
+		margin 0 auto
+		
+	
+	.-chat-box
+		background #fff
+		position relative
+		
+		.-btns-cont	
+			clearfix()
+			margin-top 10px
+			display none
+			
+			button 
+				float left
+				
+		.-profile-pic
+			float left
+			display block
+			width 33px
+			height 60px
+			margin-top 5px
+			
+			img
+				width 100%
+				border-radius 50%
+								
+    .-chat-input
+			width 100%	
+			height 40px
+			max-height 125px
+			border 1px solid #dddddd
+			resize none
+			font-size 16px
+			outline none
+			border-radius 2px
+			padding 7px 0 0 10px
+	
+	.-comment	
+		margin-bottom 33px
+		position relative
+		float left
+		width 100%
+		
+		.-delete
+			background-image url('/static/dashboard/img/icons/icon_trash.svg')
+			display inline-block
+			width 12px
+			height 12px
+			margin-left 13px
+			margin-bottom -3px
+			background-size 100%
+			background-repeat no-repeat
+			
+			&:hover
+				opacity .8
+		
+		.-name
+			font-size 12px
+			color #a7a7a7
+			
+			a
+				color #a7a7a7
+				text-decoration none
+		
+		.-profile-pic
+			float left
+			display block
+			width 33px
+			height 60px
+			position absolute
+			left 0
+			top 26px
+			
+			img
+				width 100%
+				border-radius 50%
+		
+		.-text
+			border-radius 4px
+			padding 5px 15px
+			margin 5px 0 0
+
+			white-space pre-wrap
+			white-space -moz-pre-wrap
+			white-space -pre-wrap
+			white-space -o-pre-wrap
+			word-wrap break-word
+			
+		&.-myself			
+			.-text
+				background #c9e3e9
+
+		&.-others			
+			.-text
+				border 1px solid offwhite
+				background #ebebeb
+
+@media (max-width: 650px)
+	.comp-comments
+		.-comments-title
+			font-size 12px
+		
+		.-col-right
+			margin-left 45px	
+		
+		.-comment
+			.-name
+				font-size 10px
+				
+			.-text
+				font-size 12px
+				
+			.-profile-pic
+				width 29px						

@@ -1,0 +1,96 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-pricingItem__basic
+  padding 20px 0 0 0
+  height 840px
+  color #fff
+  background brown
+  box-shadow 2px 3px 7px brown
+  z-index 100
+  .m-pricingItem__tag
+    margin 0
+    padding 0
+    height 30px
+    font-size 14px
+    text-transform uppercase
+    color brandPrimary
+  .m-pricingItem__blurb
+    background brandPrimary
+
+.m-pricingItem__premium
+.m-pricingItem__free
+  height 810px
+  padding-top 50px
+  .m-pricingItem__blurb
+    color #fff
+    background brown
+
+.m-pricingItem
+  position relative
+  text-align center
+  .m-pricingItem__title
+    margin 10px 0
+    font-size 28px
+  .m-pricingItem__price
+    margin 0
+    font-size 64px
+  .m-pricingItem__commitment
+    margin 15px 0 25px 0
+    font-size 14px
+  .m-pricingItem__blurb
+    margin 95px 0 15px 0
+    padding 5px 0
+    font-size 14px
+    text-align center
+  .m-pricingItem__link
+    position relative
+    top 25px
+
+.m-pricingList
+  margin 0 30px
+  font-weight 600
+  font-size 14px
+  text-align left
+  line-height 30px
+
+@media screen and (max-width: max-mobile-screen)
+  .m-pricingItem__basic
+    padding 20px 0
+    height auto
+    box-shadow none
+
+  .m-pricingItem__premium
+  .m-pricingItem__free
+    padding-top 10px
+    height auto
+
+  .m-pricingItem
+    .m-pricingItem__title
+      font-size 22px
+    .m-pricingItem__price
+      font-size 22px
+    .m-pricingItem__blurb
+      display none
+    .m-pricingItem__link
+      display block
+      position relative
+      width 30%
+      left auto
+      bottom auto
+      margin 20px auto
+      font-size 14px
+      top 0
+    .m-pricingList
+      display none
+
+@media screen and (max-width: 960px)
+  .m-pricingItem
+    .m-pricingItem__link
+      font-size 12px
+  .m-pricingList
+    font-size 12px
+
+@media screen and (min-width: 951px) and (max-width: 1199px)
+  .m-pricingItem
+    .m-pricingItem__link
+      font-size 14px

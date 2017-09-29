@@ -1,0 +1,26 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-pricing__title
+  margin 0
+  padding 0 0 120px 0
+.l-pricing
+  @extend .clearfix
+  background-color offwhite
+  border 1px solid lightgrey
+  position relative
+  .l-pricing__item
+    float left
+    width 33.333333333%
+    height 100%
+
+.l-pricing-sidenote
+  margin 10px 0 0 0
+  color lightgrey
+  font-size 14px
+  text-align center
+@media screen and (max-width: max-mobile-screen)
+  .l-pricing
+    .l-pricing__item
+      float none
+      margin 0 auto
+      width 100%

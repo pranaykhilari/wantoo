@@ -1,0 +1,19 @@
+.m-liveDemo
+	iframe
+		border 1px solid #CCCCCC
+		display block
+		margin -35% auto 95px
+		max-width 1065px
+		width 100%
+
+		&.m-liveDemo__small
+			display none 
+
+@media screen and (max-width: 650px)
+	.m-liveDemo
+		iframe
+			&.m-liveDemo__large
+				display none
+			
+			&.m-liveDemo__small
+				display block	

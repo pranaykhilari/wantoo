@@ -1,0 +1,300 @@
+{% extends "preferences/base.html" %}
+
+{% block settings_content %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="//oss.maxcdn.com/jquery.form/3.50/jquery.form.min.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <style>
+        .has-error .form-control {
+            border-color: red !important;
+        }
+        #valid_promo_code {
+                     color: blue;
+                    }
+        #invalid_promo_code {
+                     color: red;
+                    }
+    </style>
+    <form action="{% url 'update_subscription' %}" id='subscribe-form-id' method="POST"
+          class="form form-wantoo -settings-form subscription-form" autocomplete="on">
+        {% csrf_token %}
+        <div class="form-group">
+              <h1><b> Plan type: {{ plan.name }}</b><br/></h1>
+         {#            <h5><b> {{ plan.trial_period_days }} day trial then {{ plan.amount }} {{ plan.currency }} / month - Cancel anytime.</b></h5>#}
+            {% if plan.plan_type == "pro_25_monthly"  %}
+                <h5><b> {{ plan.trial_period_days }} day trial then {{ plan.amount }} {{ plan.currency }} / month - Cancel anytime.</b></h5>
+                <p>Go Wantoo PRO. You can unlock more powerful tools with Wantoo PRO. You can merge ideas,
+                    integrate your board activity with a Slack channel, listen in on Twitter and convert
+                    tweets to ideas, view community analytics, and more. Start your free PRO trial now!
+                </p>
+            {% elif plan.plan_type == "pro_25_monthly_without_trial" or plan.plan_type == "starter_monthly_without_trial"  %}
+                <h5><b>Free trial option not available as our records indicate that you've previously redeemed a free trial.</b></h5>
+                <h5><b>{{ plan.amount }} {{ plan.currency }} / month - Cancel anytime.</b></h5>
+                <p>Go Wantoo PRO. You can unlock more powerful tools with Wantoo PRO. You can merge ideas,
+                    integrate your board activity with a Slack channel, listen in on Twitter and convert
+                    tweets to ideas, view community analytics, and more.
+                </p>
+
+             {% else %}
+                <h5><b> {{ plan.trial_period_days }} day trial then {{ plan.amount }} {{ plan.currency }} / month - Cancel anytime.</b></h5>
+                <p>
+                    Wantoo is a simple, powerful platform that makes it easy to listen, analyze, and act on feedback from your team,
+                    your customers or anyone else. Helping you make more confident product decisions. Keep your customers in the loop
+                    with automatic updates. Start your free trial now!
+                </p>
+            {% endif %}
+        </div>
+
+
+        <div class="form-group">
+            <label for="Expiration">Name on card</label>
+            <input class="cardname form-control" type="text" data-stripe="name" value="{{ name }}" required>
+        </div>
+
+        <label for="card_no">Card number</label>
+        <div class="form-group">
+            <input type="text" class="form-control cc-num" data-stripe="number" value="{{ card_no }}" style="display: inline" required
+                   autocomplete="cc-num">
+            <a href="#" data-toggle="tooltip"
+               title="We safeguard your payment information with SSL (Secure Sockets Layer) when sent over the internet. SSL encrypts payment information so that it can't be intercepted by a third party. Wantoo does not store your credit card information.">
+                <img src="/static/logos/gly-ok.png" style="width: 25px;margin-left: 10px;"></a>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3 col-md-3">
+                <label for="exp_month">Expires</label>
+                <div class="form-group">
+                    {% if not exp_month == "" %}
+                        <input type="text" data-stripe="exp_month" placeholder=" MM/YY "  class="form-control cc-exp"
+                           required autocomplete="cc-exp" maxlength="7">
+                    {% else %}
+                        <input type="text" data-stripe="exp_month" placeholder=" MM/YY "  class="form-control cc-exp"
+                           required autocomplete="cc-exp" value="{{ exp_month }} / {{ exp_year }} "maxlength="7">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-xs-2 col-md-2">
+                <label for="CVC">CVC</label>
+                <div class="form-group">
+                    <input class="form-control cc-cvc" type="text" data-stripe="cvc" placeholder=" 555" required
+                           autocomplete="off">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="promo_code">Promo code </label> <span style="color: grey">(optional)</span>
+            <input name="promo" class="promo-code form-control" type="text" data-stripe="coupon" id="promo_code">
+            <p id="invalid_promo_code"></p>
+            <p id="valid_promo_code"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label><span style="color:grey;"> (invoices will be sent to this email)</span>
+            <input class="email-field form-control" type="text" name="email" data-stripe="email" value="{{ email }}"
+                   required>
+        </div>
+
+        <p>If you don't cancel your subscription before the trial ends, you agree that you will automatically be charged
+            the subscription fee every month until you cancel. Full terms are available
+            <a href="/terms-of-use" style="color: #e94095">here.</a>
+        </p>
+        <input type="hidden" name="plan_type" value="{{ plan.plan_type }}" />
+        <p>
+            <button id="submit-btn" class="btn-fill-primary" type="submit" value="Submit Payment" disabled>Update subscription</button>
+            <a href="/accounts/preferences/subscription" class="-btn-cancel btn-fill-transparent">Cancel</a>
+
+        </p>
+    </form>
+
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+            // click on submit button
+
+             $(".subscription-form").submit(function(e){
+                e.preventDefault(e);
+                 var promo_code = $('.promo-code').val();
+                 if(promo_code) {
+                     $('#submit-btn').attr("disabled",true);
+                     setTimeout(function () {
+                         validateSubscription(e);
+                     }, 100)
+                 }else{
+                     $('#submit-btn').attr("disabled",true);
+                     submitSubscription(e);
+                 }
+            });
+
+            // validate the promo code for valid subscription...
+
+            function validateSubscription(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: '{% url 'stripecoupon' %}',
+                    data: {coupon_code: $('.promo-code').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "fail") {
+                            document.getElementById("invalid_promo_code").innerHTML = "Invalid promo code";
+                            $(".subscription-form button[type='submit']").prop("disabled", true);
+                            e.preventDefault()
+
+                        }
+                        else {
+                            document.getElementById("valid_promo_code").innerHTML = "Valid promo code";
+                            $(".subscription-form button[type='submit']").prop("disabled", false);
+                            $('#invalid_promo_code').hide();
+                            submitSubscription(e);
+                        }
+                    }
+                });
+            }
+
+            // submit the subscription with promocode and withou promo code....
+
+            function submitSubscription(e){
+                e.preventDefault();
+                var name = $('.cardname').val();
+                var number = $('.cc-num').val();
+                var expgroup = $('.cc-exp').val();
+                var expArray = expgroup.split('/');
+                var expmm = parseInt(expArray[0]);
+                var expyy = parseInt(expArray[1]);
+                var cvc = $('.cc-cvc').val();
+
+                // form validation
+                var cardType = $.payment.cardType(number);
+                var cc_num = $('.cc-num').toggleInputError(!$.payment.validateCardNumber(number));
+                var cc_exp = $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+                var cc_cvc = $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+                if (cc_num.parent('.form-group').hasClass('has-error') ||
+                    cc_exp.parent('.form-group').hasClass('has-error') ||
+                    cc_cvc.parent('.form-group').hasClass('has-error')) {
+                    return false;
+                }
+                // Disable the submit button to prevent repeated clicks and form submit
+                $(".subscription-form button[type='submit']").prop("disabled", true);
+                // createToken returns immediately - the supplied callback
+                // submits the form if there are no errors
+
+                Stripe.createToken({
+                    name: name,
+                    number: number,
+                    cvc: cvc,
+                    exp_month: parseInt(expmm),
+                    exp_year: parseInt(expyy)
+                }, stripeResponseHandler);
+                return false; // submit from callback
+            }
+
+            // remove the error message during wrong promo code
+
+            $('.promo-code').keyup(function (e) {
+              var promo_code = $('.promo-code').val();
+              if(!promo_code){
+                  document.getElementById("invalid_promo_code").innerHTML = "";
+                  $(".subscription-form button[type='submit']").prop("disabled", false);
+              }
+            });
+
+
+            <!-- Setting the stripe publishable key.-->
+            Stripe.setPublishableKey('{{ stripe_publishable_key }}');
+
+            $('[data-toggle="tooltip"]').tooltip({placement: 'top'});
+            $('.cc-num').payment('formatCardNumber');
+            $('.cc-exp').payment('formatCardExpiry');
+            $('.cc-cvc').payment('formatCardCVC');
+
+            $.fn.toggleInputError = function (erred) {
+                this.parent('.form-group').toggleClass('has-error', erred);
+                return this;
+            };
+
+            // form validation check..
+
+            $(".subscription-form input[required]").keyup(function () {
+                var empty = false;
+                $(".subscription-form input[required]").each(function () {
+                    if ($(this).val() == "") {
+                        empty = true;
+                    }
+                });
+                if (empty) {
+                    $(".subscription-form button[type='submit']").prop("disabled", true);
+                } else {
+                    $(".subscription-form button[type='submit']").prop("disabled", false);
+                }
+            });
+
+            // Call back function for stripe response.
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    // Re-enable the submit button
+                    $('.submit-button').removeAttr("disabled");
+                    // Show the errors on the form
+                    stripeErrorDisplayHandler(response);
+                } else {
+                    var form = $(".subscription-form");
+                    // Getting token from the response json.
+                    var token = response['id'];
+                    // insert the token into the form so it gets submitted to the server
+                    if ($("input[name='stripeToken']").length == 1) {
+                        $("input[name='stripeToken']").val(token);
+                    } else {
+                        form.append("<input type='hidden' name='stripeToken' value='" + token + "' />");
+                    }
+                    var options = {
+                        success: subscribeResponseHandler,
+                        complete: function () {
+                         window.location.href= "{% url 'subscription' %}"
+                        },
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        dataType: 'json'
+                    };
+                    // Doing AJAX form submit to your server.
+                    form.ajaxSubmit(options);
+                    return false;
+                }
+            }
+
+            // Forward to thank you page after receiving success response.
+            function subscribeResponseHandler(responseJSON) {
+                window.location.replace(responseJSON.forward);
+            }
+
+            // Handling the error from stripe server due to invalid credit card credentials.
+            function stripeErrorDisplayHandler(response) {
+                //Card field map - the keys are taken from error param values sent from stripe
+                //                 and the values are error class name in the form.
+                var errorMap = {
+                    "number": "card-number",
+                    "cvc": "card-cvc",
+                    "exp_month": "card-expiry-month",
+                    "exp_year": "card-expiry-year"
+                };
+                //Check if param exist in error
+                if (response.error.param) {
+                    var paramClassName = errorMap[response.error.param];
+                    if (paramClassName) {
+                        //Display error in found class
+                        $('.' + paramClassName)
+                                .parents('.form-group')
+                                .find('.text-danger')
+                                .text(response.error.message).show();
+                    } else {
+                        $(".alert-danger").show().text(response.error.message);
+                    }
+                } else {
+                    $(".alert-danger").show().text(response.error.message);
+                }
+            }
+        });
+
+    </script>
+{% endblock settings_content %}
+

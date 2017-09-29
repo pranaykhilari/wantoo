@@ -1,0 +1,45 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-textContent
+  margin 120px 0
+  .m-textContent__title
+    padding 0 20px
+    margin 0 auto 20px auto
+    max-width 800px
+  .m-textContent__blurb
+    color grey
+    text-align center
+    font-weight 200
+    line-height 35px
+    margin 0 auto 65px
+    max-width 853px
+    .m-textContent__link
+      text-decoration none
+      &:hover
+        text-decoration underline
+  .m-textContent__image
+    width 50%
+    margin 30px auto
+    padding 0 25%
+    user-drag none
+    user-select none
+    -moz-user-select none
+    -webkit-user-drag none
+    -webkit-user-select none
+    -ms-user-select none
+    &.image__large
+      width 94%
+      margin 60px auto
+      padding 0 3%
+  .m-textContent__cta
+    margin 30px auto
+    color brown
+    font-weight 600
+    text-align center
+    text-transform uppercase
+@media screen and (max-width: max-mobile-screen)
+  .m-textContent
+    padding 0 10px
+    .m-textContent__image
+      width 94%
+      padding 0 3%

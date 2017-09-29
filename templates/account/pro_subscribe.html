@@ -1,0 +1,402 @@
+{% extends "landing/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block content %}
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="//oss.maxcdn.com/jquery.form/3.50/jquery.form.min.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.js"></script>
+    {% load render_bundle from webpack_loader %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    {% render_bundle 'vendor' 'js' %}
+{#    {% providers_media_js %}#}
+    {% get_company as company %}
+    <style>
+        .has-error .form-control {
+            border-color: red !important;
+        }
+        #valid_promo_code {
+                     color: blue;
+                    }
+        #invalid_promo_code {
+            color: red;
+        }
+
+    </style>
+    <section class="l-section l-section--white l-section--main l-section--funnel">
+        <div class="l-section__inner l-section__gutter">
+            <div class="l-funnel">
+                <div class="l-funnelContainer">
+                    <div class="l-funnel__box">
+                    <div class="main_signup_container">
+                        <div class="m-funnel__text">
+                            <h2 class="m-funnel__title t-title__header">
+                                Go Wantoo PRO
+                            </h2>
+                            <p class="m-funnel__blurb">
+                                <b> Free 30-day trial, then $25/mo - cancel anytime.</b>
+                                <br><br> Unlock more powerful tools with Wantoo PRO. You can merge ideas, integrate your work with a Slack channel, listen in on Twitter, view community analytics, and much more. Wantoo PRO includes everything in STARTER, plus:
+                                <ul class="plan_feature_list">
+                                    <li class="plan_feature_list">Private boards</li>
+                                    <li class="plan_feature_list">Slack integration</li>
+                                    <li class="plan_feature_list">Twitter integration</li>
+                                    <li class="plan_feature_list">Idea merging & deduplication</li>
+                                    <li class="plan_feature_list">Machine learning</li>
+                                    <li class="plan_feature_list">Statistics dashboard</li>
+                                    <li class="plan_feature_list">Multiple admins</li>
+                                    <li class="plan_feature_list">Dedicated support</li>
+                                    <li class="plan_feature_list">Custom coaching</li>
+                                </ul>
+                            </p>
+                            <p class="m-funnel__contact">
+                            <p></p>
+                            Have a question? Ask us at <a href="mailto:hello@wantoo.io" class="mail_color">hello@wantoo.io</a>
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="l-funnel__box">
+                        <div class="m-funnel__form">
+                            <div class="m-signupForm ">
+                                <h2 class="m-signupForm__title">
+                                    <span class="plan_title">Start your plan today</span>
+                                </h2>
+                                <div class="-cont -loginFormCont m-signupForm ">
+                                    <form action="{% url 'update_subscription' %}" id="subscribe-form-id" method="POST"
+                                          class="m-signupForm__form subscription-form -settings-form "
+                                          autocomplete="on">
+                                        {% csrf_token %}
+                                        {{ plan_type }}
+                                        <div class="form-group">
+                                            <label for="Expiration">Name on card</label>
+                                            <input class="cardname form-control" type="text" data-stripe="name"
+                                                   required>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="card_no">Card number</label>
+
+                                            <input type="text" class="form-control cc-num" data-stripe="number"
+                                                   style="display: inline" required
+                                                   autocomplete="cc-num">
+                                            <a href="#" data-toggle="tooltip"
+                                                   title="We safeguard your payment information with SSL (Secure Sockets Layer) when sent over the internet. SSL encrypts payment information so that it can't be intercepted by a third party. Wantoo does not store your credit card information.">
+                                                    <img src="/static/logos/gly-ok.png" class="glyphicon_image"></a>
+                                        </div>
+
+                                        <div style="width:100%; display:-webkit-box">
+                                            <div class="form-group " style="width:35%; margin-right:43px;">
+                                                <label for="exp_month">Expires</label>
+                                                {% if not exp_month == "" %}
+                                                    <input type="text" data-stripe="exp_month" placeholder=" MM/YY "
+                                                           class="form-control cc-exp"
+                                                           required autocomplete="cc-exp" maxlength="7">
+                                                {% else %}
+                                                    <input type="text" data-stripe="exp_month" placeholder=" MM/YY "
+                                                           class="form-control cc-exp"
+                                                           required autocomplete="cc-exp" maxlength="7">
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group" style="width:30%">
+                                                <label for="CVC">CVC</label>
+                                                <input class="form-control cc-cvc" id="cvc" type="text"
+                                                       data-stripe="cvc"
+                                                       placeholder=" 555" required
+                                                       autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="promo_code">Promo code <span class="optional">(optional)</span></label>
+                                            <input name="promo" class="promo-code form-control" type="text" data-stripe="coupon" id="promo_code">
+                                            <p id="invalid_promo_code"></p>
+                                            <p id="valid_promo_code"></p>
+                                        </div>
+                                        <div class="form-group" style="display: none">
+                                            <input class="email-field form-control" type="text" name="email"
+                                                   data-stripe="email" value="{{ email }}" required>
+                                        </div>
+                                        <input type="hidden" name="plan_type" value="{{ plan }}"/>
+                                        <div class="form-group">
+
+                                            <h5><span class="plan_details">If you don't cancel your subscription before the trial ends, you agree that you will automatically can be charged the subscription fee every month until you cancel. Full terms are available <a
+                                                    href="https://wantoo.io/terms-of-use/" style="color: #e94095">here.</a></span></h5>
+                                        </div>
+                                        <div class="plan_submit_button">
+                                        <button id="submit-btn" class="btn-fill-primary btn-fill-pink m-signupForm__submit getStarted"
+                                                type="submit" value="Submit Payment" disabled>subscribe
+                                        </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section l-section--white l-section--funnelQuote">
+	<div class="l-section__inner l-section__nospace l-section__gutter div_logos">
+		<div class="m-funnelQuote">
+			<h2 class="m-funnelQuote__title t-title__section">
+				"Wantoo is a simple and really intuitive tool. We now have a very clear list of insights, prioritized by our users, of what we should build next."
+			</h2>
+			<div class="m-funnelQuote__authorContainer">
+				<div class="m-funnelQuote__imageContainer">
+					<img class="m-funnelQuote__image" src="/static/landingpage/img/Quote_Customer_Photo.png" />
+				</div>
+				<div class="m-funnelQuote__textContainer">
+					<h3 class="m-funnelQuote__author">
+						Alec Morgana
+					</h3>
+					<p class="m-funnelQuote__authorTitle">
+						Head of Marketing, ZenHub (Axiom Zen)
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+    <section class="l-section l-section--offwhite l-section--funnelCompanies">
+        <div class="l-section__inner l-section__gutter">
+            <div class="m-funnelCompanies full_width" style="padding: 60px 0;">
+                <h2 class="m-funnelCompanies__title t-title__section">Trusted by the world's best</h2>
+                <div class="m-funnelCompaniesContainer full_width">
+                    <div class="logos_inline" style="margin-bottom: 4%">
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/google.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/DarkRoom.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/PRO_Signup_Website.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/ECU.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/voxist.png"/></div>
+
+                    </div>
+                    <div class="logos_inline">
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/ElasticPath.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/Van_Hack.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/AxiomZen.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/AirForge.png"/></div>
+
+                        <div class="m-funnelCompanies__image col-lg-2 col-md-2 col-sm-6 col-xs-12 logo_height">
+                            <img class="full_width" src="/static/landingpage/img/queens.png"/></div>
+
+
+                    </div>
+
+                    <div class="starter_footer_button">
+                        <a href="#" class="btn-fill-pink starter_try_it_button">Try it free</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script type="text/javascript">
+       $( document ).ready(function() {
+
+            $(".subscription-form").submit(function(e){
+                e.preventDefault(e);
+                 var promo_code = $('.promo-code').val();
+                 if(promo_code) {
+                     $('#submit-btn').attr("disabled",true);
+                     setTimeout(function () {
+                         validateSubscription(e);
+                     }, 100)
+                 }else{
+                     $('#submit-btn').attr("disabled",true);
+                     submitSubscription(e);
+                 }
+            });
+
+            // validate the promo code for valid subscription...
+
+            function validateSubscription(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: '{% url 'stripecoupon' %}',
+                    data: {coupon_code: $('.promo-code').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "fail") {
+                            document.getElementById("invalid_promo_code").innerHTML = "Invalid promo code";
+                            $(".subscription-form button[type='submit']").prop("disabled", true);
+                            e.preventDefault()
+
+                        }
+                        else {
+                            document.getElementById("valid_promo_code").innerHTML = "Valid promo code";
+                            $(".subscription-form button[type='submit']").prop("disabled", false);
+                            $('#invalid_promo_code').hide();
+                            submitSubscription(e);
+                        }
+                    }
+                });
+            }
+
+            // submit the subscription with promocode and withou promo code....
+
+            function submitSubscription(e){
+                e.preventDefault();
+                var name = $('.cardname').val();
+                var number = $('.cc-num').val();
+                var expgroup = $('.cc-exp').val();
+                var expArray = expgroup.split('/');
+                var expmm = parseInt(expArray[0]);
+                var expyy = parseInt(expArray[1]);
+                var cvc = $('.cc-cvc').val();
+
+                // form validation
+                var cardType = $.payment.cardType(number);
+                var cc_num = $('.cc-num').toggleInputError(!$.payment.validateCardNumber(number));
+                var cc_exp = $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+                var cc_cvc = $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+                if (cc_num.parent('.form-group').hasClass('has-error') ||
+                    cc_exp.parent('.form-group').hasClass('has-error') ||
+                    cc_cvc.parent('.form-group').hasClass('has-error')) {
+                    return false;
+                }
+                // Disable the submit button to prevent repeated clicks and form submit
+                $(".subscription-form button[type='submit']").prop("disabled", true);
+                // createToken returns immediately - the supplied callback
+                // submits the form if there are no errors
+
+                Stripe.createToken({
+                    name: name,
+                    number: number,
+                    cvc: cvc,
+                    exp_month: parseInt(expmm),
+                    exp_year: parseInt(expyy)
+                }, stripeResponseHandler);
+                return false; // submit from callback
+            }
+
+            // remove the error message during wrong promo code
+
+            $('.promo-code').keyup(function (e) {
+              var promo_code = $('.promo-code').val();
+              if(!promo_code){
+                  document.getElementById("invalid_promo_code").innerHTML = "";
+                  $(".subscription-form button[type='submit']").prop("disabled", false);
+              }
+            });
+
+            <!-- Setting the stripe publishable key.-->
+            Stripe.setPublishableKey('{{ stripe_publishable_key}}');
+            $('.cc-num').payment('formatCardNumber');
+
+            $('.cc-exp').payment('formatCardExpiry');
+            $('.cc-cvc').payment('formatCardCVC');
+            $.fn.toggleInputError = function (erred) {
+                this.parent('.form-group').toggleClass('has-error', erred);
+                return this;
+            };
+{#            $(document).tooltip({#}
+{#            });#}
+
+            $(".subscription-form input[required]").keyup(function () {
+                var empty = false;
+                $(".subscription-form input[required]").each(function () {
+                    if ($(this).val() == "") {
+                        empty = true;
+                    }
+                });
+                if (empty) {
+                    $(".subscription-form button[type='submit']").prop("disabled", true);
+                } else {
+                    $(".subscription-form button[type='submit']").prop("disabled", false);
+                }
+            });
+
+             // Call back function for stripe response.
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    // Re-enable the submit button
+                    $('.submit-button').removeAttr("disabled");
+                    // Show the errors on the form
+                    stripeErrorDisplayHandler(response);
+                } else {
+                    var form = $(".subscription-form");
+                    // Getting token from the response json.
+                    var token = response['id'];
+                    // insert the token into the form so it gets submitted to the server
+                    if ($("input[name='stripeToken']").length == 1) {
+                        $("input[name='stripeToken']").val(token);
+                    } else {
+                        form.append("<input type='hidden' name='stripeToken' value='" + token + "' />");
+                    }
+                    var options = {
+                        success: subscribeResponseHandler,
+                        complete: function () {
+                           window.location.href= "{% url 'my_boards' %}"
+                        },
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        dataType: 'json'
+                    };
+                    // Doing AJAX form submit to your server.
+                    form.ajaxSubmit(options);
+                    return false;
+                }
+            }
+
+            // Forward to thank you page after receiving success response.
+            function subscribeResponseHandler(responseJSON) {
+                window.location.replace(responseJSON.forward);
+            }
+
+            // Handling the error from stripe server due to invalid credit card credentials.
+            function stripeErrorDisplayHandler(response) {
+                //Card field map - the keys are taken from error param values sent from stripe
+                //                 and the values are error class name in the form.
+                var errorMap = {
+                    "number": "card-number",
+                    "cvc": "card-cvc",
+                    "exp_month": "card-expiry-month",
+                    "exp_year": "card-expiry-year"
+                };
+                //Check if param exist in error
+                if (response.error.param) {
+                    var paramClassName = errorMap[response.error.param];
+                    if (paramClassName) {
+                        //Display error in found class
+                        $('.' + paramClassName)
+                                .parents('.form-group')
+                                .find('.text-danger')
+                                .text(response.error.message).show();
+                    } else {
+                        $(".alert-danger").show().text(response.error.message);
+                    }
+                } else {
+                    $(".alert-danger").show().text(response.error.message);
+                }
+            }
+
+        });
+    </script>
+
+
+{% endblock %}

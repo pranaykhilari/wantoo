@@ -1,0 +1,22 @@
+<p>Hey, {{ first_name }}!</p>
+
+<p>People are commenting on the idea <a href="{{ idea_url }}">{{ comment.idea.title }}</a>.
+
+<p>
+    <strong><a href="{{ author_url }}">{{ comment.created_by.get_full_name }}</a> commented:</strong><br/>
+    <em>{{ comment.comment }}...</em>
+    <br/><br/>
+    <a href="{{ idea_url }}">Reply to this comment</a>
+</p>
+
+<p>
+    
+</p>
+
+<br/><br/>
+<p>
+<small>
+<strong>Sent from {{ comment.idea.company.title }}.</strong><br/><br/>
+This message was sent to {{ user_email }}. If you don’t want to receive these emails in the future, <a href="{{ mute_url }}">mute email notifications</a> for this idea or see your <a href="{{ settings_url }}">preferences</a>. 
+</small>
+</p>

@@ -1,0 +1,7 @@
+Hey, {{ first_name }}! 
+
+This just in from the {{ idea.company.title }} Idea Board: your idea has been moved to the {{ idea.status.title }} stage. Once an idea has been completed or put in the icebox, you can expect to no longer see emails about it. Otherwise, you can keep discussing and shaping the idea until it reaches its full potential.
+
+To view this idea, click here: {{ idea_url }}
+
+Thanks for using wantoo!

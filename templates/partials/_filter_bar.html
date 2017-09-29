@@ -1,0 +1,96 @@
+{% load mytags %}
+
+<div class="comp-filterBar">
+
+	{# <h3 class="-cat-title"><span>{{ category.title|default:"All ideas" }} for {{ company.title }}</span> ({{ company.idea_count }})</h3> #}
+
+	<!-- <p class="-filter-blurb">Filter by:</p> -->
+	<p class="-filter-blurb">{{ display_count }} Ideas</p>
+	{% if company.company_categories.all.count > 0 %}
+
+	<div class="dropdown btn-dropdown">
+	  <button class="btn dropdown-toggle -custom__ideaList" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	  {% if 'category' in request.get_full_path %}
+	    {{ category.title }}
+	  {% else %}
+	  	All Categories
+	  {% endif %}  
+	  </button>
+	  <ul class="dropdown-menu dropdownMenu" aria-labelledby="dropdownMenu1">
+	  	{% if not category.id %}
+	  	<li class="active"><a class="_filterOption"  href="/{{ company.slug }}/ideas/?sort={{request.GET.sort}}&status={{request.GET.status}}">All
+	  	{% else %}
+	  	<li><a class="_filterOption" href="/{{ company.slug }}/ideas/?sort={{request.GET.sort}}&status={{request.GET.status}}">All
+	  	{% endif %}
+        </a>
+        </li>
+	    {% for cat in company.company_categories.all %}
+    		{% if not cat.parent %}
+    			{% if cat.id == category.id %}
+		        	<li class="active"><a class="_filterOption" href="/{{ company.slug }}/category/{{ cat.id }}/?{{request.GET.sort}}&status={{request.GET.status}}">
+		        {% else %}
+		        	<li ><a class="_filterOption" href="/{{ company.slug }}/category/{{ cat.id }}/?{{request.GET.sort}}&status={{request.GET.status}}">
+		        {% endif %}
+	        	{{ cat.title }} 
+		        </a>
+		        </li>
+        	{% endif %}
+       {% endfor %}
+	  </ul>
+	</div>
+
+	{% endif %}
+
+	<div class="dropdown btn-dropdown">
+	  <button class="btn dropdown-toggle -custom__ideaList" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		{{ status.title|default:'All Statuses' }}
+	  </button>
+	  <ul class="dropdown-menu dropdownMenu" aria-labelledby="dropdownMenu1">
+	  	{% if not status.id %}
+		    <li class="active"><a class="_filterOption" href="?status=&sort={{request.GET.sort}}">All</a></li>
+		{% else %}
+			<li><a class="_filterOption" href="?status=&sort={{request.GET.sort}}">All</a></li>
+		{% endif %}
+	  	{% for stat in company.company_statuses.all  %}
+		    {% if not stat.closed %}
+	  			{% if stat.id == status.id %}
+		        	<li class="active"><a class="_filterOption" href="?status={{ stat.id }}&sort={{request.GET.sort}}">
+		        {% else %}
+		        	<li><a class="_filterOption" href="?status={{ stat.id }}&sort={{request.GET.sort}}">
+		        {% endif %}
+
+		    	{{ stat.title }} 
+		    	</a></li>
+		    {% endif %}
+		{% endfor %}
+	  </ul>
+	</div>
+
+	<div class="dropdown btn-dropdown">
+	  <button class="btn dropdown-toggle -custom__ideaList" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	  {% if request.GET.sort == "new" %}
+	    Most recent
+	  {% elif request.GET.sort == "random" %}
+	    Random	    
+	  {% else %}
+			Top ideas
+		{% endif%}
+	  </button>
+	  <ul class="dropdown-menu dropdownMenu" aria-labelledby="dropdownMenu1">
+		<li {% if not request.GET.sort %}class="active"{% endif %}>
+			<a class="_filterOption" href="?sort&status={{request.GET.status}}">Top ideas</a>
+		</li>
+	    <li {% if request.GET.sort == "new" %}class="active"{% endif %}>
+	    	<a class="_filterOption" href="?sort=new&status={{request.GET.status}}">Most recent</a>
+	    </li>
+	    <li {% if request.GET.sort == "random" %}class="active"{% endif %}>
+	    	<a class="_filterOption" href="?sort=random&status={{request.GET.status}}">Random</a>
+	    </li>
+	  </ul>
+	</div>
+
+	
+	
+	
+
+</div>

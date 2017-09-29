@@ -1,0 +1,31 @@
+.btn
+	border-width 2px
+	border-style solid
+	font-size 18px
+	font-weight 600
+	text-decoration none
+	text-transform capitalize
+	padding 15px 50px
+	border-radius 5px
+
+.btn-bordered
+	@extend .btn
+	border-color brown
+	color brown
+
+.btn-brand-bordered
+	@extend .btn
+	border-color brandPrimary
+	color brandPrimary
+
+.btn-fill-white
+	@extend .btn
+	background-color #fff
+	color brandPrimary
+	display inline-block
+
+.btn-fill-pink
+	@extend .btn
+	background-color brandPrimary
+	border none
+	color #fff

@@ -1,0 +1,166 @@
+.view-stats
+	.toggle-button-cont
+		text-align center
+		margin-bottom 100px
+		margin-top -40px
+		z-index 1000
+		position relative
+		
+		&.is-voteChartVisible
+			.-btn-chart-charts
+				font-weight bold
+				border-bottom 2px solid #000
+				
+			.-btn-chart-toggle-people		
+				font-weight normal
+				border none	
+		
+		.-btn-chart-toggle-people		
+			font-weight bold
+			border-bottom 2px solid #000 !important
+		
+		
+		.-btn-chart-toggle
+			display inline-block
+			border none
+			background none
+			box-shadow none
+			font-size 18px
+			margin-right 20px
+			
+	 		
+		&.is-voteChartVisible
+					
+				.-btn-chart-toggle-people
+					-moz-box-shadow none
+					-webkit-box-shadow none
+					box-shadow none
+
+	.chartToggle
+		color red
+		
+		.chartToggle__barchart-votes
+			display none
+		
+		.chartToggle__barchart-people
+			display block			
+		
+		&.is-voteChartVisible
+			.chartToggle__barchart-votes
+				display block
+			
+			.chartToggle__barchart-people
+				display none	
+
+	.-chart-title
+		font-size 20px
+		text-transform uppercase
+		z-index 100
+		margin-top 100px
+		margin-bottom 40px
+
+	.-first
+		margin-top 0px
+		
+	.cont-donuts
+		margin-left -18px		
+		
+	.-donut
+		margin-right 8px
+		
+		&:last-child
+			margin-right 0	
+			
+	.cont-donutScores
+		position absolute
+		z-index 1000
+		left 0
+		width 100%
+		top 88px
+		
+		.-score
+			width 255px
+			margin-right 8px
+			font-size 50px
+			float left
+			text-align center
+			
+			&:last-child
+				margin-right 0
+				
+	.cont-donutLabels
+		position absolute
+		z-index 10
+		bottom -20px
+		left 0
+		width 100%
+		
+		.-label
+			text-transform uppercase
+			color #000
+			font-size 15px
+			float left
+			text-align center
+			margin-right 8px
+			font-weight 600
+			width 255px
+			
+			&:last-child
+				margin-right 0	
+
+
+@media screen and (max-width: 992px)
+	.view-stats
+		.chartToggle
+			zoom 0.9
+		.cont-donuts
+			zoom 0.9
+		#chart_div
+			zoom 0.9
+
+@media screen and (max-width: 767px)
+	.view-stats
+		.chartToggle
+			zoom 0.8
+		.cont-donuts
+			zoom 0.8
+		#chart_div
+			zoom 0.8
+
+@media screen and (max-width: 660px)
+	.view-stats
+		.chartToggle
+			zoom 0.6
+			padding-top: 30px;
+		.cont-donuts
+			zoom 0.6
+		#chart_div
+			zoom 0.6
+
+
+@media screen and (max-width: 580px)
+	.view-stats
+		.chartToggle
+			zoom 0.5
+			padding-top: 40px;
+		.cont-donuts
+			zoom 0.5
+		#chart_div
+			zoom 0.5
+
+@media screen and (max-width: 480px)
+	.view-stats
+		.chartToggle
+			zoom 0.45
+			padding-top: 60px;
+		.cont-donuts
+			zoom 0.45
+		#chart_div
+			zoom 0.45
+		.cont-donutLabels	
+			bottom -60px
+		.toggle-button-cont
+			.-btn-chart-toggle
+				font-size 12px
+
+					

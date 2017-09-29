@@ -1,0 +1,1 @@
+New idea from {{ idea.created_by.get_full_name }}

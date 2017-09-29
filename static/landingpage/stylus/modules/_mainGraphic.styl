@@ -1,0 +1,50 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-mainGraphic
+  margin -25px 0 0 0
+  width 100%
+  height auto
+  .m-mainGraphic__anchorContainer
+    .m-mainGraphic__anchor
+      z-index 100
+      position absolute
+      border-radius 5px
+      width auto
+      text-align center
+      display none
+      .m-mainGraphic__anchorText
+        margin 0
+        padding 25px 20px
+        color #FFF
+        font-weight 600
+        width auto
+      &.m-mainGraphic__anchor-green
+        left 23%
+        top 60%
+        background brandGreen
+      &.m-mainGraphic__anchor-purple
+        left 65%
+        top 93%
+        background brandPurple
+  .m-mainGraphic__image
+    max-width 100%
+    max-height 100%
+
+@media screen and (max-width: max-mobile-screen)
+  .m-mainGraphic
+    margin 0
+    .m-mainGraphic__anchorContainer
+      display none
+      .m-mainGraphic__anchor
+        .m-mainGraphic__anchorText
+          margin 0
+          padding 15px 10px
+      &.m-mainGraphic__anchor-green
+        left 23%
+        top 70%
+      &.m-mainGraphic__anchor-purple
+        left 65%
+        top 98%
+@media screen and (min-width: 1500px)
+  .m-mainGraphic
+    margin 100px 0 0 0

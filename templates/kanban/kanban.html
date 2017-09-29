@@ -1,0 +1,48 @@
+{% extends "kanban/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain kanban-wrapper">
+    <div class="view view-main view-kanban">
+
+        <!-- For Algolia search -->
+        <div id="ideaList" class="kanban-search-format"></div>
+        <div class="_hideOnLiveSearch">
+
+        	<div class="kanban-header">
+                <div class="kanban-question">{{ company.question }}</div>
+                <div class="kanban-action">
+                    <span class="kanban-action--right kanban-export"><a id="Export" href="/{{company.slug}}/export/">Export</a></span>
+                    <span class="kanban-action--right kanban-export"><a id="Members_view" href="/{{company.slug}}/ideas/">Members view</a></span>
+                    <span class="kanban-action--right kanban-export"><a id="Invite_members" href="/{{company.slug}}/invite/">Invite members</a></span>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        	<div class="kanban-content">
+
+        		<div id="kanban-root"></div>
+
+        	</div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+$( "#Invite_members" ).click(function() {
+  window.Intercom("trackEvent", "Invite Members");
+});
+</script>
+
+<script>
+$( "#Members_view" ).click(function() {
+  window.Intercom("trackEvent", "Members View ");
+});
+</script>
+
+<script>
+$( "#Export" ).click(function() {
+  window.Intercom("trackEvent", "Export");
+});
+</script>
+{% endblock %}

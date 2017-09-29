@@ -1,0 +1,31 @@
+Hey, {{ first_name }}!
+
+<p>
+A new idea has been added to the {{ idea.company }} Idea Board.</p>
+
+<p><a href="{{ author_url }}">{{ idea.created_by.get_full_name }}</a> wants <a href="{{ idea_url }}"><strong>{{ idea }}</strong></a>.
+</p>
+<Br/>
+<p>
+<strong>Respond to this idea:</strong>
+
+<p>
+    <a href="{{ idea_url }}">Add a quick comment</a> to ask for more detail and start the discussion.   
+</p>
+
+<p>
+    <a href="{{ idea_url }}">Share via Facebook or Twitter</a> to get votes and build community. 
+</p>
+
+<p>
+
+    <a href="{{ edit_url }}">Set the status</a> to organize and keep people in the loop about it's progress. 
+</p>
+
+<br/><br/>
+<p>
+<small>
+Thanks again for using Wantoo.<br/><br/>
+PS: Hit reply to talk to us, or send a tweet to <a href="https://twitter.com/allwantoo">@allwantoo</a>. For tips and tricks, visit our <a href="https://wantoo.zendesk.com/hc/en-us">support community</a>.  
+</small>
+</p>

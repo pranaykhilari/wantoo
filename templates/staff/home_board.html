@@ -1,0 +1,47 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container" style="margin-top: 60px; margin-bottom: 30px;">
+    <img style="width: 170px; float: left;" src="https://i.wantoo.io/static/dashboard/img/wantoo_logo_pink.svg"/>
+    <h1 style="float: left; margin-left: 20px; color: #E94095;">Staff Dashboard</h1>
+</div>
+<div class="container">
+
+    <h2>Boards List</h2>
+
+    <div style="float:right; display: inline-block; padding-bottom: 50px;">
+        <div style="float:right; margin-left: 20px;"><a href="/staff/boards/export">Export All</a></div>
+        <div style="float:right; margin-left: 20px;"><a href="/staff/featured/">Featured Boards</a></div>
+        <div style="float:right"><a href="/staff">User List</a></div>
+    </div>
+     <table class="table">
+        <thead>
+            <tr>
+                <th>Board Name</th>
+                <th>Ideas</th>
+                <th>Members</th>
+                <th>Owner</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in companies  %}
+            <tr>
+                <td><strong>
+                    <a href="/staff/company/{{ company.id }}/">{{ company.title }}</a>
+                    </strong>
+                </td>
+                <td>{{ company.idea_count }}</td>
+                <td>{{ company.member_count }}</td>
+                <td>{{ company.created_by.get_full_name }}</td>
+                <td>{{ company.created_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>  
+
+</div>
+{% endblock content %}

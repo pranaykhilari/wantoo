@@ -1,0 +1,188 @@
+{% extends "landing/base.html" %}
+
+{% load bootstrap3 %}
+{#{% load url from future %}#}
+{% load i18n %}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+<section class="l-section l-section--white l-section--main l-section--funnel">
+	<div class="l-section__inner l-section__gutter">
+		<div class="l-funnel">
+			<div class="l-funnelContainer">
+				<div class="l-funnel__box">
+					<div class="m-funnel__text">
+						<h2 class="m-funnel__title t-title__header">
+							Start with your free account. Upgrade anytime.
+						</h2>
+						<p class="m-funnel__blurb">Let's get started with some basic details.</p>
+						<p class="m-funnel__blurb">Experience how Wantoo works for you. After you create an account, you'll customize your Idea Board, which only takes a minute. There's no obligation and no credit card required. Free trials on paid plans are available.</p>
+						<p class="m-funnel__contact">Have a question? Ask us at <a href="mailto:hello@wantoo.io">hello@wantoo.io</a></p>
+					</div>
+				</div>
+				<div class="l-funnel__box">
+					<div class="m-funnel__form">
+						<div class="m-signupForm ">
+
+							<h2 class="m-signupForm__title">
+								Sign Up for Wantoo
+							</h2>
+
+
+							<div class="-cont -loginFormCont m-signupForm">
+								<form signup-form class="form-wantoo form-validate x-no-label x-cta-centred m-signupForm__form m-signupForm__form" id="signup_form" method="post" action="{% url 'account_signup' %}">
+				                {% if company %}
+				                	<div class="form-group">
+				                    	<a href="{% provider_login_url "facebook" method="js_sdk" %}" next="/{{ company.slug }}/"><img src="https://i.stack.imgur.com/pZzc4.png" style="width: 85%;position:relative;display:block;margin: 0 auto;"/></a>
+				                    </div>
+				                    <div class="form-group" style="text-align:center;color:grey;">
+				                    	OR
+				                   	</div> 
+				                {% endif %}
+				                
+								{% csrf_token %}
+								{% bootstrap_form form %}
+								{% if redirect_field_value %}
+								<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> 
+								{% endif %}
+								<div class="form-group">
+								<p class="-copy checkbox">By signing-up, you agree to our <a href="http://wantoo.io/terms-of-service/" target="_blank" class="_trackLinkEvent" data-label="Terms of use- signup page">Terms of Service</a></p>
+								</div>
+								{% buttons %}
+					            <button class="btn-fill-primary btn-fill-pink m-signupForm__submit getStarted" type="submit" data-label="Sign up - signup page" disabled onClick="this.form.submit(); this.disabled=true;">Get Started</button>
+					            {% endbuttons %}
+								</form>
+							</div>
+							<!-- <div class="-terms-cont">
+				                <p class="-copy">Already have an account? <a href="/accounts/login/?next=/{{ company.slug }}/" class="_trackLinkEvent" data-label="Privacy policy - signup page">Login</a></p>
+				            </div>-->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="l-section l-section--white l-section--funnelQuote">
+	<div class="l-section__inner l-section__nospace l-section__gutter">
+		<div class="m-funnelQuote">
+			<h2 class="m-funnelQuote__title t-title__section">
+				"Wantoo is simple, easy to set up, and integrates with the programs we use, and they are very helpful - you really couldn't ask for more."
+			</h2>
+			<div class="m-funnelQuote__authorContainer">
+				<div class="m-funnelQuote__imageContainer">
+					<img class="m-funnelQuote__image" src="/static/landingpage/img/profile_wadhwa.png" />
+				</div>
+				<div class="m-funnelQuote__textContainer">
+					<h3 class="m-funnelQuote__author">
+						Kul Wadhwa
+					</h3>
+					<p class="m-funnelQuote__authorTitle">
+						Technology Advisor, Bill and Melinda Gates Foundation <br />
+						Head of Mobile, Wikimedia Foundation
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="l-section l-section--offwhite l-section--funnelCompanies">
+	<div class="l-section__inner l-section__gutter">
+		<div class="m-funnelCompanies">
+			<h2 class="m-funnelCompanies__title t-title__section">Trusted by the world's best</h2>
+			<div class="m-funnelCompaniesContainer">
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_newslab.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_rockfeller.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_nycu.png" />
+					<img class="m-funnelCompanies__image" src="/static/landingpage/img/company_emilycarr.png" />
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="/static/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script>
+	//loop for multiple forms on page
+	$('.form-validate').each(function(index, form){
+		$(form).validate({ errorPlacement: function(error, element) {} });
+	});
+
+	$('.form-validate').on('keyup', function(){
+		var self = this;
+		console.log($(this).valid());
+
+		//if valid, enalbed button. If not valid keep button disabled
+		if($(this).valid()) {
+			console.log("here");
+			console.log($(self).find('button[type="submit"]'));
+			$(self).find('button[type="submit"]').prop('disabled', false);
+		} else {
+			if(!$(self).find('button[type="submit"]').prop('disabled')) {
+				$(self).find('button[type="submit"]').prop('disabled', true);
+			}
+		}
+	});
+
+	$('.form-validate').on('change', function(){
+		var self = this;
+		console.log($(this).valid());
+
+		//if valid, enalbed button. If not valid keep button disabled
+		if($(this).valid()) {
+			console.log("here");
+			console.log($(self).find('button[type="submit"]'));
+			$(self).find('button[type="submit"]').prop('disabled', false);
+		} else {
+			if(!$(self).find('button[type="submit"]').prop('disabled')) {
+				$(self).find('button[type="submit"]').prop('disabled', true);
+			}
+		}
+	});
+</script>
+
+<script type="text/javascript">
+	adroll_adv_id = "XMKEGVQWEBHC3CIF7X733L";
+	adroll_pix_id = "DG3MDSLH5RFZNLCESJX2R6";
+	(function () {
+	var _onload = function(){
+	if (document.readyState && !/loaded|complete/.test(document.readyState)){setTimeout(_onload, 10);return}
+	if (!window.__adroll_loaded){__adroll_loaded=true;setTimeout(_onload, 50);return}
+	var scr = document.createElement("script");
+	var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+	scr.setAttribute('async', 'true');
+	scr.type = "text/javascript";
+	scr.src = host + "/j/roundtrip.js";
+	((document.getElementsByTagName('head') || [null])[0] ||
+	document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+	};
+	if (window.addEventListener) {window.addEventListener('load', _onload, false);}
+	else {window.attachEvent('onload', _onload)}
+	}());
+</script>
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '840263572738436');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=840263572738436&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+{% endblock %}
+
+

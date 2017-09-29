@@ -1,0 +1,13 @@
+Hello!
+
+A FREE customer just requested to be upgraded to a PRO account. Here's their contact info:
+
+Full Name: {{ full_name }},
+Email: {{ author_email }},
+
+Idea Board: {{ author_url }}.
+
+
+Go get 'em!
+
+Wantoobot

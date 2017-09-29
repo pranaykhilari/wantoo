@@ -1,0 +1,269 @@
+{% load socialaccount %}
+{#{% providers_media_js %}#}
+
+<!-- Login modal -->
+
+<div class="modal fade comp-modal" id="_modal-login" tabindex="-1" role="dialog" aria-labelledby="Login">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <button type="button" class="-btn-close" data-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+
+         <form class="login form -form form-validate" method="POST" action="/accounts/login/?next=/{{ company.slug }}/" autocomplete="off">
+
+            <div class="form-group">
+                 <a class="-fb-button" href="{% provider_login_url "facebook" method="js_sdk" %}" next="/{{ company.slug }}/"><img src="/static/dashboard/img/facebook_login_button.png"/></a>
+                 <p class="-fb-disclaimer">We will never post to Facebook without your permission.</p>
+             </div>
+              <div class="form-group">
+              <hr />
+              <p class="-or">Or</p>
+             </div>  
+
+					  <div class="form-group">
+					  	<label for="id_login" class="control-label">E-mail:</label>
+					  	<input class="form-control" autofocus="autofocus" id="id_login" name="login" placeholder="E-mail address" type="email" required>
+					  </div>
+						
+						<div class="form-group">
+							<label class="control-label" for="id_password">Password:</label>
+							<input class="form-control" id="id_password" name="password" placeholder="Password" type="password" required>
+						</div>
+					  
+					  <a href="/accounts/password/reset/" class="-forgot-password">Forgot Password?</a>
+					  <button class="btn-fill" type="submit" disabled onClick="this.form.submit(); this.disabled=true;">Login</button>
+					  <p class="-signup">Don't have an account? <a href="#" class="_signUpFromModal">Sign up</a></p>
+					  {% csrf_token %}
+					</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bulk Actions: Delete -->
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-bulkActionsDelete" tabindex="-1" role="dialog" aria-labelledby="Bulk delete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Delete ideas</h2>
+         <p class="-message">These ideas will be deleted, including all data and activity.<br>Deleted ideas are gone forever. Are you sure?</p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+         	<button type="button"  class="_bulkActionsConfirmDelete btn-fill-primary">Yes, delete</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Actions: Single Delete -->
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-bulkActionsSingleDelete" tabindex="-1" role="dialog" aria-labelledby="Single delete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Delete idea</h2>
+         <p class="-message">This idea will be deleted, including all data and activity.<br>Deleted ideas are gone forever. Are you sure?</p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button" class="_bulkActionsConfirmSingleDelete btn-fill-primary" data-ideaID="{{ idea.id }}">Yes, delete</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bulk Actions: Move -->
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-bulkActionsMove" tabindex="-1" role="dialog" aria-labelledby="Bulk move">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Move ideas</h2>
+         <p class="-message">These ideas will be moved to:<br>
+          <select class="select" name="cateogry" id="_targetCat">
+            <option value="">---------</option>  
+            {% for cat in company.company_categories.all %}
+            <option value="{{ cat.id }}">{{ cat.title }}</option>
+            {% endfor %}
+          </select>
+         <br>
+         Are you sure?
+         </p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button"  class="_bulkActionsConfirmMove btn-fill-primary">Yes, move</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Confirm comment delete -->
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-deleteComment" tabindex="-1" role="dialog" aria-labelledby="Confirm delete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Delete comment</h2>
+         <p class="-message">Deleting this comment will remove it from this idea's comments and any previous notifications in the Activity views.<br>
+         <br>
+         Are you sure?
+         </p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button"  class="_confirmDelete btn-fill-primary">Yes, delete</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm idea merge -->
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-mergeIdea" tabindex="-1" role="dialog" aria-labelledby="Confirm delete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Merge Idea</h2>
+         <p class="-message">Merging these ideas cannot be undone.<br>
+         <br>
+         Are you sure?
+         </p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button"  class="_confirmIdeaMerge btn-fill-primary">Yes, merge</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New signup -->
+<div class="modal fade comp-modal comp-modal--signup" id="_modal-newSignup" tabindex="-1" role="dialog" aria-labelledby="Signup">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <button type="button" class="-btn-close" data-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+          <div class="comp-modal--signup__step-one">
+            <a class="-fb-button" href="{% provider_login_url "facebook" method="js_sdk" %}" next="/{{ company.slug }}/"><img src="/static/dashboard/img/facebook_login_button.png"/></a>
+            <p class="-fb-disclaimer">We will never post to Facebook without your permission.</p>
+            <p class="comp-modal--signup__or-email">Or, <a class="_signupOrEmail" href="#">signup with email</a></p>
+            <p class="-signup">By signup you agree to wantoo's <a class="-pp" href="http://wantoo.io/wantoo-privacy-policy/">privacy policy</a>.</p>
+            <p class="-signup">Already have an account? <a href="#" class="_loginFromModal">Login</a></p>
+          </div>
+          
+
+          <div class="comp-modal--signup__step-two">
+            <form class="form -form form-validate" class="form-singleStyle" id="signup_form" method="post" action="/accounts/signup/?next=/{{ company.slug }}/" autocomplete="off">
+
+          <div class="form-group">
+            <input class="form-control" id="id_full_name" maxlength="50" name="full_name" placeholder="Full name" required="required" title="" type="text" required>
+            <p class="-message" id="msg-full-name" style="display: none; color: red;">Please enter your first and last name</p>
+            <input class="form-control" id="id_email" name="email" placeholder="E-mail address" required="required" title="" type="email" required>
+            <!-- <p class="-message">Please enter your email address correctly</p> -->
+            <input class="form-control" id="id_password1" name="password1" placeholder="Password" required="required" title="" type="password" required>
+            <!-- <p class="-message">Please enter a password</p> -->
+          </div>
+            <div class="checkbox">
+              <input class="" id="id_casl" name="casl" type="checkbox"> It's okay to send me email about the wantoo service
+            </div>
+          
+            <button class="btn-fill" id="submit_model_login" type="submit" data-label="Sign up - signup page" disabled onClick="this.disabled=true;">Sign up</button>
+            <p class="-signup">By signup you agree to wantoo's <a class="-pp" href="http://wantoo.io/wantoo-privacy-policy/">privacy policy</a>.</p>
+            <p class="-signup">Already have an account? <a href="#" class="_loginFromModal">Login</a></p>
+          {% csrf_token %}
+        </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Pro Feature Gate -->
+{#<div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions" id="_modal-prowall" tabindex="-1" role="dialog" aria-labelledby="pro-features">#}
+{#  <div class="modal-dialog" style="max-width: 700px;" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-body">#}
+{#         <h2 class="-title left">Ready to upgrade?</h2>#}
+{#         <p class="-message"><b>Try a PRO account free for 14 days!</b><br/><br/></h2>Only $50/mo (paid annually). The Wantoo PRO upgrade unlocks many advanced features, such as Slack and Twitter integration, analytics, idea merging, and more. Upgrade now and discover the true power of the Wantoo platform.</p>#}
+{#         <div class="-action-cont">#}
+{#            <button type="button"  class="_confirmIdeaMerge btn-fill-primary" id="sendProEmail" data-toggle="modal" data-target="#_modal-thank-you" data-dismiss="modal" aria-label="Close">Try PRO free</button>#}
+{#            <button style="margin-right: 10px;" type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Maybe later</button>#}
+{#         </div>#}
+{#         <p class="-message bottom-text">#}
+{#          Want our enterprise account? <a href="mailto:hello@wantoo.io" target="_blank">Request</a> our Premium account details.<br/>#}
+{#          Our customer serive support team is here to help, please <a href="mailto:hello@wantoo.io" target="_blank">email us</a> to get in touch.#}
+{#         </p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+<div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions" id="_modal-thank-you" tabindex="-1" role="dialog" aria-labelledby="pro-features">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Thank You!</h2>
+         <p class="-message center">Our team will be in touch with you shortly.</p>
+         <div class="-action-cont">
+            <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Close</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- href="#" data-toggle="modal" data-target="#_modal-prowall" -->
+
+{% if comment.created_by == request.user or is_admin %}
+<!-- Share MODAL -->
+<div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions introView__mainModal" id="_modal-Summary" tabindex="-1" role="dialog" aria-labelledby="Summary" style=" padding-top: 60px;">
+  <div class="modal-dialog" style="max-width: 700px;" role="document">
+    <div class="modal-content">
+      <div class="modal-body large-body" stlye="padding-top: 60px;">
+        <div class="modal-close-x" data-dismiss="modal" aria-label="Close">X</div>
+         <h2 class="-title center" style="font-size: 25px;">Share your Idea Board & get feedback now!</h2>
+
+         <p class="-message center">
+
+           <ul class="colum_list">
+              <li class="colum" onclick="window.location.href = 'mailto:?subject='+window.userInfo.companyName+' wants your idea. &body='+window.userInfo.companyName+'has launched an Idea Board to hear from people like you.%0D%0A%0D%0AMake your voice heard, and add your ideas here: http://wantoo.io/'+window.userInfo.company+'.'; mixpanel.track('Email clicked / share idea board modal')">
+                <div class="colum_image"><img src="/static/dashboard/img/icons/mail_icon.png"/></div>
+                <div class="colum_text"><a class="color-link color-link-colum" id="user-invite-others">Email</a></div>
+              </li>
+              <li class="colum" onclick="window.open('https://twitter.com/intent/tweet?text=We want your ideas! Tell us what you want most, or vote for the ideas you like best. https://wantoo.io/'+window.userInfo.company+'/');mixpanel.track('Twitter clicked / share idea board modal');">
+                 <div class="colum_image"><img src="/static/dashboard/img/icons/twitter_icon.png"/></div>
+                <div class="colum_text"><a class="color-link color-link-colum" href="#">Twitter</a></div>
+              </li>
+              <li class="colum" onclick="window.open('http://www.facebook.com/sharer/sharer.php?u=https://wantoo.io/'+window.userInfo.company+'/&t=We want your ideas! Tell us what you want most, or vote for the ideas you like best.');mixpanel.track('Facebook clicked / share idea board modal');">
+                 <div class="colum_image"><img src="/static/dashboard/img/icons/facebook_icon.png"/></div>
+                <div class="colum_text"><a class="color-link color-link-colum" href="#">Facebook</a></div>
+              </li>
+              <li class="colum" data-toggle="modal" data-target="#_modal-prowall" onclick="$('#_modal-Summary').modal('hide');mixpanel.track('Embed widget clicked / share idea board modal');">
+                <div class="colum_image"><img src="/static/dashboard/img/icons/embed_icon.png"/></div>
+                <div class="colum_text"><a id="widget" class="color-link color-link-colum" href="#"><span>Embed widget</span></a></div>
+              </li>
+           </ul>
+
+           <div style="clear:both;"></div>
+
+           <div class="modal-video-preview text"><a class="color-link" target="_blank" href="https://vimeo.com/158556519" onclick="mixpanel.track('Watch Video clicked / share idea board modal');">Watch this short overview video</a></div>
+
+          <div class="modal-bottom text">
+           <b>Need help?</b> Have a look at our <a class="color-link" target="_blank" onclick="mixpanel.track('Getting started clicked / share idea board modal');" href="https://wantoo.zendesk.com/hc/en-us/articles/216243017-Getting-Started-with-Wantoo">Getting Started Guide</a>, as well some <a target="_blank" onclick="mixpanel.track('Pro tips clicked / share idea board modal');" class="color-link" href="https://wantoo.zendesk.com/hc/en-us/articles/218727098-Wantoo-Idea-Gathering-Campaign-Checklist">Pro Tips</a> to help you get the most out of your customer engagement journey. If you find yourself needing to explain the process to your customers or audience, we’ve got you covered with this, <a target="_blank" onclick="mixpanel.track('Explainer page clicked / share idea board modal');" class="color-link" href="https://wantoo.zendesk.com/hc/en-us/articles/209050037-Voting-for-Ideas-on-Wantoo-How-Does-It-Work-">explainer page</a>. We even have some <a target="_blank" onclick="mixpanel.track('Sample text clicked / share idea board modal');" class="color-link" href="https://wantoo.zendesk.com/hc/en-us/articles/219153777-Wantoo-Messaging-Templates">sample text</a> to help you get started in reaching out. For additional help, check out our <a target="_blank" onclick="mixpanel.track('FAQ clicked / share idea board modal');" class="color-link" href="https://wantoo.zendesk.com/hc/en-us/articles/208728557-FAQs">FAQ</a> or just <a onclick="mixpanel.track('Ask us clicked / share idea board modal');" class="color-link" href="https://wantoo.zendesk.com/hc/en-us/articles/208037848-contact-details">ask us</a>.
+         </div>
+
+         </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL END -->
+{% endif %}
+
+
+

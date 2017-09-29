@@ -1,0 +1,7 @@
+Hey, {{ first_name }}! 
+
+{{ idea.title|capfirst }} was similar enough to {{ winning_idea.title|capfirst }} that it made sense to merge them. The supporters of these ideas have now joined forces to make {{ winning_idea.title|capfirst }}a reality. Please add your comments to give it further direction. Meanwhile, no more email notifications will be sent for {{ idea.title|capfirst }}, and it will no longer appear on the {{ idea.company.title }} Idea Board.
+
+Idea: {{ idea_url }}
+
+Thanks for using wantoo!

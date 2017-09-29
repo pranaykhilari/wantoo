@@ -1,0 +1,35 @@
+.l-advisors
+	@extend .clearfix
+	width 100%
+	
+	&.l-advisors--small
+		display none
+	
+	.l-advisors__row
+		@extend .clearfix
+		width 100%
+		
+		.l-advisors__col
+			float left
+			width 22%
+			margin-right 3.4%
+			margin-bottom 50px
+			
+			&:last-child
+				margin-right 0
+				
+@media screen and (max-width: 650px)
+	.l-advisors
+		display none
+		
+		&.l-advisors--small
+			display block
+			margin 0 auto
+			max-width 250px
+			width 100%
+			
+			.l-advisors__col
+				width 100%
+				
+
+				

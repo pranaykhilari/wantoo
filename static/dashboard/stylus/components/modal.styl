@@ -1,0 +1,222 @@
+.comp-modal
+	width 100%
+	
+	&.comp-modal--signup
+		.comp-modal--signup__or-email
+			font-size 18px
+			margin-top 55px
+			margin-bottom 75px
+			text-align center
+			
+			a
+				color #000
+				font-size 18px
+				text-decoration underline
+			
+		&.-showEmail
+			.comp-modal--signup__step-one
+				display none
+			.comp-modal--signup__step-two
+				display block
+					
+			
+		.modal-content
+			padding-bottom 30px	
+		
+		.comp-modal--signup__step-two
+			display none	
+			
+	.modal-dialog
+		width 100%
+		max-width 505px
+		margin 20px auto 0
+	
+		.modal-content	
+			padding-top 50px
+			box-shadow: 0 3px 9px rgba(0, 0, 0, 0.39);
+			border-radius 3px
+		.modal-body
+			.modal-close-x
+				float right
+				color #7f8081
+				cursor pointer
+				top -30px
+				right -10px
+				position relative
+				font-size 16px
+			.bottom-text
+				position relative
+				display block
+				margin-top 110px
+				font-size 13px
+				color #9A9A9A
+			.text 
+				font-size 12px
+				color black
+			.color-link-colum
+				font-size 16px
+			.modal-video-preview
+				position relative
+				text-align center
+				top 25px
+				a
+					font-size 16px
+					padding: 6px 40px;
+					background url(/static/dashboard/img/icons/play_icon.png) no-repeat
+					background-size 30px
+					background-position 0 0
+					margin-left: 30px;
+
+			.modal-bottom
+				position relative
+				margin-top 55px
+				padding 0 35px
+					
+	.-or
+		text-align center
+		color #959595
+		margin -28px auto 28px
+		font-size 12px		
+		background #fff
+		display block
+		width 30px
+	
+	.-fb-disclaimer
+		color #959595
+		margin-top 20px
+		text-align center
+		font-size 10px
+		margin-bottom 35px
+
+	.-fb-button
+		display block
+		margin 0 auto
+		max-width 290px
+		width 100%
+		
+		img
+			width 100%
+
+	.-form
+		width 100%
+		max-width 361px
+		margin 0 auto
+		
+		label
+			display none
+		
+		input
+			height 40px
+			font-size 18px
+			margin-bottom 20px	
+		
+		button[type="submit"]
+			margin 60px auto 45px
+		
+	
+	a
+		font-size 12px
+		color #07a0f8
+		
+	.-forgot-password
+		float right
+		width 100%
+		text-align right
+	
+	.-signup	
+		text-align center
+		font-size 14px
+		color #000
+		
+		a
+			font-size 14px
+			
+			&.-pp
+				color #000
+				text-decoration underline
+			
+	
+	.-btn-close
+		background-image url('/static/dashboard/img/icons/cross_modal.png')
+		background-size 14px
+		width 14px
+		height 14px
+		background-position center
+		border none
+		background-color transparent
+		background-repeat no-repeat
+		position absolute
+		right 45px
+		top 18px
+			
+
+/* Bootstrap override */
+	.modal-backdrop
+		background #fff				
+
+	&.x-bulkActions
+		.modal-dialog
+			.modal-content
+				padding-top 0
+				
+				.modal-body
+					clearfix()
+					padding 30px 25px
+				.large-body
+					padding 40px 25px 40px 25px
+				
+				.-title
+					margin-top 0
+				
+				.-message
+					font-size 16px
+					padding 10px 0 20px	
+
+				.bottom-text
+					font-size 13px
+				
+				.-action-cont
+					button
+						float right	
+				
+				select
+					margin 10px 0		
+					
+@media (max-width: 650px)
+	.modal-open
+		overflow scroll !important
+
+	.comp-modal
+		overflow scroll !important
+		position absolute
+		
+		.modal-dialog
+			margin 20px auto 0
+			padding 0 5%
+			
+			.modal-content
+				padding-left 3%
+				padding-right 3%
+				
+				.-title
+					font-size 24px
+				
+				.-btn-close
+					right 7%
+			.modal-body
+				.color-link-colum
+					font-size 12px
+				.modal-close-x
+					right -15px
+				.modal-bottom
+					display none
+				#widget
+					& span
+						display none
+					&:after
+						content "Widget"
+				.modal-video-preview
+					a
+						font-size 12px
+						margin-left 0px
+						padding 6px 0px 6px 40px

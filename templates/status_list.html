@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-manageCategories">
+    <h2 class="-title">Manage statuses</h2>
+    <a class="-btn-add btn-fill-primary-small" href="/{{ company.slug }}/manage/statuses/add/">Add status</a>
+    {% if company.company_statuses.all.count >= 1 %}
+    <table id="statusesTable" class="comp-manageTable table" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th><span class="-label">Category</span></th>
+          <th><span class="-label">Order</span></th>
+          <th><span class="-label">Closed</span></th>
+          <th><span class="-label">Color</span></th>
+          <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+                {% for status in company.company_statuses.all %}
+              <tr>
+                <td class="-idea-title -bold new">{{ status.title }}</td>
+                <td>{{ status.order }}</td>
+                <td>{{ status.closed|yesno|upper }}</td>
+                <td>
+                  <div style="width:30px; height: 30px; background-color: #{{status.color}}; border-radius: 50%;"></div>
+                </td>
+                <td><a class="-btn-edit" href="/{{ company.slug }}/manage/statuses/{{ status.id }}/edit/"></a></td>
+              </tr>
+             {% endfor %} 
+         
+        </tbody>
+ </table>
+    {% else %}
+        <p class="-no-ideas-message">No statuses have been added.</p>
+    {% endif %}
+</div>
+</div>
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,67 @@
+.comp-boards
+	clearfix()
+	width 100%
+	margin 0 auto
+	max-width 821px
+	
+	a
+		float left
+		height 192px
+		width 31%
+		margin-right 3.5%
+		height 192px
+		margin-bottom 20px
+		display block
+		
+		&:nth-child(3n+3) 
+			margin-right 0
+	
+	.comp-boards__board, .comp-boards__board--add
+		border 2px solid #b8b8b8
+		border-radius 1px
+		height 100%
+		position relative
+		
+		.comp-boards__logo
+			display block
+			margin 0 auto
+			max-height 80px
+			max-width 150px
+			top 38%
+			left 50%
+			transform translate(-50%, -100%)
+			position absolute
+			margin-top 25px
+			
+		.comp-boards__board-title
+			font-size 18px	
+			position absolute
+			bottom 30px
+			margin 0
+			text-align center
+			left 15px
+			right 15px
+			color #000
+	
+	.comp-boards__board--add
+		background #ebebeb
+		
+		.comp-boards__board-title
+			color #959595
+			
+		.comp-boards__add
+			max-width 70px
+			display block
+			margin 30px auto 0	
+
+
+@media (max-width: 750px)			
+	.comp-boards	
+		a
+			float none
+			width 100%
+			max-width 256px
+			margin 0 auto 20px
+			
+			&:nth-child(3n+3) 
+				margin 0 auto 20px

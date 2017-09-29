@@ -1,0 +1,33 @@
+{% extends "staff/base.html" %}
+{% load mytags %}
+
+{% block staff_content %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Ideas</th>
+                <th>Comments</th>
+                <th>Votes</th>
+                <th>Joined at</th>
+                <th>Login type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members  %}
+            <tr>
+                <td><a href="/{{ company.slug }}/member/{{ member.user.id }}/" target="_blank">
+                    <img src="{% gravatar_url member.user %}" style="width:30px; margin-right: 5px; border-radius: 50%;">{{ member.user.get_full_name }}</a></td>
+                <td>{{ member.user.email }}</td>
+                <td>{{ member.idea_count }}</td>
+                <td>{{ member.comment_count }}</td>
+                <td>{{ member.vote_count }}</td>
+                <td>{{ member.created_at }}</td>
+                <td>{% if member.user.socialaccount_set.all %}FB{% else %}Email{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock staff_content %}

@@ -1,0 +1,112 @@
+{% extends "staff/base.html" %}
+{% load mytags %}
+
+{% block staff_content %}
+{% get_dark_launch_all user.id as pro_account_enabled %}
+
+    <h2>User Details</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width:230px;">User</th>
+                <th>Last Active Board</th>
+                <th>Last Login</th>
+                <th>Plan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img style="width:40px; margin-right: 10px; border-radius: 50%; float:left;" src="{% gravatar_url user %}" alt="">
+                    {% if user.user_detail.company %}
+                        <a href="/{{user.user_detail.company.slug}}/member/{{ user.id }}/">
+                            {{ user.get_full_name }}
+                        </a>
+                    {% else %}
+                    <br/>
+                        {{ user.get_full_name }}
+                    {% endif %}
+                    <br/><br/>
+                    {{ user.email }}
+                </td>
+                <td>
+                    {% if user.user_detail.company %}
+                    <strong>{{ user.user_detail.company.title }}</strong>
+                    {% if user.user_detail.company.color  %}
+                        <span style="color: #{{ comp.color }}; font-size: 16px; margin-left: 5px;"><i class="glyphicon glyphicon-tint"></i></span>
+                    {% endif %}
+                    <br/>
+                    <a target="_blank" href="/{{ comp.slug }}/">{{ domain }}/{{ user.user_detail.company.slug }}/</a>
+                    {% else %}
+                        No Board set as default
+                    {% endif %}
+                </td>
+                <td>
+                    <strong>{{ user.last_login }}</strong>
+                </td>
+                <td>
+                    <strong>{% if pro_account_enabled %} <span style="color: green">⚡PRO</span> {% else %} <span style="color: red">Free</span> {% endif %}</strong>
+                    <br/><br/>
+                    <form method="post" action="">
+                        <button class="btn-fill-primary" style="height: 30px; line-height: 30px; font-size: 12px; width: 100%; min-width: 0;" type="submit">♻ Toggle</button>
+                        {% csrf_token %}
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered" style="margin-top: 10px; font-size: 17px;">
+        <thead>
+            <tr>
+                <th>Boards Created</th>
+                <th>Color</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for board in user_boards %}
+            <tr>
+                <th style="width:230px;">
+                    <a href="/staff/company/{{ board.id }}">
+                        {{ board.title|truncatechars:30 }}
+                    </a>
+                </th>
+                <td><span style="color:#{{board.color}}">★</span></td>
+                <td><a href="/{{ board.slug }}/">{{ domain }}/{{ board.slug }}</a></td>
+            </tr>  
+        {% endfor %}  
+        </tbody>                     
+    </table>  
+
+    <table class="table table-bordered" style="margin-top: 10px; font-size: 17px;">
+        <thead>
+            <tr>
+                <th>Membership</th>
+                <th>Permission</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        </tbody>
+        {% for membership in memberships %}
+            <tr>
+                <th style="width:230px;">
+                    <a href="/staff/company/{{ membership.company.id }}">
+                        {{ membership.company.title|truncatechars:30 }}
+                    </a>
+                </th>
+                <td>
+                    {% if membership.company.slug in admin_groups %}
+                        <span style="color:red">⚭ Admin</span>
+                    {% else %}
+                        <span style="color:green">Member</span>
+                    {% endif %}
+                </td>
+                <td><a href="/{{ membership.company.slug }}/">{{ domain }}/{{ membership.company.slug }}</a></td>
+            </tr>  
+        {% endfor %}   
+        </table>
+    </table>  
+
+{% endblock staff_content %}

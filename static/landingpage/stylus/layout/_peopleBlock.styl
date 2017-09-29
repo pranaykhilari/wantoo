@@ -1,0 +1,28 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-peopleBlocks
+  @extend .clearfix
+  width 100%
+  padding 40px 0 100px 0
+  .l-peopleBlocks__title
+    color white
+    padding 20px 0 40px 0
+    font-size 25px
+  .l-peopleBlocksContainer
+    width 100%
+    margin 0
+    padding 0
+    .l-peopleBlocks__box
+      width 20%
+      float left
+      padding 0 2.5%
+
+@media screen and (max-width: max-mobile-screen)
+  .l-peopleBlocks
+    .l-peopleBlocksContainer
+      .l-peopleBlocks__box
+        float none
+        margin 0 auto 30px
+        max-width 480px
+        width 100%
+        padding 0

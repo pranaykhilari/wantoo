@@ -1,0 +1,14 @@
+Hey, {{ first_name }}!
+
+Here are the new ideas added this week to the {{ company.title }} Idea Board. Go vote, comment, or add your own idea!
+
+People want...
+
+{% for idea in ideas %}
+    {{ idea.title }} (https://wantoo.io/{{ idea.id }}/)
+{% endfor %}
+
+
+Sent from {{ company.title }}.
+
+This message was sent to {{ user_email }}. If you don’t want to receive these emails in the future, update email preferences ({{ settings_url }}). 

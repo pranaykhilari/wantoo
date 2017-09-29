@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-manageCategories">
+    <h2 class="-title">Management links</h2>
+    <p>
+      <strong>Manage</strong>
+    </p>
+    <ul>
+      <li><a href="/{{ company.slug }}/settings/">Community settings</a></li>
+      <li><a href="/{{ company.slug }}/manage/categories/">Manage categories</a></li>
+      <li><a href="/{{ company.slug }}/manage/members/">Manage members</a></li>
+      <li><a href="/{{ company.slug }}/manage/ideas/">Manage ideas</a>
+        <ul>
+          <li><a href="/{{ company.slug }}/import/">Import ideas</a></li>
+          <li><a href="/{{ company.slug }}/export/">Export ideas</a></li>
+          <li><a href="/{{ company.slug }}/import-uv/">Import from UserVoice</a> (hidden)</li>
+        </ul>
+      </li>
+      <li><a href="/{{ company.slug }}/manage/statuses/">Manage statuses</a> (hidden)</li>
+    </ul>
+
+    <p>
+      <strong>Integrations</strong>
+    </p>
+    <ul>
+      <li><a href="/{{ company.slug }}/twitter/">Twitter search</a> (hidden)</li>
+      <li><a href="/{{ company.slug }}/slack/">Add to Slack</a> (hidden)</li>
+    </ul>    
+
+</div>
+</div>
+{% endblock content %}
+
+
+

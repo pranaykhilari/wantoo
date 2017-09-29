@@ -1,0 +1,86 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-section
+  width 100%
+  background transparent
+
+  .l-section__inner
+    margin 120px auto
+    &.l-section__nospace
+      margin 20px auto
+    &.l-section__gutter
+      max-width 1125px
+      padding 0 3%
+      width 94%
+      margin 0 auto
+
+  .l-section__inner--nomarg
+    margin 0 auto
+
+  .l-section__logo
+    width 108px
+
+  &.l-section--border
+    border-bottom 1px solid #d7d7d7
+
+  &.l-section--pink
+    background-color brandPrimary
+
+  &.l-section--offwhite
+    background-color offwhite
+
+  &.l-section--brown
+    background-color brown
+
+  &.l-section--caseStudies
+    padding 60px 0 90px
+
+  &.l-section--appDirectory
+    padding 53px 0 93px
+
+  &.l-section--aboveFold
+    height calc(95% - 125px)
+
+  &.l-section--main
+    .l-section__inner
+      margin 0 auto
+      padding 60px 0
+
+  &.l-section--main-vid
+    display table
+    overflow-x hidden
+    .l-section__inner-vid
+      margin 0 auto
+      padding-top 20px
+      //padding 20px 0
+      max-width 1125px
+      background transparent
+      vertical-align middle
+      display table-cell
+
+  &.l-section--textContent
+    .l-section__inner
+      background white
+
+  &.l-section--highlight
+    .l-section__inner
+      margin 60px auto
+
+  &.l-section--pricing
+    .l-section__inner
+      margin 120px auto
+
+  &.l-section--careersIntro
+    //border 1px solid #d7d7d7
+    padding-bottom 66px
+
+  &.l-section--team
+    border-bottom 1px solid #d7d7d7
+    padding-bottom 90px
+
+
+@media screen and (max-width: max-mobile-screen)
+  .l-section
+    &.l-section--main-vid
+      height 72%
+      min-height 475px

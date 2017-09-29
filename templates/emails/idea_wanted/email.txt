@@ -1,0 +1,1 @@
+Hey, {{ first_name }}, you might be onto something here. {{ vote.user.get_full_name }} wants your idea, {{ vote.idea.title }}. Check it out. {{ idea_url }}

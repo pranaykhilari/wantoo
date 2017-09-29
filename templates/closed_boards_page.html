@@ -1,0 +1,22 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+{% block content %}
+
+
+<div class="view view-login">
+  <div class="-inner-cont">
+      <a class="-closed_boards"><img src="/static/dashboard/img/wantoo_logo_pink.svg" alt="Wantoo"></a>
+      <h2 class="-closed_boards_notice">This board is closed</h2>
+
+    <div class="-cont -loginFormCont"></div>
+        {% buttons %}
+            <button class="closed_board_button"><a href="https://wantoo.io/my-boards/" class="close_board_signup">Start your own board!</a></button>
+        {% endbuttons %}
+          <h5 class="closed_board_help">Learn more about <a href="https://wantoo.io/" class="close_board_color">Wantoo</a></h5>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

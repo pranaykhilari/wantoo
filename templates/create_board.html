@@ -1,0 +1,225 @@
+{% extends "base_plain.html" %}
+
+{% load bootstrap3 %}
+{% load account %}
+{#{% load url from future %}#}
+{% load mytags %}
+{% load socialaccount %}
+
+{% block content %}
+{#{% providers_media_js %}#}
+{% get_company as company %}
+
+<div id="auth" data-authed="{{ user.is_authenticated.value}}"></div>
+
+<div class="view-login">
+  <div class="-inner-cont">
+
+            <div class="introView">
+              <div class="introView__container">
+
+                <div class="introView__backgroundHeader">
+                   <div class="introView__backgroundHeader--left"></div>
+                   <div class="introView__backgroundHeader--right"></div>
+                </div>
+
+                <div class="introView__mainBody">
+                  <div class="body1">
+
+
+                    <div class="introView__logoWrap">
+                      <img class="introView__logoWrap--image" src="/static/dashboard/img/intro/intro_img.jpg"/>
+                        <!-- PROFILE MODAL -->
+                        <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions introView__mainModal" id="_modal-Profile" tabindex="-1" role="dialog" aria-labelledby="Profile">
+                          <div class="modal-dialog mainModal__toolTipTop"  role="document">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                 <h2 class="-title left">Add your logo</h2>
+                                 <p class="-message">Enter a URL to an image file.
+                                 <input type="url" id="id_logo_url" maxlength="200" name="logo_url" class="form-control input-sm" placeholder="http://example.com/logo.png" />
+                                 </p>
+                                 <div class="-action-cont">
+                                    <button type="button" id="Logo_Updated" class="btn-fill-primary" onclick="modalActions.logoUpdate()">Next</button>
+                                    <button type="button"  class="btn-fill-transparent" onclick="modalActions.skip('#_modal-Profile', '#_modal-Question');">I'll do later</button>
+                                 </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- MODAL END-->
+                    </div>
+
+                    <div class="introView__questionWrap">
+                      <span class="introView__questionWrap--text intro-hide">We'd love your feedback. Tell us what you want.</span>
+                      <!-- QUESITON MODAL -->
+                      <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions introView__mainModal" id="_modal-Question" tabindex="-1" role="dialog" aria-labelledby="Question">
+                        <div class="modal-dialog mainModal__toolTipTop"  role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                               <h2 class="-title left">Add your question</h2>
+                               <p class="-message"> 
+
+                                The type of question you ask plays an important role in getting reliable results and actionable insights.
+
+                                <input type="text"  id="id_question" maxlength="200" name="question" class="form-control input-sm" placeholder="We'd love your feedback. Tell us what you want." />
+
+                               </p>
+                               <div class="-action-cont">
+                                  <button type="button" id="question_updated" class="btn-fill-primary" onclick="modalActions.questionUpdate()">Next</button>
+                                  <button type="button"  class="btn-fill-transparent" onclick="modalActions.skip('#_modal-Question', '#_modal-Theme');">I'll do later</button>
+                               </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- MODAL END -->
+                    </div>
+
+                    <div class="introView__tempIdeaField"></div>
+
+                  </div> <!-- ./ body1 END -->
+
+
+                  <div class="body2">
+                    <div class="introView__tempIdeaList"></div>
+                  </div>
+
+                </div> <!-- ./ mainBody END -->
+
+                <!-- <div class="introView__backgroundFooter">
+                  <div class="introView__backgroundFooter--center">
+
+                    If you need additional support, we're here to help. Check out <a href="https://wantoo.io/using-wantoo/" target="_blank">a live example</a> of an Idea Board, review best practices and how-to's on our <a href="https://wantoo.zendesk.com" target="_blank">Support Form</a>, or email us anytime at <a href="mailto:hello@wantoo.io" target="_blank">hello@wantoo.io</a>.
+                    
+                  </div>
+                </div> -->
+
+              </div>
+            </div> <!-- ./ introView END -->
+
+            <!-- ***TITLE MODAL**** -->
+            <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions introView__mainModal" id="_modal-Title" tabindex="-1" role="dialog" aria-labelledby="Title">
+              <div class="modal-dialog" style="" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                     <h2 class="-title left">Title your board</h2>
+                     <p class="-message">
+
+                     Board titles define your custom URL and appear in email notifications. It's best to keep it short and concise.
+
+                     <input class="form-control" id="id_title" maxlength="55" name="title" placeholder="e.g. Company name"  required="required" title="" type="text" aria-required="true">
+
+                     </p>
+                     <div class="-action-cont">
+                        <button type="button" id="id_title_button" class="btn-fill-primary" onclick="modalActions.titleUpdate()" disabled="true">Next</button>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- MODAL END -->
+
+            <!-- COLOR CHANGE MODAL -->
+            <div  data-backdrop="static" data-keyboard="false" class="modal color-picker fade comp-modal x-bulkActions introView__mainModal" id="_modal-Theme" tabindex="-1" role="dialog" aria-labelledby="Theme" style="">
+              <div class="modal-dialog"  role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                     <h2 class="-title left">Choose your color</h2>
+                     <p class="-message"> The theme color will apply to all the links and buttons on your board.
+                     <input value="0079BF" type="text" id="id_color" name="color" placeholder="Theme color" class="form-control jscolor" placeholder="0079BF" />
+                     </p>
+                     <div class="-action-cont">
+                        <button type="button" id="theme_color_updated" class="btn-fill-primary" onclick="modalActions.lastUpdate()">Next</button>
+                        <button type="button"  class="btn-fill-transparent" onclick="modalActions.skip('#_modal-Theme', '#_modal-Summary');">I'll do later</button>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- MODAL END -->
+
+            <!-- FINAL OUTRO MODAL -->
+            <div data-backdrop="static" data-keyboard="false" class="modal fade comp-modal x-bulkActions introView__mainModal" id="_modal-Summary" tabindex="-1" role="dialog" aria-labelledby="Summary">
+              <div class="modal-dialog" style="max-width: 700px;" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                     <h2 class="-title center">All done and ready to go!</h2>
+
+                     <p class="-message center">
+                      
+                      Let's add some ideas. Collaborate, get feedback, and work together on ideas. Here are a few things you can do right now.
+
+                       <ul class="colum_list">
+                          <li class="colum offset-0">
+                            <div class="colum_image"><img src="/static/dashboard/img/intro/icon1.png"/></div>
+                            <div class="colum_text">Email people for ideas</div>
+                            <div class="colum_button">
+                              <a id="email_button">
+                                <button type="button" class="btn-fill-primary" onclick="mixpanel.track('Invite clicked / welcome modal');">Invite</button>
+                              </a>
+                            </div>
+                          </li>
+                          <li class="colum offset-1">
+                             <div class="colum_image"><img src="/static/dashboard/img/intro/icon2.png"/></div>
+                            <div class="colum_text">Add your own ideas</div>
+                            <div class="colum_button send-to-home "><a href=""><button type="button" onclick="mixpanel.track('Add clicked / welcome modal');" class="btn-fill-primary">Add</button></a></div>
+                          </li>
+                          <li class="colum offset-2">
+                             <div class="colum_image"><img src="/static/dashboard/img/intro/icon3.png"/></div>
+                            <div class="colum_text">Ways of using Wantoo</div>
+                            <div class="colum_button"><a href="/using-wantoo/ideas/" target="_blank"><button type="button" onclick="mixpanel.track('Discover clicked / welcome modal');" class="btn-fill-primary">Discover</button></a></div>
+                          </li>
+                       </ul>
+
+                     </p>
+                     <div class="final-text send-to-home" onclick="mixpanel.track('I\'ll do this later clicked / welcome modal');"><a href="">I'll do this later, take me to my Idea Board</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- MODAL END -->
+
+  </div>
+</div>
+
+<script type="text/javascript">
+window.userInfo.company = {% if company %} "{{ company.slug }}" {% else %} undefined {% endif %};
+window.userInfo.firstName = "{{ user.first_name }}";
+
+
+ window.intercomSettings = {
+            app_id: "{{ intercom_app_id }}",
+            name: "{{ request.user.first_name }} {{ request.user.last_name }}", // Full name
+            email: "{{ request.user.email }}", // Email address
+          };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/{{ intercom_app_id }}';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+<script src="/static/dist/js/bootstrap.min.js"></script>
+<script src="/static/dist/js/jscolor.min.js"></script>
+<script src="/static/dist/js/init.js"></script>
+<script src="/static/dist/js/intro.js"></script>
+<script>
+$( "#id_title_button" ).click(function() {
+  window.Intercom("trackEvent", "Title Updated")
+});
+</script>
+
+<script>
+$( "#Logo_Updated" ).click(function() {
+  window.Intercom("trackEvent", " Logo Updated");
+});
+</script>
+
+<script>
+$( "#question_updated" ).click(function() {
+  window.Intercom("trackEvent", " Question Updated");
+});
+</script>
+
+<script>
+$( "#theme_color_updated" ).click(function() {
+  window.Intercom("trackEvent", " Theme color Updated");
+});
+</script>
+
+{% endblock content %}

@@ -1,0 +1,125 @@
+.comp-header
+	position fixed
+	top 0
+	width 100%
+	background #fff
+	z-index 1001
+
+	.comp-header__inner-cont
+		width 100%
+		height 80px
+		max-width 1200px
+		margin 0 auto
+		position relative
+		padding 0 3%
+
+	.comp-header__brandCont
+		position absolute
+		left 0
+		margin 0 auto
+		right 0
+		opacity 0
+		height 100%
+		transition opacity .3s ease
+
+		.comp-header__logo
+			max-height 40px
+			position absolute
+			left 0
+			margin 0 auto
+			right 0
+			top 50%
+			transform translateY(-50%)
+			max-width 100px
+
+		.comp-header__logo--left
+			margin 0 3% !important
+
+		.comp-header__title
+			color #000
+			width 100%
+			text-align center
+			text-decoration none
+			margin 22px 0 0 0
+
+	.searchBar
+		float left
+		position relative
+		z-index 10
+
+	.mainNav
+		.mainNav__item--search
+			display none
+
+	/* States */
+	&.comp-header--isLogoSmall
+		.comp-header__brandCont
+			opacity 1
+
+	&.comp-header--isShowingShadow
+		box-shadow 0px -1px 5px 0px rgba(70,70,70,70)
+		
+	.comp-header__mobileSearch
+		background #fff
+		display none
+		position absolute
+		top 0
+		width 100%
+		padding 0 3%
+		left 0	
+		z-index 1000
+		
+		.comp-header__mobileSearch__form-cont
+			background #f2f2f2	
+			background-image url('/static/dashboard/img/icons/magnify.png')
+			background-repeat no-repeat
+			background-size 21px
+			background-position 6px center
+			border-radius 3px
+			height 33px
+			margin-top 6px
+			width 100%
+			
+			input
+				background transparent
+				border none
+				padding-left 42px
+				height 100%
+				width 100%
+		
+		.comp-header__mobileSearch__close
+			position absolute
+			top 0
+			right 0	
+		
+
+@media (max-width: 600px)
+	.comp-header
+		.searchBar
+			background none
+			background-color #fff
+			border-bottom 1px solid #f5f5f5
+			display none
+			padding 0 0 0 3%
+			position absolute
+			top 65px
+			left 0
+			width 100%
+		
+		.comp-header__brandCont
+			opacity 1 !important
+
+			.comp-header__logo
+				float left
+				position relative
+				left 3%
+				max-width 80px
+				top 20px
+				transform translateY(0%)
+		
+		.comp-header__item
+			margin-left 25px
+
+			&.comp-header__item--search
+				display block	
+		

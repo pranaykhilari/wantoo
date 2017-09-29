@@ -1,0 +1,35 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-feature
+  @extend .clearfix
+  width 100%
+  .l-feature__textContainer
+    float left
+    margin 20px 0 0 5%
+    width 35%
+    .l-feature__text
+      margin 20px auto
+  .l-feature__imageContainer
+    float right
+    margin-left 5%
+    width 50%
+    .l-feature__imageSpacer
+      display inline-block
+      margin auto
+      max-width 60%
+      padding 5% 10%
+
+@media screen and (max-width: max-mobile-screen)
+  .l-feature
+    .l-feature__textContainer
+    .l-feature__imageContainer
+      max-width 480px
+      width 95%
+    .l-feature__textContainer
+      margin 0 auto 60px 5%
+    .l-feature__imageContainer
+      float none
+      margin 0 0 auto auto
+      .l-feature__imageSpacer
+        max-width 80%
+        padding 5% 10%

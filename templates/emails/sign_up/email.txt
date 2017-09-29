@@ -1,0 +1,11 @@
+Hi, {{ full_name }}!
+
+It’s time to start gathering great ideas from your customers and turn them into wins for your organization.
+
+Here’s your Idea Board’s custom URL - {{ author_url }}
+
+As you get the ball rolling, have a look at our Getting Started Guide [https://wantoo.zendesk.com/hc/en-us/articles/216243017-Getting-Started-with-Wantoo], as well some Pro Tips [https://wantoo.zendesk.com/hc/en-us/articles/218727098-Wantoo-Idea-Gathering-Campaign-Checklist] to help you get the most out of your customer engagement journey.
+
+If you find yourself needing to explain the process to your customers or audience, we’ve got you covered with this, explainer page [https://wantoo.zendesk.com/hc/en-us/articles/209050037-Voting-for-Ideas-on-Wantoo-How-Does-It-Work-]. We even have some sample text [https://wantoo.zendesk.com/hc/en-us/articles/219153777-Wantoo-Messaging-Templates] to help you get started in reaching out. If you run into any roadblocks, you can check out our FAQ [https://wantoo.zendesk.com/hc/en-us/articles/208728557-FAQs] or just ask us [https://wantoo.zendesk.com/hc/en-us/articles/208037848-contact-details]. Good luck… we know you’ll do great!
+
+~  Wantoo Success Team

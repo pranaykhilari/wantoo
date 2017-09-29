@@ -1,0 +1,168 @@
+{% extends "staff/base.html" %}
+{% load mytags %}
+
+{% block staff_content %}
+    
+    <h2>Board Details</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width:230px;">Owner</th>
+                <th>URL</th>
+                <th>Logo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img style="width:40px; margin-right: 10px; border-radius: 50%; float:left;" src="{% gravatar_url company.created_by %}" alt="">
+                    <a href="/{{company.slug}}/member/{{ company.created_by.id }}/">
+                    {{ company.created_by.get_full_name }}</a><br/>
+                    {{ company.created_by.email }}
+                </td>
+                <td>
+                    <strong>{{ company.title }}</strong>
+                    {% if company.color  %}
+                        <span style="color: #{{ company.color }}; font-size: 16px; margin-left: 5px;"><i class="glyphicon glyphicon-tint"></i></span>
+                    {% endif %}
+                    <br/>
+                    <a target="_blank" href="/{{ company.slug }}/">https://wantoo.io/{{ company.slug }}/</a>
+                </td>
+                <td>
+                    {% if company.logo_url %}
+                        <a target="_blank" href="{{ company.logo_url }}">
+                            <img height="40px" src="{{ company.logo_url }}">
+                        </a>
+                    {% else %}
+                        No logo
+                    {% endif %}
+                   </td>
+            </tr>
+        </tbody>
+    </table>
+
+      <table class="table table-bordered" style="margin-top: 10px; font-size: 17px;">
+            <tr>
+                <th style="width:230px;">Ideas</th>
+                <td>{{ company.idea_count }}</td>
+            </tr>
+            <tr>
+                <th>Members</th>
+                <td>{{ company.member_count }}</td>
+            </tr>     
+            <tr>
+                <th>Comments</th>
+                <td>{{ company.comment_count }}</td>
+            </tr>  
+            <tr>
+                <th>Categories</th>
+                <td>{{ company.comp_categories.all.count  }}</td>
+            </tr>      
+            <tr>
+                <th>Activities</th>
+                <td>{{ company.activity_count }}</td>
+            </tr>       
+            <tr>
+                <th>Members with ideas</th>
+                <td>{{ members_with_ideas.count }} 
+                    &nbsp;<small style="color: #999;">({% widthratio members_with_ideas.count company.member_count 100 %}%)</small>
+                </td>
+            </tr>
+            <tr>
+                <th>Members with votes</th>
+                <td>{{ members_with_votes.count }}
+                     &nbsp;<small style="color: #999;">({% widthratio members_with_votes.count company.member_count 100 %}%)</small>
+                </td>
+            </tr>
+            <tr>
+                <th>Members with comments</th>
+                <td>{{ members_with_comments.count }}
+                     &nbsp;<small style="color: #999;">({% widthratio members_with_comments.count company.member_count 100 %}%)</small>
+                </td>
+            </tr> 
+            <tr>
+                <th>Members with no activity</th>
+                <td>{{ members_without_activity.count }}
+                     &nbsp;<small style="color: #999;">({% widthratio members_without_activity.count company.member_count 100 %}%)</small>
+                </td>
+            </tr>               
+            <tr>
+                <th>Created at</th>
+                <td>{{ company.created_at }}
+                </td>
+            </tr>  
+            <tr>
+                <th>Last activity</th>
+                <td>{% if company.company_activity.all %}
+                    {{ company.company_activity.all.0.created_at|better_timesince }}
+                {% endif %}
+                </td>
+            </tr>                           
+            <tr>
+                <th>Statuses</th>
+                <td>{% for status in company.comp_statuses.all  %}
+                    <span style="font-size:12px; color: #fff; background-color: #{{status.color}}; padding: 2px 6px; border-radius: 4px;">{{ status }} ({{ status.count }})</span>
+                {% endfor %}
+                </td>                
+            </tr>                                 
+    </table>    
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart', 'timeline']}]}"></script>
+
+
+<script type="text/javascript">
+        google.load('visualization', '1', {packages: ['corechart']});
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Day');
+        data.addColumn('number', 'Activities');
+
+        data.addRows([
+        {% for day in activity_timeline %}[new Date('{{ day.0|date:'m' }}/{{ day.0|date:'d' }}/{{ day.0|date:'Y' }}'), {{ day.1 }}],
+        {% endfor %}
+        ]);
+
+
+        var options = {
+          title: 'Daily activities',
+          width: 900,
+          height: 300,
+          hAxis: {
+            format: 'M/dd',
+            gridlines: {count: 90}
+          },
+          vAxis: {
+            gridlines: {color: 'none'},
+            minValue: 0
+          }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        var button = document.getElementById('change');
+
+        button.onclick = function () {
+
+          // If the format option matches, change it to the new option,
+          // if not, reset it to the original format.
+          options.hAxis.format === 'M/d/yy' ?
+          options.hAxis.format = 'MMM dd, yyyy' :
+          options.hAxis.format = 'M/d/yy';
+
+          chart.draw(data, options);
+        };
+      }
+    
+
+</script>
+
+    <div id="chart_div" style="margin: 30px 0;"></div>
+
+{% endblock staff_content %}

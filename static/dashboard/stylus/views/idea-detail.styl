@@ -1,0 +1,305 @@
+.view-ideaDetail
+	
+	.-merge-info
+		background #ebebeb
+		border none
+	
+	.-merge-info-blurb	
+		color #000
+		
+	
+	.-breadcrumb
+		float left
+	
+	.view-ideaDetail__col-left
+		float left
+		margin-right 9%
+		width 68%
+	
+	.view-ideaDetail__col-right
+		float left
+		padding-top 22px
+		width 23%	
+
+	.-idea-detail
+		background #fff
+		position relative	
+		text-decoration none
+		display block
+		float left
+		padding 13px 0
+		z-index 999
+		width 100%
+		border none
+		margin-bottom 5px
+		
+		.-status-badge
+			color #fff
+			border-radius 10px
+			padding: 0 12px
+			font-size 8px
+			text-transform uppercase
+			line-height 19px
+			display inline-block
+		
+		.-descriptionButtons
+			display none
+			margin-top 10px
+			clearfix()
+			
+			button
+				float left
+		
+		.-edit-description
+			width 100%	
+			height 40px
+			border 1px solid #dddddd
+			resize none
+			font-size 16px
+			outline none
+			border-radius 2px
+			padding 7px 0 0 10px
+			margin-top 15px
+			max-height 150px
+
+		.-btn-edit
+			top 24px
+			height 23px
+			float right
+			position absolute
+			right 0
+			display block
+			width 15px
+			margin-right -5px
+			padding 0
+			margin-left 30px	
+			
+			.btn
+				border none
+				box-shadow none
+				background #fff
+				padding 0 5px
+			
+			img
+				width 100%
+				
+			.dropdown-menu
+				right 0
+				left auto	
+		
+		.-btn-action
+			height 23px
+			top 35px
+			float right
+			
+			button
+				border none
+				width 100%
+				height 100%
+				background-repeat no-repeat
+				background-size 100%
+				background-color transparent
+				padding 0
+				
+				&:active, &:focus
+					background-color transparent
+					box-shadow none
+			
+			.dropdown-menu
+				right 0
+				left auto	
+			
+			&.x-share
+				width 24px
+				
+				button
+					background-image url('/static/dashboard/img/icons/icon_share.svg')
+
+								
+		
+		.-col-vote, .-col-vote-small
+			.-cont-vote
+				height 100px
+				margin-top 8px
+			
+				.-score
+					color #000
+					margin 0
+					font-size 22px
+					font-weight bold
+					text-align center
+					width 100%
+					margin-bottom 5px
+				
+				.btn-vote
+					font-size 16px
+				
+				.-btn-vote
+					outline none
+					font-size 20px
+					font-weight bold
+					margin 0 auto
+					display block
+					
+					&.voted
+						background highlightPrimary
+						color #fffefe
+						border 3px solid highlightPrimary
+					
+					&.not_voted
+						border 3px solid #959595
+						background transparent
+						color #959595
+			
+		.-col-vote-small
+			display none	
+			float left	
+			
+			.-cont-vote
+				.-score
+					text-align left		
+					margin-left 35px
+					font-size 14px
+					font-weight normal
+					color #a3a3a3
+					margin-top 12px
+					margin-bottom 15px
+					
+				.btn-vote
+					height 60px			
+					
+		
+		.-col-info
+			.-cont-info
+				min-height 100px
+				
+				.-title
+					color black
+					font-size 30px
+					margin 2px 0 4px 0
+					font-weight bold
+					max-width 86%
+				
+				.-description
+					margin-top 20p
+					white-space pre-wrap
+					white-space -moz-pre-wrap
+					white-space -pre-wrap
+					white-space -o-pre-wrap
+					word-wrap break-word
+				
+				.-people
+					width 100%
+					float left
+					
+				.-activity
+					color #a3a3a3
+					font-size 13px	
+					margin 0
+					
+					.-category
+						background-size 16px
+						background-image url('/static/dashboard/img/icons/category.svg')
+						background-position 0 center
+						background-repeat no-repeat
+						padding-left 25px
+						margin-right 15px
+						
+						a
+							color #a3a3a3
+							text-decoration none
+							
+							&:hover
+								color highlightPrimary
+					
+					.-recent
+						padding-left 5px	
+						margin-right 15px
+						
+						a
+							text-decoration none
+							
+							span
+								color #a3a3a3
+							
+							&:hover
+								span
+									color highlightPrimary	
+						
+						.-profile
+							border-radius 50%
+							border 1px solid #a7a7a7
+							width 26px
+							margin-right 10px
+						
+						span
+							font-weight bold
+
+@media (max-width: 650px)
+	.view-ideaDetail
+		.view-ideaDetail__col-left
+			width 100%
+			
+		.view-ideaDetail__col-right
+			width 100%
+		
+		.-idea-detail
+			.-btn-edit
+				display none
+				
+			.-col-info
+				.-cont-info
+					min-height 60px
+					
+					.-title
+						font-size 18px
+						//added from before
+						max-width 100%
+					
+					.-description
+						margin-top 5px		
+		
+			.col-row
+				.-col-vote
+					margin-right 20px
+					
+					.-cont-vote
+						height auto
+						margin-top 6px
+						
+						.-score
+							font-size 19px
+							
+						.btn-vote
+							font-size 14px	
+							font-weight bold
+							width 50px
+							height 25px
+										
+		.-comments-section
+			.left-two-col
+				display none
+			
+			.right-two-col
+				width 100%						
+			 					
+@media (max-width: 485px)			 					
+	.view-ideaDetail
+		.-idea-detail
+			.col-row
+				.-col-vote
+					min-width 50px
+					width auto
+					float left
+					margin-right 5.5%
+			
+				.-col-info
+					float left
+					//width 80%
+					width calc(80% - 20px)
+
+		.-col-info .-col-info-button,
+		.-col-right .-col-info-button
+			max-width 50%
+			min-width 50%
+  								

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+{% with x="You've been invited to contribute to" %}
+        {% with x2="You can vote and comment on ideas, as well as add new ideas of your own." %}
+            {% with x|add:x2 as email_text %}
+                <div class="comp-contMain" style="max-width: 83%">
+                    <div class="view view-main view-invite">
+                        <div id="ideaList"></div>
+                        <div class="_hideOnLiveSearch">
+
+
+                            <h2 class="-title">Invite members</h2>
+                            <div class="-view__settings-menu">
+                                <div class="-inner-cont">
+                                    <a href="/{{ company.slug }}/settings/">Settings</a>
+                                    <a class="active" href="/{{ company.slug }}/manage/members/">Members</a>
+                                    <a href="/{{ company.slug }}/manage/categories/">Categories</a>
+                                </div>
+                            </div>
+                            <div class="invite__content_wrapper">
+                                <div class="invite__content_inner">
+
+                                    <form class="form form-wantoo form-validate invite_form" action="."
+                                          method="post">
+                                        {% csrf_token %}
+
+                                        <div class="form-group"><label class="control-label">Add email</label><span
+                                                class="help-block invite_font_block"
+                                                style="display: inline"> (separate multiple addresses with commas)</span>
+                                            <textarea rows="2" cols="50" class="form-control invite_email"
+                                                      id="email_count"
+                                                      name="members">{{ emails }}</textarea>
+
+                                            <div class="help-block">
+                                                <div
+                                                        class="help-block invite_font_block">Tip: copy and paste a list from another board
+                                                    via Export members (.csv) or a list of contacts from your email.
+                                                </div>
+
+                                                <div class="invite_email_error"
+                                                     >{{ message }}</div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group form-group-space"><label class="control-label">Edit
+                                            message </label>
+                                            <div contenteditable="true" class="form-control invite_edit_message"
+                                                 id="email_text">{{ x }}
+                                                <a href="https://wantoo.io/{{ company.slug }}/">{{ full_name }}'s Idea Board</a>. {{ x2 }}<br> <br>Check it out: <a href="https://wantoo.io/{{ company.slug }}/"> https://wantoo.io/{{ company.slug }}/ </a>
+                                            </div>
+
+                                            <input type="hidden" id="textarea_hidden" name="email_text">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" id="submit_button" class="btn-fill-primary"
+                                                    style="display: inline" disabled>Send <span id="email"></span>
+                                                <p id="invite_label" style="display: inline">invite</p>
+                                            </button>
+                                            <a href="/{{ company.slug }}/manage/members/"
+                                               class="-btn-cancel btn-fill-transparent"
+                                               style="display: inline-block">Cancel</a>
+                                            {% csrf_token %}</div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            {% endwith %}
+        {% endwith %}
+    {% endwith %}
+    <script type="text/javascript">
+        document.getElementById("submit_button").onclick = function () {
+            document.getElementById("textarea_hidden").value = document.getElementById("email_text").innerHTML;
+        };
+
+
+        $("#email_count").keyup(function () {
+            var value = $(this).val().replace(" ", "");
+
+            var str = value.replace(/,\s*$/, "");
+            var words = str.split(",");
+            var count = words.length;
+
+            document.getElementById("email").innerHTML = count;
+            document.getElementById("invite_label").innerHTML = "invites";
+
+            if (value.length == 0) {
+                document.getElementById("email").innerHTML = "";
+                document.getElementById("invite_label").innerHTML = "invite";
+            }
+            else if (count == 1) {
+                document.getElementById("email").innerHTML = count;
+                document.getElementById("invite_label").innerHTML = "invite";
+            }
+
+
+        });
+    </script>
+
+
+{% endblock %}

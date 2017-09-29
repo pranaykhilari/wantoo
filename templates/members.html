@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load mytags %}
+{% block content %}
+
+    <style>
+        input[type="checkbox"]:checked + label:before {
+            background:#{{ company.color }};
+        }
+        #membersTable {
+            border-bottom: 1px
+        }
+    </style>
+    {% get_dark_launch "MULTIPLE_ADMINS" as multiple_admins_enabled %}
+    <div class="comp-contMain main_container">
+
+        <div class="view view-manageMembers manage_member">
+            <div id="ideaList"></div>
+            <div class="_hideOnLiveSearch">
+                <a class="-export-members-link export_members"
+                   href="/{{ company.slug }}/manage/members/export/">Export members</a>
+                <a class="-export-members-link"
+                   style="position:absolute; top: 245px;border-radius: 0; width: 197px;height: 63px;  background-color: #{{ company.color }} "
+                   href="/{{ company.slug }}/invite/"><span
+                        style="position: relative; font-size: 18px; top:18px;left: 37px; color: white">Invite members</span></a>
+                <div class="-export-members-link">
+                    <input type="text" class=" search_members" id="datatable_search" placeholder="Search members"
+                           autocomplete="off">
+                </div>
+                <h2 class="-title">Manage members</h2>
+                <div class="-view__settings-menu">
+                    <div class="-inner-cont">
+                        <a href="/{{ company.slug }}/settings/">Settings</a>
+                        <a class="active" href="/{{ company.slug }}/manage/members/">Members</a>
+                        <a href="/{{ company.slug }}/manage/categories/">Categories</a>
+                    </div>
+                </div>
+                <table id="membersTable" class="comp-manageTable table" cellspacing="0" width="100%">
+                    <thead style="top:100px;">
+                    <tr>
+                        <th><span class="-label"></span></th>
+                        <th><span class="-label"></span></th>
+                        <th><span class="-label"></span></th>
+                        <th class="no-sort"></th>
+                        <th class="no-sort"></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                    {% for owner in owner %}
+                        <tr>
+                            <td class="-member-name -bold new">
+                                <div class="tr_first_child">
+                                    <img class="-profile datatable_profile" src="{% gravatar_url owner.user %}"
+                                         alt="Profile picture">
+                                    <div class="user_detail">
+                                        <a href="/{{ company.slug }}/member/{{ owner.user.id }}"
+                                           class="user_name">{{ owner.user.get_full_name }}<br><span
+                                                class="user_email">{{ owner.user.email }}</span></a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="-member-email">
+                                <span class="board_owner setting_font_block"> Owner</span>
+                            </td>
+                            <td class='-member-date'></td>
+                            <td class="-member-action"></td>
+                            <td class="-member-action"></td>
+                        </tr>
+                    {% endfor %}
+
+
+                    {% for member1 in pending_members %}
+                        <tr>
+                            <td class="-member-name -bold new" style="width: 45%">
+                                <div class="tr_first_child">
+                                    <img class="-profile datatable_profile"
+                                         src="http://wantoo.io/static/dashboard/img/company_logos/sample-logo.jpg"
+                                         alt="Profile picture">
+                                    <div class="user_detail">
+                                        <a href="/{{ company.slug }}/member/{{ member1.member_email }}"
+                                           style=" position:relative; font-size: 18px; top:2px"><br><span
+                                                id="member_email"
+                                                class="user_email pending_invite_email">{{ member1.member_email }}</span></a>
+                                        <input type="hidden" name="user_email" class="email"
+                                               value="{{ member1.member_email }}">
+                                    </div>
+                                </div>
+                            </td>
+                            <input type="hidden" name="company" class="company" value="{{ company.slug }}">
+                            <td class="-member-email">
+                                {% if member1.user == company.created_by %}
+                                    <span class="board_owner setting_font_block"> Owner</span>
+                                {% elif member1.user and member1.user != company.created_by %}
+                                    <span class="board_owner setting_font_block"> Member </span>
+                                {% elif not member1.user %}
+                                    <span> Pending invite </span>
+                                {% endif %}
+                            </td>
+                            <td class='-member-date'></td>
+
+
+                            <td class="-member-action">
+                                {% if not member1.user %}
+                                    <span class="member_status">
+                                        <a href="/{{ company.slug }}/pending/{{ member1.id }}/remove/">
+                                            Remove
+                                        </a>
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td class="-member-action">
+
+                                <a href="#" class="resend member_admin email resend_position"
+                                   style="left: 82px">Resend</a>
+
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+
+                    {% for member in members %}
+                        <tr>
+                            <td class="-member-name -bold new">
+                                <div class="tr_first_child">
+                                    <img class="-profile datatable_profile" src="{% gravatar_url member.user %}"
+                                         alt="Profile picture">
+                                    <div class="user_detail">
+                                        <a href="/{{ company.slug }}/member/{{ member.user.id }}"
+                                           class="user_name">{{ member.user.get_full_name }}<br><span
+                                                class="user_email">{{ member.user.email }}</span></a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="-member-email">
+                                {% if member.user == company.created_by %}
+                                    <span class="setting_member setting_font_block"> Owner</span>
+                                {% elif member.user and member.user != company.created_by %}
+                                    <span class="setting_member setting_font_block"> Member </span>
+                                {% elif not member.user %}
+                                    <span class="member_invite"> Pending invite</span>
+                                {% endif %}
+                            </td>
+                            <td class='-member-date'></td>
+
+
+                            <td class="-member-action">
+                                {% if company.created_by == member.user or member.user == user or member.user.user_detail.company == company %}
+
+                                {% else %}
+                                    <span class="member_status">
+                                        <a href="/{{ company.slug }}/members/{{ member.id }}/block/">
+                                            {% if member.blocked %}Unblock{% else %}Block{% endif %}
+                                        </a>
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td class="-member-action">
+                                {% if multiple_admins_enabled %}
+                                    {% if company.created_by != member.user %}
+                                        <div class="content">
+                                            <div class="box">
+                                                <a href="/{{ company.slug }}/members/{{ member.id }}/admin/">
+                                                    <div class="checkbox_style" style="left: 66px">
+                                                        <input type="checkbox" id="{{ member.id }}" name="cb">
+                                                        {% if member.user in admins %}
+                                                            <label> Admin </label>
+                                                        {% else %}
+                                                            <label> Admin </label>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% elif member.user == company.created_by %}
+                                {% else %}
+                                    <div class="content">
+                                        <div class="box">
+                                            <a href="/{{ company.slug }}/members/{{ member.id }}/admin/">
+                                                <div class="checkbox_style" style="left: 66px">
+                                                    <input type="checkbox" id="{{ member.id }}" name="cb">
+                                                    {% if member.user in admins %}
+                                                        <label> Admin </label>
+                                                    {% else %}
+                                                        <label> Admin </label>
+                                                    {% endif %}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+                <img src="/ideas/reset-new/" class="hidden" width="1px" height="1px"/>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#member_email').css('word-break', 'break-all');
+            $.fn.dataTable.ext.errMode = 'none'; // hide the datatable modification warning
+
+            /* js code for change the text of previous button to prev*/
+            $('#membersTable').dataTable({
+                "bSort": false,
+                "aaSorting": [],
+                "columnDefs": [
+                    {targets: 'no-sort', orderable: false, order: []}
+                ],
+
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Prev"
+
+                    }
+                },
+                "iDisplayLength": 50,
+
+                "oLanguage": {
+                    "sZeroRecords": "No matching members found"
+                },
+
+                "fnDrawCallback": function (oSettings) {
+                    if ($('#membersTable tr').length < 50) {
+                        $('.dataTables_paginate').hide();
+                    }
+                },
+
+            });
+
+
+            /* datatable search functionality*/
+            oTable = $('#membersTable').DataTable();
+            $('#datatable_search').keyup(function () {
+                oTable.search($(this).val()).draw();
+            });
+
+            $('.email').click(function (e) {
+                var currentTd = $(e.target).parents('td');
+                var parentTr = $(currentTd.parents('tr')[0]);
+                var userEmail = parentTr.find('input:hidden[name=user_email]')[0].value;
+                var company = $('.company').val();
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'resend_email' %}',
+                    data: {company: company, email: userEmail},
+                    dataType: "json",
+                    success: function () {
+
+                    }
+                });
+            });
+            // reflect admin status on checkbox
+            {% for member in members %}
+                {% if member.user in admins %}
+                    document.getElementById('{{ member.id }}').checked = true;
+                {% else %}
+                    document.getElementById('{{ member.id }}').checked = false;
+                {% endif%}
+            {% endfor %}
+
+        });
+
+    </script>
+{% endblock content %}
+
+
+

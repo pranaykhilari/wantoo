@@ -1,0 +1,17 @@
+<p>Hey, {{ first_name }}!</p>
+
+<p>
+This just in from the <strong>{{ idea.company.title }} Idea Board</strong>: the status of the idea you support (<a href="{{ idea_url }}">{{ idea.title }}</a>) has been changed to <strong>{{ idea.status.title }}</strong>.
+</p>
+
+
+<p>
+</p>
+
+<br/><br/>
+<p>
+<small>
+<strong>Sent from {{ idea.company.title }}.</strong><br/><br/>
+This message was sent to {{ user_email }}. If you don’t want to receive these emails in the future, <a href="{{ mute_url }}">mute email notifications</a> for this idea. 
+</small>
+</p>

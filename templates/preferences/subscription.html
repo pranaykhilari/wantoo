@@ -1,0 +1,261 @@
+{% extends "preferences/base.html" %}
+
+{% block settings_content %}
+    {% if user_stripe_detail == None or user_stripe_detail.subscription_id == None and not socail_listening_enabled and not slack_integration_enabled and not board_stats_enabled %}
+
+         <form method="POST" action="{% url 'subscription_payment' %}" class="form form-wantoo -settings-form">
+          {% csrf_token %}
+            <div class="subscription_container">
+                <h3>Choose your plan</h3>
+                <div class="starter_pricing_list">
+
+                    <div class="pricing_plan_border starter_plan_list">
+
+                        <div>
+                            <h4 class="starter_plan_name">
+                                STARTER</h4>
+                            <h3 class="starter_price">$7</h3>
+                            <p class="plan_month">Monthly</p>
+                            <div class="plan_cta">
+                                <button class="btn-fill-primary cta_width" type="submit" name="starter" value="starter_plan">Try
+                                    it free
+                                </button>
+                            </div>
+                            <div class="starter_list">
+                                <ul class="starter_pricing_order">
+                                    <li class="m-pricingList__item">Voting</li>
+                                    <li class="m-pricingList__item">Leaderboard</li>
+                                    <li class="m-pricingList__item">Discussion</li>
+                                    <li class="m-pricingList__item">Real-time notifications</li>
+                                    <li class="m-pricingList__item">Custom branding</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pro_container">
+
+                    <div class="pricing_plan_border ">
+
+                        <div>
+                            <h4 class="pro_plan_name">
+                                PRO</h4>
+                            <h3 class="pro_plan_price">$25</h3>
+                            <p class="plan_month">Monthly</p>
+                            <div class="plan_cta">
+                                <button class="btn-fill-primary cta_width" type="submit" name="pro" value="pro_plan">Try
+                                    it free
+                                </button>
+                            </div>
+                            <div class="pro_plan_list">
+                                <ul class="starter_pricing_order">
+                                    <li class="m-pricingList__item">Private boards</li>
+                                    <li class="m-pricingList__item">Slack integration</li>
+                                    <li class="m-pricingList__item">Twitter integration</li>
+                                    <li class="m-pricingList__item">Idea merging</li>
+                                    <li class="m-pricingList__item">Machine learning</li>
+                                    <li class="m-pricingList__item">Statistics dashboard</li>
+                                    <li class="m-pricingList__item">Multiple admins</li>
+                                    <li class="m-pricingList__item">Dedicated support</li>
+                                    <li class="m-pricingList__item">Custom coaching</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    {% else %}
+        <div class="form form-wantoo -settings-form" autocomplete="on">
+            <div class="form-group">
+                {% csrf_token %}
+                <p>
+                <div><h1> Plan type:<b> {{ plan.name }} </b></h1></div>
+                <div>You're currently using <b>Wantoo {{ plan.name }}</b>.</div>
+                {% if user_stripe_detail.is_cancel %}
+                    <div>Your subscription will <b>cancel</b> on <b> {{ user_stripe_detail.end_date|date:'m/d/Y' }}</b>
+                        and you'll be moved to plan type: <b>Wantoo FREE</b>.
+                    </div>
+                {% else %}
+                    <div>Your subscription will automatically renew on
+                        <b> {{ user_stripe_detail.renew_date|date:'m/d/Y' }}</b>
+                        and you'll be charged
+                        {% if not user_stripe_detail.discount_amount == None %}
+                            <b>{{ user_stripe_detail.discount_amount }}</b>
+                        {% else %}
+                            <b>{{ plan.amount }}</b>
+                        {% endif %}
+                        <b>{{ plan.currency }}</b>.
+                    </div>
+                {% endif %}
+                <div>Payment details:<b> **** **** **** {{ user_stripe_detail.card_last_digits }}</b></p>
+                </div>
+            </div>
+            {% if not user_stripe_detail.is_cancel %}
+
+                    <div class="form-group"><br>
+                        <div class="subscription_container">
+                            <div class="edit_details_button">
+                                <button class="btn-fill-primary" onclick=" location.href='{% url 'subscription_payment' %}'">Edit
+                                    details
+                                </button>
+                            </div>
+                            {% if plan.plan_type == "starter_monthly" or plan.plan_type == "starter_monthly_without_trial" %}
+                                <div class="upgrade_pro">
+                                    <div class="upgrade_pro_button">
+                                        <a href="modal" data-toggle="modal" data-target="#update_to_pro" data-backdrop="true" data-keyboard="true" style="color: #e94095">
+                                            Upgrade to PRO
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif%}
+                        </div>
+                    </div>
+                    <div style="width: 100%;padding-top: 8%;">
+                        {% if plan.plan_type == "pro_25_monthly" or plan.plan_type == "pro_25_monthly_without_trial" %}
+                            <div>
+                                Want to
+                                    <a href="modal" data-toggle="modal" data-target="#downgrade_pro" data-backdrop="true" data-keyboard="true" style="color: #e94095">
+                                        downgrade
+                                    </a>
+                                        or
+                                    <a href="modal" data-toggle="modal" data-target="#cancel_sub" data-backdrop="true" data-keyboard="true" style="color: #e94095">
+                                        cancel your subscription
+                                    </a>?
+                            </div>
+                        {% else %}
+                            Want to
+                            <a href="" data-toggle="modal" data-target="#cancel_sub" data-backdrop="true" data-keyboard="true" style="color: #e94095">
+                                        cancel your subscription
+                                    </a>?
+                        {% endif %}
+                    </div>
+            {% endif %}
+        </div>
+
+        <style>
+            .model-wantoo {
+            margin-right: 0px;
+            margin-bottom: 21px;
+            }
+        </style>
+
+        <div class="modal fade" id="cancel_sub" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form method="POST" action="/accounts/preferences/cancel_subscription/">
+                            {% csrf_token %}
+                            <div class="form-group"><h1>Cancel subscription?</h1></div>
+                            <div class="form-group">Canceling your subscription will cause it not to renew. If you
+                                cancel
+                                your subscription it will continue until
+                                <b>{{ user_stripe_detail.renew_date|date:'m/d/Y' }}</b>. Then, the
+                                subscription will expire and will not be invoiced again. You can still access any boards you've
+                                joined but any boards you've created will be closed.<br><br>
+                                Are you sure you want to cancel your subscription?
+
+                            </div>
+                            <div class="row model-wantoo">
+                                <div class="col-sm-3 col-md-3 col-xs-offset-5 col-md-offset-5">
+                                    <button type="button" class="btn-fill-transparent" data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                                <div class="">
+                                    <button class="btn-fill-primary" type="submit">Cancel subscription</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- downgrade from pro to starter-->
+
+        <div class="modal fade" id="downgrade_pro" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form method="POST" action="/accounts/preferences/downgrade_subscription/">
+                            {% csrf_token %}
+                            <div class="form-group"><h1>Downgrade subscription?</h1></div>
+                            <div class="form-group">Confirm your subscription downgrade to Wantoo STARTER - US$7/mo.
+                                Wantoo prorates plan subscription costs. Your next invoice will reflect any payment
+                                adjustments. Also, private boards is a PRO feature, therefore any private boards
+                                you've created will be closed.
+                                <br><br>
+                                Are you sure you want to downgrade your subscription?
+                                <br><br>
+                            </div>
+                            <div class="row model-wantoo" style="width: 100%">
+                                <div class="downgrade_close_button">
+                                    <button type="button" class="btn-fill-transparent" data-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                                <div class="update_subscription">
+                                    <button class="btn-fill-primary" type="submit">Downgrade subscription</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--Upgrade to pro-->
+        <div class="modal fade" id="update_to_pro" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form method="POST" action="/accounts/preferences/upgrade_to_pro/">
+                            {% csrf_token %}
+                            <div class="form-group"><h1>Upgrade to PRO</h1></div>
+                                <div class="form-group">
+                                    Confirm your subscription upgrade to Wantoo PRO - US$25/mo.
+                                    Wantoo prorates plan subscription costs. Your next invoice will reflect any
+                                    payment adjustments.
+
+                                    <br><br>
+                                </div>
+                            <div class="row model-wantoo" style="width: 100%">
+                                <div class="upgrade_close_button">
+                                    <button type="button" class="btn-fill-transparent" data-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                                <div class="pro_updation">
+                                    <button class="btn-fill-primary" type="submit">Yes, upgrade to PRO</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+    <script>
+     $( window ).resize(function() {
+        $('.starter_plan_list').height($('.pro_container .pricing_plan_border').height());
+     });
+    </script>
+{% endblock settings_content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

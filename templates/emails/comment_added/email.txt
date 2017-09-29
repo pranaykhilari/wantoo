@@ -1,0 +1,3 @@
+Hey, {{ first_name }}!
+
+People are talking. A new comment has been added to {{ comment.idea.title }}. Check it out. {{ idea_url }}

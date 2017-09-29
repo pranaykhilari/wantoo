@@ -1,0 +1,16 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-textBoxes
+  @extend .clearfix
+  .l-textBoxes__box
+    float left
+    margin 0 18% 90px 0
+    width 41%
+    &:nth-child(2n)
+      margin-right 0
+@media screen and (max-width: max-mobile-screen)
+  .l-textBoxes
+    .l-textBoxes__box
+      padding 0
+      width 100%
+      text-align center

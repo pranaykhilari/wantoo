@@ -1,0 +1,1 @@
+{{ full_name }} has invited you to their Idea Board!

@@ -1,0 +1,25 @@
+lesscss-percentage(n)
+  (n * 100)%
+
+.main_signup_container
+  padding-left 7.5%
+.l-funnel
+  @extend .clearfix
+  width 100%
+  .l-funnelContainer
+    .l-funnel__box
+      float left
+      margin-left 10%
+      width 45%
+      &:first-child
+        margin-left 0
+@media screen and (max-width: max-mobile-screen)
+  .l-funnel
+    .l-funnelContainer
+      .l-funnel__box
+        float none
+        margin 0 auto
+        max-width 480px
+        width 100%
+        &:first-child
+          margin 0 auto 60px

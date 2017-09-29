@@ -1,0 +1,19 @@
+lesscss-percentage(n)
+  (n * 100)%
+.l-apps
+  @extend .clearfix
+  .l-apps__item
+    float left
+    margin-left 1%
+    width 32.6%
+    &:first-child
+      margin-left 0
+@media screen and (max-width: 680px)
+  .l-apps
+    .l-apps__item
+      float none
+      margin 0 auto 20px
+      max-width 347px
+      width 100%
+      &:first-child
+        margin 0 auto 20px

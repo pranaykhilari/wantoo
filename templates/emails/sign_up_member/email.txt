@@ -1,0 +1,14 @@
+{{ full_name }} ,
+
+You've joined the {{ company }} Idea Board, powered by Wantoo.
+
+In case you get stuck or have questions, here are some pro tips [ https://wantoo.zendesk.com/hc/en-us/articles/223147128-Wantoo-Pro-Tips-for-Board-Members].
+
+Working on a project of your own? create your own board. [https://wantoo.io/]
+
+
+— The Wantoo team.
+
+This message was sent to {{ email }}.
+If you have trouble clicking the button above, copy and paste the URL below in your web browser:
+https://wantoo.io/{{ board }}/ideas

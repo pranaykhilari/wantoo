@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-main view-integration">
+
+    <div id="ideaList"></div>
+
+    <div class="_hideOnLiveSearch">
+
+        <h2 class="-title">Social listening</h2>
+
+        <p class="integrations__body">The Wantoo listening tool helps you discover conversations about your brand across Twitter in real time. Besides monitoring sentiment, you can bring these valuable conversations into your Idea Board with a single click. Using your @username as well as keywords like "feedback", "suggestions", or "idea" should work pretty well. Also, try to seek out influencers around your brand or industry.</p>
+
+        <div class="integrations__content_wrapper">
+            <div class="integrations__content_inner">
+
+                <form class="form-inline twitter-search" method="GET" action=".">
+                    <h4 class="twitter-search__header">Listening keywords</h4>
+
+                    <div class="twitter-search__searchbar">
+                        <div class="keyword__wrapper">
+                        </div>
+                        <input class="twitter-search__text-enter" placeholder="Type a keyword and hit enter..." type="text" size="27" />
+                        <input class="twitter-search__input hidden" type="text" name="q" placeholder="Keywords" value="{{ q }}" />
+                        <div style="clear:both;"></div>
+                    </div>
+                    <button type="submit" style="margin-top:10px;" id="import_ideas" class="btn-fill-primary-small">Search</button>
+                </form>
+
+                <!-- Tweet list here -->
+                <div class="twitter-list">
+                    <div class="twitter-list__inner">
+                    {% if tweet_count == 0 %}
+                        Sorry we coundn't find any tweets, try another search.
+                    {% else %}
+                        {% for tweet in tweets %}
+                            {% if not tweet.in_reply_to_status_id %}
+                                <div class="twitter-list__item">
+                                    <div class="tweet__link-wrap">
+                                        <a class="tweet__header" target="_blank" href="https://twitter.com/{{ tweet.author.screen_name }}/">
+                                            <img class="tweet_user-image" src="{{ tweet.author.profile_image_url_https }}" />
+                                            <span class="tweet_user-name">
+                                                <strong>{{ tweet.author.name }}</strong>
+                                            </span>
+                                        </a>
+                                        <div class="tweet__header">
+                                            <span class="tweet__user-handle">@{{ tweet.author.screen_name }}:</span>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <div class="tweet__content-source">
+                                        <span>{{ tweet.text|urlize }}</span>
+                                    </div>
+                                    <a style="margin-top:10px;display:inline-block;color:#fff;" href="/{{ company.slug }}/add-idea/?tweet={{ tweet.id }}" class="btn-fill-primary-small">Convert to idea</a>
+                                </div>
+
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+                <!-- End of twitter List -->
+
+            </div>
+        </div>
+
+        {% if request.GET.tweet and request.GET.idea %}
+        <script>
+            var link = 'https://twitter.com/intent/tweet?in_reply_to={{request.GET.tweet}}&text=that%27s%20a%20good%20idea.%20We%27re%20adding%20it%20to%20our%20list.%20https://{{ request.get_host }}/{{request.GET.idea}}/';
+            window.open( link,'_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=400');
+        </script>
+        {% endif %}
+
+    </div>
+
+</div>
+</div>
+{% endblock %}

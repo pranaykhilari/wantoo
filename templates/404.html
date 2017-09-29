@@ -1,0 +1,18 @@
+{% extends "base_plain.html" %}
+{% load mytags %}
+
+{% block content %}
+
+	<div class="view view-error">
+		<div class="view-error__error-cont">
+			<h2 class="view-error__code">404</h2>
+			<p class="view-error__code-description">Sorry, the page you were looking for doesn’t exist.</p>
+			<p class="view-error__msg">Try visiting our <a href="https://wantoo.io/">homepage</a> or <a href="mailto:hello@wantoo.io">contact us</a> about a problem.</a></p>
+		</div>
+	</div>
+
+    <script>
+    window.Intercom("trackEvent", " 404 error page");
+    </script>
+
+{% endblock content %}

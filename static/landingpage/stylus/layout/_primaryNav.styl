@@ -1,0 +1,86 @@
+.l-primaryNav
+  background transparent
+  .l-primaryNav__inner
+    @extend .clearfix
+    width 94%
+    max-width 1125px
+    margin 0 auto
+    padding 50px 3% 25px 3%
+    height 50px
+  .l-primaryNav__logo
+    display block
+    float left
+    width 132px
+    img
+      width 100%
+      user-drag none
+      user-select none
+      -moz-user-select none
+      -webkit-user-drag none
+      -webkit-user-select none
+      -ms-user-select none
+
+  .l-primaryNav__links
+    margin-top 7px
+    float right
+
+    .l-primaryNav__link
+      margin 0 10px
+      color grey
+      text-decoration none
+      padding 10px
+      &:hover
+        text-decoration underline
+        color brown
+
+    .l-primaryNav__link--white
+      margin 0 10px
+      color white
+      text-decoration none
+      padding 10px
+      &:hover
+        text-decoration underline
+        color #E94095
+
+    .l-primaryNav__login
+      margin 0 10px
+      padding 10px 30px
+      text-transform uppercase
+      color grey
+      border-color grey
+      border-width 1px
+      &:hover
+        border-color brown
+        color brown
+
+    .l-primaryNav__login--white
+      margin 0 10px
+      padding 10px 30px
+      text-transform uppercase
+      color white
+      border-color white
+      border-width 1px
+      &:hover
+        border-color #E94095
+        color #E94095
+
+@media screen and (max-width: max-mobile-screen)
+  .l-primaryNav
+    .l-primaryNav__logo
+      display block
+      float none
+      margin 0 auto
+      padding 0
+    .l-primaryNav__links
+      margin 20px 0 0 0
+      float none
+      text-align center
+      .l-primaryNav__login
+      .l-primaryNav__login--white
+      .l-primaryNav__link
+      .l-primaryNav__link--white
+        display inline-block
+        margin 0 0
+@media screen and (min-width: 320px) and (max-width: 767px)
+  .main_signup_container
+    padding 7% 0px 0 7.5%

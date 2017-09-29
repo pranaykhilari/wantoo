@@ -1,0 +1,47 @@
+.view-activity
+	.-settings-menu
+		width 100%
+		padding-bottom 50px
+		//margin-top -40px
+		margin-top 40px
+		
+		.-inner-cont
+			margin-top 40px
+			
+			a
+				display inline
+				font-size 18px
+				margin-right 64px
+				color #000
+				text-decoration none
+				
+				&:last-child
+					margin-right 0
+				
+				&:hover
+					opacity .8	
+				
+				&.active
+					color highlightPrimary
+					font-weight bold
+					border-bottom 2px solid highlightPrimary
+					padding-bottom 2px
+					
+	.-activity-filter
+		margin-top -98px
+
+@media (max-width: 650px)
+	.view-activity
+		.-activity-filter
+			float left
+			margin-top -64px
+			
+			.-custom
+				margin-left 0
+					
+	.view-activity
+		.-settings-menu
+			.-inner-cont	
+				a
+					font-size 14px
+					margin-right 10px				

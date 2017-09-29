@@ -1,0 +1,184 @@
+{% load mytags %}
+{% get_admin_status as is_admin %}
+{% get_dark_launch "BOARD_STATS" as board_stats_enabled %}
+{% get_dark_launch "SLACK_INTEGRATION" as slack_integration_enabled %} 
+{% get_dark_launch "SOCIAL_LISTENING" as socail_listening_enabled %} 
+{% get_user_plan_type as user_plan_type %}
+
+<div class="comp-header _header {% small_logo %}" id="board_nav_bar">
+
+   	<!-- START Banner -->
+  	{% include 'partials/_banner.html' %} 
+  	<!-- End Banner -->
+  
+	<div class="comp-header__inner-cont">
+
+		<!-- START Searchbar -->
+		<form action="/{{ company.slug }}/search/" method="GET" class="searchBar _searchBar" onsubmit="return false;">
+			<input class="searchBar__input _searchInput" type="text" name="q" placeholder="Search ideas" value="{{ query_string }}" autocomplete="off">
+		</form>
+		<!-- END Searchbar -->
+		
+		<div class="comp-header__brandCont">
+			<a href="/{{ company.slug}}/ideas/"><img class="comp-header__logo" src="{{ company.logo_url }}" alt=""></a>
+		</div>
+
+		<!-- START Main Navbar -->
+		<div class="mainNav">
+
+		{% if user.is_authenticated %}  
+
+			<!-- START Main User Navbar -->
+		    <div class="mainNav__item mainNav__item--profile dropdown -dropdown -profile -item">
+				<a href="#" class=" dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<img src="{% gravatar_url request.user %}" data-toggle="tooltip" data-placement="bottom" title="{{ user.first_name }} {{ user.last_name }}">
+				</a>
+				<ul id="user_menu" class="dropdown-menu mainNav__dropdown" aria-labelledby="dropdownMenu1">
+					<li id="my boards" onclick="mixpanel.track('My Boards User Menu clicked / user header menu')">
+				   			<a href="/my-boards/">My boards</a>
+				   	</li>
+					<li id="account & profile" onclick="mixpanel.track('Account \& Profile User Menu clicked / user header menu')">
+						<a href="/accounts/preferences/">Account & Profile</a>
+					</li>
+					<li id="feedback" onclick="mixpanel.track('Feeback User Menu clicked / user header menu')">
+				    	<a target="_blank" href="/wantoo">Feedback</a>
+				    </li>
+				    <li id="help" onclick="mixpanel.track('Help User Menu clicked / user header menu')">
+				    	<a target="_blank" href="https://wantoo.zendesk.com/hc/en-us">Help</a>
+				    </li>
+
+				    {% if is_admin %}
+
+					    <hr>
+					    <li id="Invite Members" onclick="mixpanel.track('Invite User Menu clicked / user header menu')">
+					   			<a href="/{{ company.slug }}/invite/">Invite members</a>
+					   	</li>
+					   	<li id="configure settings" onclick="mixpanel.track('Board Settings User Menu clicked / user header menu')">
+					   			<a href="/{{ company.slug }}/settings/">Board settings</a>
+					   	</li>
+					   	<li id="Stats" onclick="mixpanel.track('Stats clicked / user menu')">
+					   		{% if board_stats_enabled %}
+					   			<a href="/{{ company.slug }}/stats/">Stats</a>
+					   		{% else %}
+					   			<a href="{% url 'subscription' %}" >Stats<span class="mainNav__proFeature"></span></a>
+					   		{% endif %}
+					   	</li>
+
+					   	<hr>
+					    {% if not company.slack %}
+						    <li id="Slack Integration" onclick="mixpanel.track('Slack Integration clicked / user menu')" class="mainNav__slackLogo">
+						    	{% if slack_integration_enabled %}
+						   			<a class="mainNav__iconButton" href="/{{ company.slug }}/settings/#slack-integration">Slack integration</a>
+						   		{% else %}
+						   			<a class="mainNav__iconButton" href="{% url 'subscription' %}" >Slack integration<span class="mainNav__proFeature"></span></a>
+						   		{% endif %}
+						    </li>
+					    {% endif %}
+
+					    <li id="Social Listening" onclick="mixpanel.track('Social listening clicked / user menu')" class="mainNav__TwitterLogo">
+					    	{% if socail_listening_enabled %}
+					   			<a class="mainNav__iconButton" href="/{{ company.slug }}/twitter/">Social listening</a>
+					   		{% else %}
+					   			<a class="mainNav__iconButton" href="{% url 'subscription' %}">Social listening<span class="mainNav__proFeature"></span></a>
+					   		{% endif %}
+					    </li>
+
+				    {% endif %}
+
+				    <hr>
+				    <li id="Logout" onclick="mixpanel.track('Logout User Menu clicked / user header menu')"><a href="/dashboard/">Logout</a></li>
+				    <hr>
+
+				    {% if is_admin and not socail_listening_enabled and not slack_integration_enabled and not board_stats_enabled or user_plan_type == "starter_monthly" and user.user_detail.board_count > 0 %}
+				    	<li onclick="mixpanel.track('Upgrade Now clicked / user menu')"><a class="mainNav__item--pinkHighlight" href="{% url 'subscription' %}">Upgrade now</a></li>
+				    {% elif  user_plan_type == "free_monthly" %}
+                        <li onclick="mixpanel.track('Create a board User Menu clicked / user header menu')"><a class="mainNav__item--pinkHighlight" href="{% url 'subscription' %}">Create a board</a></li>
+                    {% else %}
+                        <li onclick="mixpanel.track('Create a board User Menu clicked / user header menu')"><a class="mainNav__item--pinkHighlight" href="/welcome/">Create a board</a></li>
+				    {% endif %}
+			  	</ul>
+			</div>
+			<!-- END Main User Navbar -->
+
+			<!-- Manage feedback Icon -->
+			{% if is_admin %}
+			<a id="Manage_feedback" onclick="mixpanel.track('Manage Feedback Icon clicked / user header menu')" href="/{{ company.slug }}/manage/feedback/" class="-boards mainNav__item mainNav__item--feedback" data-toggle="tooltip" data-placement="bottom" title="Manage feedback"></a>
+			{% endif %}
+
+			<!-- Notifications Icon && Dropdown -->
+		    <div onclick="mixpanel.track('Notifications Icon clicked / user header menu')" class="mainNav__item mainNav__item--notification dropdown -dropdown -notification -item {% if new_notification %}is-unseen{% endif %} _seeNotifications">
+				<a href="#" class="dropdown-toggle _toggleNotificationPreview" type="button" id="notificationListToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span id="Notification" class="mainNav__item--notification-child" data-toggle="tooltip" data-placement="bottom" title="Your board notifications">
+					<span class="mainNav__flag"></span>
+				</a>
+				<ul id="notificationList"></ul>
+			</div>
+
+			<!-- Activity Icon -->
+		    <a id="Activity" onclick="mixpanel.track('Activity Icon clicked / user header menu')" id="activity_link" href="/{{ company.slug }}/activity/" class="-activity mainNav__item mainNav__item--activity" data-toggle="tooltip" data-placement="bottom" title="View board activity"></a>
+
+		    <!-- Add Idea Icon -->
+		    <a id="Add_your_idea" onclick="mixpanel.track('Add Idea Icon clicked / user header menu')" href="#" class="-activity mainNav__item mainNav__item--addIdea _addIdeaNavBtn" data-toggle="tooltip" data-placement="bottom" title="Add your idea"></a>
+
+		    <!-- Mobile only Search Icon -->
+		    <a onclick="mixpanel.track('Mobile Search Icon clicked / user header menu')" href="#" class="-activity mainNav__item mainNav__item--search _searchNavBtn" data-toggle="tooltip" data-placement="bottom" title="Search"></a>
+
+	    {% elif user.is_authenticated == False %}
+
+			<a onclick="mixpanel.track('Signup Icon clicked / user header menu')" id="signup_dashboard" class="_signupButtonNav mainNav__item  mainNav__item--plain" href="#">Signup</a>
+			<a onclick="mixpanel.track('Login Icon clicked / user header menu')" id="login_dashboard" class="_loginButtonNav mainNav__item  mainNav__item--plain" href="#">Login</a>
+			<a onclick="mixpanel.track('Logged out Activity Icon clicked / user header menu')" id="activity_link" href="/{{ company.slug }}/activity/" class="-activity mainNav__item mainNav__item--activity"></a>
+	    	<a onclick="mixpanel.track('Logged out Add Idea clicked / user header menu')" href="#" class="-activity mainNav__item mainNav__item--addIdea _addIdeaNavBtn"></a>
+
+	    {% endif %}
+
+	    	<!--START Mobiile Overlay -->
+		    <div class="mainNav__mobileSearch _mobileSearch">
+		    	<div class="mainNav__mobileSearch__form-cont">
+		    		<input class="_searchInput" type="text" placeholder="Search / Add idea">
+		    	</div>
+		    	<button class="mainNav__mobileSearch__close _closeMobileSearch"></button>
+		    </div>
+		    <!--END Mobiile Overlay -->
+
+		</div>
+		<!-- END Main Navbar -->
+
+	</div><!-- ./comp-header__inner-cont -->
+</div><!-- ./comp-header  -->
+
+<script>
+$("#user_menu li").click(function() {
+
+    window.Intercom("trackEvent", this.id);
+
+});
+</script>
+
+<script>
+$("#Notification").click(function() {
+    window.Intercom("trackEvent", "Notifications");
+
+});
+</script>
+
+<script>
+$("#Manage_feedback").click(function() {
+    window.Intercom("trackEvent", "Manage Feedback");
+
+});
+</script>
+
+<script>
+$("#Activity").click(function() {
+    window.Intercom("trackEvent", "Activity");
+
+});
+</script>
+
+<script>
+$("#Add_your_idea").click(function() {
+    window.Intercom("trackEvent", "Add Idea");
+
+});
+</script>

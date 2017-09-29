@@ -1,0 +1,120 @@
+.comp-navSide
+	background-color darkPrimary
+	height 100%
+	overflow-y auto
+	width nav-side-width
+	position fixed
+	padding-bottom 70px
+	z-index 1001
+	left 0
+	top 0
+	padding-top 177px
+	
+	.-nav-header
+		background-color darkPrimary
+		position fixed
+		top 0
+		left 0
+		width nav-side-width
+	
+	.-btn-add-idea
+		display block
+		margin 34px auto 25px
+	
+	.-label
+		font-size 10px
+		font-weight bold
+		padding-left 38px
+		text-transform uppercase
+		color #a9a9aa
+	
+	.-company-cont
+		// background darkPrimary
+		
+		.-name
+			color offwhite
+			margin 0
+			text-align center
+			line-height 60px
+		
+		&:hover
+			text-decoration none
+
+	.-upper-nav, .-lower-nav, .-middle-nav
+		list-style none
+		padding 0
+		margin 0
+		float left
+		width 100%
+		border-bottom 1px solid #32353a
+		padding-bottom 27px
+		
+		li
+			height 33px
+			line-height 33px
+			
+			&.active
+				background #292c31
+			
+			a	
+				color grey
+				font-size 16px
+				padding-left 38px
+				
+				&:hover
+					color offwhite
+					text-decoration none
+					opacity .8
+		
+			.-nested
+				list-style none
+				padding 0
+				float left
+				width 100%
+				
+				li
+					a
+						padding-left 55px
+	
+	.-middle-nav
+		padding-top 27px					
+	
+	.-lower-nav
+		padding-top 27px
+		border-bottom none
+		
+		li
+			position relative
+		
+		.-flag
+			background #eb212e
+			color #fff
+			font-size 10px
+			padding 0 5px
+			height 16px
+			right 15px
+			position absolute
+			top 7px
+			border-radius 3px
+			line-height 17px
+	
+	.-nav-footer
+		border-top 1px solid #32353a
+		background-color darkPrimary
+		height 60px
+		bottom 0
+		width 100%
+		position fixed
+		left 0
+		width nav-side-width
+		
+		.-copy
+			font-size 10px
+			color offwhite
+			text-align center
+			line-height 60px
+			margin 0
+			
+			span
+				color wantooPrimary
+	

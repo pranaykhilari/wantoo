@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% load mytags %}
+{% get_admin_status as is_admin %} 
+
+{% block inside_head %}
+ 
+{% endblock inside_head %}
+
+{% block content %}
+{% get_dark_launch "MERGE_IDEAS" as merge_ideas_enabled %}
+<div class="comp-contMain--large">
+
+	<div class="view view-ideaDetail">
+		<div id="ideaList"></div>
+			<div class="_hideOnLiveSearch">
+				
+			<div class="-breadcrumb-cont">
+			{% if 'category' in request.META.HTTP_REFERER %}
+			<a href="/{{ company.slug }}/category/{{ idea.category.id }}" class="-breadcrumb">&lt; &nbsp;{{ idea.category }}</a>
+			{% else %}
+			<a href="/{{ company.slug }}/ideas/" class="-breadcrumb">All ideas</a>
+			{% endif %}
+			</div>
+			
+			<div class="view-ideaDetail__col-left">
+					<div href="{{ idea.get_absolute_url }}" class="-idea-detail">
+
+					{% get_admin_status as is_admin %}
+						{% if is_admin or idea.created_by == request.user %}
+						<div class="dropdown -btn-edit">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    <img src="/static/dashboard/img/icons/idea_detail_menu.svg" alt="">
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="/{{ company.slug }}/edit-idea/{{ idea.id }}/">Edit</a></li>
+						    {% if is_admin %}
+						    <li>
+						   		{% if merge_ideas_enabled %}
+					                <a href="/{{ company.slug }}/idea/{{ idea.id }}/merge/">Merge</a>
+					            {% else %}
+					            	<a href="{% url 'subscription' %}" >Merge<span class="mainNav__proFeature"></span></a>
+					            {% endif %}
+						    </li>
+						    {% endif %}
+						    <li><a href="#" data-toggle="modal" data-target="#_modal-bulkActionsSingleDelete">Delete</a></li>
+						  </ul>
+						</div>
+					  </a>
+					  {% endif %}
+
+
+						<div class="col-row">
+							<div class="-col-vote left-two-col">
+								<div class="-cont-vote {% vote_status request.user idea %}">
+									<h3 class="-score _vote-count">{{ idea.vote_count }}</h3>
+									<button id="vote-idea-detail" class="btn-vote _vote {% vote_status request.user idea %}" data-id="{{ idea.id }}">want</button>
+								</div>
+							</div>
+							<div class="-col-info right-two-col">
+								<div class="-cont-info">
+									<p class="-title">{{ idea.title|capfirst }}</p>
+									{% if idea.description %}
+									<p class="-description">{{ idea.description|hashtag:company|urlize|linebreaksbr }}</p>
+									{% else %}
+
+									{% if idea.created_by == request.user %}
+										<textarea id="idea_description" class="-edit-description _ideaDescriptionInput" name="" id="" cols="30" rows="10" placeholder="Add description" maxlength="5000"></textarea>
+										<div class="_descriptionButtons -descriptionButtons">
+											<button data-idea-id="{{ idea.id }}" class="_ideaDescriptionSave btn-fill-primary-small -btn-save-description -col-info-button">Add</button>
+											<button class="_cancelDescription btn-fill-transparent-small -col-info-button">Cancel</button>
+										</div>
+										{% endif %}
+									{% endif %}
+
+									{% if idea.tweet %}
+										<strong>Source tweet:</strong>
+									    <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/allwantoo/status/{{ idea.tweet.id }}"></a></blockquote>
+										<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+									{% endif %}
+
+									{% if idea.merged_into %}
+										<div class="alert alert-info -merge-info" style="margin: 25px 0;">
+										<p class="-merge-info-blurb">This idea has been merged into <a href="/{{ idea.merged_into.id }}/"><strong>{{ idea.merged_into.title}}</strong></a>. Voting and comments are closed.</p>
+										</div>
+									{% endif %}
+
+								</div>
+							</div>
+							<div class="-col-vote-small">
+								<div class="-cont-vote">
+									<!-- <h3 class="-score _vote-count">{{ idea.vote_count }} -->
+									<button class="btn-vote _vote {% vote_status request.user idea %}" data-id="{{ idea.id }}">want it</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-row -comments-section">
+						<div class="left-two-col">
+						</div>
+						<div class="right-two-col">
+						<div class="comp-comments _comp-comments">
+						<p class="-comments-title"><span>Comments</span> (<span class="-comment-count _commentCount">{{ idea.comment_count }}</span>)</p>
+						<div class="-inner-cont _inner-cont">
+							{% for comment in comments  %}
+							{% if comment.created_by == request.user %}
+								<div class="-comment -myself _comment">
+									<div class="-col-left">
+										<a href="/{{ company.slug }}/member/{{ comment.created_by.id }}/" class="-profile-pic">
+											<img src="{% gravatar_url comment.created_by %}">  
+										</a>
+									</div>
+									<div class="-col-right">
+										<span class="-name"><a href="/{{ company.slug }}/member/{{ comment.created_by.id }}/">You</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.created_at|better_timesince }}</span>
+										{% if comment.created_by == request.user or is_admin %}
+										<a href="#" class="-delete _deleteComment" data-comment-id="{{ comment.id }}"></a>
+										{% endif %}	
+										<p class="-text">{{ comment.comment|urlize|linebreaksbr  }}</p>
+									</div>
+								</div>
+							{% else %}
+								<div class="-comment -others">
+									<div class="-col-left">
+										<a href="/{{ company.slug }}/member/{{ comment.created_by.id }}/" class="-profile-pic">
+											<img src="{% gravatar_url comment.created_by %}">  
+										</a>
+									</div>
+									<div class="-col-right">
+										<span class="-name"><a href="/{{ company.slug }}/member/{{ comment.created_by.id }}/">{{ comment.created_by.get_full_name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.created_at|better_timesince }}</span>
+										{% if is_admin %}
+										<a href="#" class="-delete _deleteComment" data-comment-id="{{ comment.id }}"></a>
+										{% endif %}	
+										<p class="-text">{{ comment.comment|urlize|linebreaksbr }}</p>
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+						</div>
+						{% if not is_blocked and not idea.merged_into %}				
+							<form action="javascript:void(0);" method="POST" class="-chat-box _chatbox">
+							<div class="-col-left">
+								<a href="#" class="-profile-pic">
+										<img src="{% gravatar_url request.user %}">  
+									</a>
+							</div>
+							<div class="-col-right">
+								<textarea id="comment_input" class="-chat-input _comment-text" name="comment" placeholder="Type your comment..."></textarea>
+								<div class="-btns-cont _commentButtons">
+									<button class="btn-fill-primary-small -send-message _sendMessage -col-info-button" type="submit">Add</button>
+									<button class="btn-fill-transparent-small _cancelMessage -col-info-button" type="submit">Cancel</button>
+								</div>
+								
+						    {% csrf_token %}
+							</div>
+							</form>
+							{% endif %}
+					</div>
+						</div>
+					</div>
+			</div>
+
+			<div class="view-ideaDetail__col-right">
+				<div class="comp-detailSidebar">
+					<h4 class="comp-detailSidebar__title">Share idea</h4>
+					<ul class="comp-detailSidebar__social">
+						<li><a href="https://twitter.com/intent/tweet?text=I want &quot;{{ idea.title }}&quot; for {{ company.title }} https://wantoo.io{{ request.path }}"><img src="/static/dashboard/img/icons/icon_twitter_small.png" alt=""></a></li>
+						<li><a href="#" onclick="window.open('http://www.facebook.com/sharer/sharer.php?u=https://wantoo.io{{ request.path }}&t=I want &quot;{{ idea.title }}&quot; for {{ company.title }}', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');"><img src="/static/dashboard/img/icons/icon_facebook_small.png" alt=""></a></li>
+						<li><a href="mailto:?&subject=Check out this idea for {{ company.title }}&body={{ idea.title }} %0A%0Ahttps://wantoo.io{{ request.path }}"><img src="/static/dashboard/img/icons/icon_mail_small.png" alt=""></a></li>
+					</ul>
+
+					<h4 class="comp-detailSidebar__title">Idea added by</h4>
+					<p class="comp-detailSidebar__author"><a href="/{{ company.slug }}/member/{{ idea.created_by.id }}/"><img src="{% gravatar_url idea.created_by %}" alt=""> {{ idea.created_by.first_name }}</a> {{ idea.created_at|better_timesince }}</p>
+					
+					{% if idea.category%}
+					<h4 class="comp-detailSidebar__title">Idea category</h4>
+					<a href="/{{ company.slug }}/category/{{ idea.category.id }}/">{{ idea.category }}</a>
+					{% endif %}
+					
+					{% if idea.status %}
+					<h4 class="comp-detailSidebar__title">Idea status</h4>
+					<a href="/{{ company.slug }}/ideas/?status={{ idea.status.id }}" style="background-color: #{{idea.status.color}}" class="comp-detailSidebar__status-badge">{{ idea.status }}</a>
+					{% endif %}
+					
+					{% if idea.idea_votes.all.count > 0 %}
+					<h4 class="comp-detailSidebar__title">Idea supporters</h4>
+					<div class="comp-detailSidebar__supporters">
+						{% for vote in idea.idea_votes.all %}
+					    <a class="comp-detailSidebar__supporters__supporter" href="/{{ company.slug }}/member/{{ vote.user.id }}/" data-toggle="tooltip" data-placement="top" title="{{ vote.user.first_name }} {{ vote.user.last_name }}">
+					        <img src="{% gravatar_url vote.user %}">
+					    </a>
+						{% endfor %}
+					</div>
+					{% endif %}
+					
+					{% if merged_ideas.count > 0 %}
+					<h4 class="comp-detailSidebar__title">Ideas merged with</h4>
+					<ul class="comp-detailSidebar__related-ideas">
+						{% for merged_idea in merged_ideas  %}
+						  <li><a href="/{{ merged_idea.id }}/">{{ merged_idea.title|capfirst }}</a></li>    
+						{% endfor %}
+					</ul>
+					{% endif %}
+
+					{% if recent_ideas.count > 0 %}
+					<h4 class="comp-detailSidebar__title">Recent ideas</h4>
+					<ul class="comp-detailSidebar__related-ideas">
+						{% for recent_idea in recent_ideas  %}
+						  <li><a href="/{{ recent_idea.id }}/">{{ recent_idea.title|capfirst }}</a></li>    
+						{% endfor %}
+					</ul>
+					{% endif %}
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+</script>
+{% endblock content %}

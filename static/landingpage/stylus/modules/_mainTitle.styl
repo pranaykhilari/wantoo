@@ -1,0 +1,45 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-mainTitleContainer
+  max-width 1125px
+  margin 0 auto
+  padding 0 3%
+  width 94%
+  .m-mainTitle
+    width 90%
+    margin auto
+    .m-mainTitle__title
+      margin 0 0 0.5em 0
+      color white
+      font-weight 400
+      line-height 1.2em
+      text-align center
+      font-size 45px
+    .m-mainTitle__subtitle
+      color white
+      font-weight 300
+      margin 0 auto 45px auto
+      text-align center
+      font-size 22px
+    .m-mainTitle__link
+      display inline-block
+      margin-left 50%
+      transform translateX(-50%)
+@media screen and (max-width: max-mobile-screen)
+  .m-mainTitleContainer
+    .m-mainTitle
+      margin 0 auto
+      width 80%
+      .m-mainTitle__title
+        font-size 25px
+        text-align left
+      .m-mainTitle__subtitle
+        margin 0 auto
+        text-align left
+        font-size 18px
+      .m-mainTitle__link
+        display block
+        margin-left 0%
+        transform translateX(0%)
+        margin-top 1.2em
+        text-align center

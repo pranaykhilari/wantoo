@@ -1,0 +1,9 @@
+Hey, {{ first_name }}! A new idea has been submitted to your community. 
+
+Idea: {{ idea }}
+Category: {{ idea.category }}
+By: {{ idea.created_by.get_full_name }}
+
+To view this idea, click here: {{ idea_url }}
+
+Thanks for using wantoo!

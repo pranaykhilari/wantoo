@@ -1,0 +1,19 @@
+<script>
+    $(document).ready(function(){
+      toastr.options = {  
+        positionClass: "toast-top-right",
+        closeButton: true,
+        showDuration: "300",
+        timeOut: "3000",
+        hideDuration: "500",
+       };
+      {% if messages %}
+          {% for message in messages %}
+          {% if 'info' in message.tags %}toastr.info('{{ message }}');{% endif %}
+          {% if 'error' in message.tags %}toastr.error('{{ message }}');{% endif %}
+          {% if 'warning' in message.tags %}toastr.warning('{{ message }}');{% endif %}
+          {% if 'success' in message.tags %}toastr.success('{{ message }}');{% endif %}
+          {% endfor %}
+      {% endif %}   
+     });    
+</script>

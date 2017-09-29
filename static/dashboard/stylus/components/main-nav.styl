@@ -1,0 +1,262 @@
+.mainNav
+	.mainNav__item 
+		background-color transparent
+		border none
+		float right
+		margin-left 30px
+		margin-top 27px
+		position relative
+
+		&:first-child
+			margin-right 0 !important
+		
+		.dropdown-toggle 
+			display block
+			height 100%
+			width 100%
+		
+
+		&.mainNav__item--plain 
+			color: #959595
+			font-weight bold
+			text-decoration none
+			float: right
+			margin-right 0px
+			margin-top 32px
+			font-size 16px
+			margin-left 22px
+		
+
+		&.mainNav__item--activity
+			width 25px
+			display block
+			background-image url('/static/dashboard/img/icons/activity_header.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			height 33px
+		
+		&.mainNav__item--addIdea
+			width 25px
+			display block
+			background-image url('/static/dashboard/img/icons/idea_header.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			height 33px
+
+		&.mainNav__item--notification
+			width 23px
+			height 33px
+
+			.mainNav__item--notification-child
+				background-image: url("/static/dashboard/img/icons/notification_header.svg")
+				background-size:100%
+				background-repeat no-repeat
+				background-position center
+				widt 23px
+				height 33px
+				display block
+
+		&.mainNav__item--settings
+			background-image url('/static/dashboard/img/icons/icon_cog.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			width 25px
+			height 33px
+		
+
+		&.mainNav__item--search 
+			background-image url('/static/dashboard/img/icons/search_header.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			width 21px
+			padding 0
+			height 33px
+
+		&.mainNav__item--boards
+			background-image url('/static/dashboard/img/icons/boards_header.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			width 23px
+			padding 0
+			height 33px
+
+		&.mainNav__item--feedback
+			background-image url('/static/dashboard/img/icons/feedback_header.svg')
+			background-size 100%
+			background-repeat no-repeat
+			background-position center
+			width 23px
+			padding 0
+			height 33px
+			
+		&.mainNav__item--profile
+			img
+				display block
+				width 33px
+				border-radius 50%
+				border 1px solid #a7a7a7
+			
+		
+
+		&.is-unseen
+			.mainNav__flag 
+				display block
+			
+		
+
+		.mainNav__flag 
+			border-radius 50%
+			background var(--alert_red)
+			display none
+			height 10px
+			position absolute
+			width 10px
+			top 8px
+			right 1px
+
+
+	.mainNav__dropdown 
+		right 0
+		left auto
+		top 38px
+
+		hr 
+			margin 10px auto
+			width 90%
+
+		.mainNav__iconButton
+			margin-left 20px
+			z-index 200	
+
+			&:hover
+				background-color transparent
+
+
+		.mainNav__slackLogo
+			background-image url("/static/dashboard/img/icons/slack_small.png")
+			background-position 12px center
+			background-repeat no-repeat
+			background-size 20px
+
+			&:hover
+				//background-image url("/static/dashboard/img/icons/_slack_small.png")
+				background-color #f2f2f2
+		
+		.mainNav__TwitterLogo
+			background-image url("/static/dashboard/img/icons/twitter_small.png")
+			background-position 12px center
+			background-repeat no-repeat
+			background-size 20px
+
+			&:hover
+				//background-image url("/static/dashboard/img/icons/_twitter_small.png")
+				background-color #f2f2f2
+
+		.mainNav__item--pinkHighlight
+			color #e94095
+
+		.mainNav__proFeature 
+			display inline-block
+			margin-left 18px
+			width 20px
+			height 13px
+			background-image url("/static/dashboard/img/icons/pronav_icon.png")
+			background-position center center
+			background-repeat no-repeat
+			background-size 23px
+
+		.mainNav__proFeature--grey
+			display inline-block
+			margin-left 18px
+			width 20px
+			height 13px
+			background-image url("/static/dashboard/img/icons/pronav_icon_grey.png")
+			background-position center center
+			background-repeat no-repeat
+			background-size 23px
+	
+	.mainNav__mobileSearch
+		background #fff
+		display none
+		position absolute
+		top 0
+		height 80px
+		width 100%
+		padding 0 3%
+		left 0	
+		z-index 1000
+		
+		.mainNav__mobileSearch__form-cont
+			background #f2f2f2	
+			background-image url('/static/dashboard/img/icons/magnify.png')
+			background-repeat no-repeat
+			background-size 21px
+			background-position 6px center
+			border-radius 3px
+			height 33px
+			margin-top 24px
+			width 100%
+			
+			input
+				background transparent
+				border none
+				padding-left 42px
+				height 100%
+				width 100%
+		
+		.mainNav__mobileSearch__close
+			position absolute
+			top 0
+			right 0
+			height 33px
+			width 39px
+			background-color #fff
+			background-image url('/static/dashboard/img/icons/icon_cross_merge.png')
+			background-repeat no-repeat
+			background-size 14px
+			background-position center
+			border none
+			margin-top 24px
+
+@media (max-width: 600px)
+	.mainNav
+		.mainNav__item
+			margin-left 18px
+			margin-top 15px
+
+			&.mainNav__item--plain 
+				margin-top 22px
+
+			&.mainNav__item--search
+				display block
+
+			&.mainNav__item--activity,
+			&.mainNav__item--addIdea,
+			&.mainNav__item--settings,
+			&.mainNav__item--search,
+			&.mainNav__item--boards
+				width 20px
+
+			&.mainNav__item--notification
+				width 20px
+
+				.mainNav__item--notification-child
+					width 20px
+
+			&.mainNav__item--profile
+				img
+					width 24px
+					position relative
+					top 5px
+
+		.mainNav__dropdown
+			top 48px
+			right 10px
+			position fixed
+			max-height calc(100% - 58px)
+			overflow scroll

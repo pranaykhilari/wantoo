@@ -1,0 +1,39 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-funnel__text
+  padding 0
+  width 100%
+  .m-funnel__title
+    text-align left
+    margin 0
+    padding 0
+    font-size 36px
+  .m-funnel__blurb
+    text-align left
+    margin 20px 0
+    padding 0
+    color grey
+    line-height 1.9em
+    font-size 14px
+    font-weight 100
+  .m-funnel__contact
+    text-align left
+    margin 40px 0
+    padding 0
+    color brown
+    line-height 1.9em
+    font-size 14px
+    font-weight 600
+    a
+      text-decoration none
+      &:hover
+        text-decoration underline
+  .mail_color
+    color #e94095
+
+
+
+@media screen and (max-width: max-mobile-screen)
+  .m-funnel__text
+    .m-funnel__title
+      text-align center

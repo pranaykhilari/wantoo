@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="comp-contMain">
+<h2>Search results for <em>{{ query_string }}</em></h2>
+
+{% include 'partials/_idea_list.html' %}
+</div>
+{% endblock content %}

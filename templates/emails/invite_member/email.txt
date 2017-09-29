@@ -1,0 +1,14 @@
+Hi,
+
+{{full_name}} wants your feedback! You’ve been invited to contribute to {{full_name}}’s Idea Board: {{comapny_title}}[http://wantoo.io/{{comapny_slug}}]. They want to know: {{company_question}}.
+
+Check it out [http://wantoo.io/{{comapny_slug}}]
+
+Wantoo gives you the ability to listen, collect, and analyze feedback and bring innovation to life. As a board member, you can vote and comment on ideas, as well as contribute new ideas of your own. Learn more about what you can do here [https://wantoo.zendesk.com/hc/en-us/articles/223147128-Wantoo-Pro-Tips-for-Board-Members].
+
+from Wantoo
+
+
+This message was sent to {{member_email}}.
+
+Wait, what’s Wantoo? Learn more at wantoo.io, send us a tweet to @allwantoo, or reply to this email to talk with us.

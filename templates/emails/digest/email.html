@@ -1,0 +1,24 @@
+<p>Hey, {{ first_name }}!</p>
+
+<p>
+New ideas have been added to the <a href="{{ company_url }}">{{ company.title }} Idea Board</a> this week:
+</p>
+
+<ul>
+{% for idea in ideas %}
+    <li><a href="{{ base_url }}{{ idea.id }}/">{{ idea.title|capfirst }}</a></li>
+{% endfor %}
+</ul>
+
+<p>
+ Go vote, comment, add your own idea or <a href="{{ company_url }}ideas/">see the most popular ideas.</a>
+<p>
+
+<br/><br/>
+<small>
+<strong>Sent from {{ company.title }}.</strong><br/><br/>
+This message was sent to {{ user_email }}. If you don't want to receive these emails in the future, <a href="{{ settings_url }}">update email preferences</a>. 
+<br/><br/>
+Innovation powered by <a href="https://wantoo.io">Wantoo</a>
+</small>
+</p>

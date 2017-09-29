@@ -1,0 +1,11 @@
+Hello!
+
+{{ full_name }} ({{ author_email }}) has created an Idea Board!
+
+{{ author_url }}
+
+Staff Dashboard - https://wantoo.io/staff/boards/
+
+Woohoo!
+
+~ Wantoobot

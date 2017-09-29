@@ -1,0 +1,159 @@
+.my-boards-logo
+	position relative
+	margin 0 3%
+	max-height 40px
+	top 50%
+	transform translateY(-50%)
+	max-width 100px
+
+.-pro-upgrade
+	top 5px
+	color black
+	font-weight 600
+
+.my-boards-highlight
+	text-decoration none
+	&:hover
+		color #e94095
+
+.closed-boards__link
+	padding-top 20px
+	a
+		color #7f8081
+		&:hover
+			color #7f8081
+
+.re-open-board
+	position absolute
+	bottom 10px
+	right 15px
+	color #e94095
+	
+	&:hover
+		color #e94095
+
+
+.my-boards__section
+	margin 40px 0 20px 0
+	padding 0 40px
+
+	.my-boards__header
+		padding 0 0 12px
+		position relative
+
+	.my-boards__list
+		list-style none
+		margin 0
+		padding 0
+		display -webkit-box
+		display -webkit-flex
+		display -ms-flexbox
+		display flex
+		-webkit-flex-wrap wrap
+		-ms-flex-wrap wrap
+		flex-wrap wrap
+
+	.my-boards__list-item
+		width 33%
+		padding 0 10px 8px 0
+		box-sizing border-box
+		position relative
+
+		.board-tile
+			display block
+			line-height 20px
+			margin-bottom 8px
+			padding 8px 9pt
+			position relative
+			text-decoration none
+
+		.board-tile__user-board
+			background white
+			border-style solid
+			border-width 4px
+			border-color #E94095
+			//min-height 100px
+			height 110px
+			padding-bottom 20px
+
+			.board-tile__details-nodec
+				text-decoration none
+
+			.board-tile__details
+				padding 8px
+
+				.board-tile__details--name
+					font-weight bold
+					color black
+					white-space nowrap
+					overflow hidden
+					text-overflow ellipsis
+
+				.board-tile__details--question
+					color grey
+
+		.board-tile__options
+			.is_admin_icon
+				position absolute
+				right 10px
+				bottom 0
+				background-image url('/static/dashboard/img/icons/feedback_header.svg')
+				background-size 100%
+				background-repeat no-repeat
+				background-position center
+				width 15px
+				height 33px
+				z-index 800
+
+
+		.board-tile__add-board
+			background-color #e2e4e6
+			color #8c8c8c
+			display table-cell
+			height 110px
+			font-weight 400
+			text-align center
+			vertical-align middle
+			width inherit
+
+			.board-tile__call-to-action
+				color grey
+
+
+@media screen and (max-width: 820px)
+
+	.my-boards__section
+		.my-boards__list-item
+			width 33%
+
+			.board-tile__user-board,
+			.board-tile__add-board
+				height 120px
+
+@media screen and (max-width: 675px)
+
+	.my-boards__section
+		.my-boards__list-item
+			width 100%
+
+			.board-tile__user-board,
+			.board-tile__add-board
+				height 100px
+
+
+
+.view-my-boards
+	height 100%
+	padding-top 50px
+	
+	.wrapper
+		min-height 100%
+		
+	.boards-footer
+		width 100%
+		margin-top 10px
+		text-align center
+		
+		p
+			color #909090
+			font-size 14px

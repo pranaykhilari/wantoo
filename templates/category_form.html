@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-main">
+<a href="/{{ company.slug }}/manage/categories/">&larr; Categories</a>
+
+{% if category %}
+    <h1>Edit category</h1>
+{% else %}
+    <h1>Add category</h1>
+{% endif %}
+ <form method="POST" action="." class="form-wantoo form-validate">
+    {% bootstrap_form form %}
+
+    <button class="btn-fill-primary" type="submit">
+    {% if category %}
+        Save
+    {% else %}
+        Add category
+    {% endif %}        
+    </button>
+    <a href="/{{ company.slug }}/manage/categories/" class="-btn-cancel btn-fill-transparent">Cancel</a>
+    {% csrf_token %}
+</form>
+
+{% if category %}
+
+
+
+<!--<form method="POST" class="form-wantoo" action="/{{ company.slug }}/delete-category/">
+    <input type="hidden" name="category_id" value="{{ category.id }}"/>
+    <button class="-btn-delete btn-fill-transparent-red" type="submit" onclick="return confirm('Are you sure to delete?')" >Delete</button>
+    {% csrf_token %}
+</form>-->
+
+<div class="form-wantoo">
+    <a href="#" class="-btn-delete btn-fill-transparent-red" style="margin-top: 40px;" data-toggle="modal" data-target="#_modal-bulkActionsDeleteCategory">Delete</a>
+</div>
+
+<div class="modal fade comp-modal x-bulkActions" id="_modal-bulkActionsDeleteCategory" tabindex="-1" role="dialog" aria-labelledby="Delete Category">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h2 class="-title">Delete Category</h2>
+         <p class="-message">This Category will be deleted, including all data and activity.<br>Ideas in this category will be sent to a default category. Are you sure?</p>
+         <div class="-action-cont">
+          <button type="button" class="btn-fill-transparent" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button" class="_bulkActionsConfirmDeleteCategory btn-fill-primary" data-catID="{{ category.id }}">Yes, delete</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+</div>
+</div>
+{% endblock content %}

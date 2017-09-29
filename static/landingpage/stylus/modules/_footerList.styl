@@ -1,0 +1,34 @@
+lesscss-percentage(n)
+  (n * 100)%
+.m-footerList
+  list-style none
+  padding 0 5% // was 0 25%
+  //width 80%
+  text-align center
+  -ms-text-justify distribute-all-lines
+  text-justify distribute-all-lines
+  &:after
+    content ''
+    width 100%
+    display inline-block
+  .m-footerList__item
+    display inline-block
+    height 30px
+    padding 15px
+    text-align center
+    a
+      color grey
+      font-weight 400
+      font-size 14px
+      text-decoration none
+      &:hover
+        text-decoration underline
+@media screen and (max-width: max-mobile-screen)
+  .m-footerList
+    padding 0 20%
+    //width 90%
+@media screen and (max-width: 600px)
+  .m-footerList
+    padding 0 4%
+    width 90%
+

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="comp-contMain">
+<div class="view view-main view-integration">
+	<h2 class="-title">Slack notifications</h2>
+
+	<p class="integrations__body">Get instantly notified in Slack of activity from this Idea Board. Hit the "Add to Slack" button below to authorize Wantoo to send activity updates to a selected Slack #channel.</p>
+
+	<div class="integrations__content_wrapper">
+		<div class="integrations__content_inner">
+		
+			{% if company.slack %}
+			    <div class="alert alert-info">You have a valid Slack integration. 
+			        <a class="btn btn-xs btn-danger pull-right" href="/{{ company.slug }}/slack/?reset=True">
+			            <i class="glyphicon glyphicon-remove"></i> Disconnect
+			        </a>
+			        <br/><strong>Team:</strong> {{ company.slack.team_name }}
+			        <br/><strong>Channel:</strong> {{ company.slack.incoming_webhook.channel }}
+			    </div>
+			{% else %}
+				<a href="https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=3943897829.16305580643&redirect_uri={{redirect_url}}"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
+			{% endif %}
+
+		</div>
+	</div>
+
+</div>
+</div>
+{% endblock %}

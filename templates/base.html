@@ -1,0 +1,739 @@
+{% load render_bundle from webpack_loader %}
+
+{% load mytags %}
+{% get_user_hash as user_hash %}
+{% if not company %}
+        {% get_company as company %} 
+{% endif %}
+
+{% if user.is_authenticated %}
+        {% get_notifications as notifications %} 
+        {% get_has_new_notifications as new_notification %} 
+        {% get_blocked_status as is_blocked %}
+
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        {% if idea %}
+            <title>{{ idea.title }}</title>
+            <meta name="description" content="{{ idea.description|default:'Visit the Idea Board to vote, comment or add your own idea'}}" />
+            <!--Social media Dynamic sharing image START-->
+            <meta property="og:image" content='https://wantoo.imgix.net/white.png?mark={{ idea.company.logo_url|urlencode }}&markpad=5&markalign=center%2Cbottom&markw=110&blend=https://assets.imgix.net/~text?fm=png%26bg=fff%26txtsize=60%26w=1200%26txtalign=middle%2Ccenter%26txtfont=Open%20Sans%26txt={{ idea.title|urlencode }}%26txtclr={{ idea.company.color|default:'000'}}%26txtlead=10%26h=630%26txtfit=max%26txtpad=100%26txtalign=middle%2Ccente%26markalign=center%2Cbottom&h=630&w=1200&txtclr=00000&bs=inherit&bm=multiply' />
+            <!--Social media Dynamic sharing image END-->
+        {% else %}
+            <title>{{ company.title|default:'wantoo'}}</title>
+            <meta name="description" content="{{ company.title }} has teamed up with #wantoo to find out what you really want. Let us know!" />
+        {% endif %}
+
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1.0, user-scalable=0">
+
+        <script data-cfasync="false" src="https://use.typekit.net/tzy0vji.js"></script>
+        <script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+        {% render_bundle 'dashboard' %} 
+
+        <!-- TO DO: THE TWO SCRIPTS SHOULD BE ON BOTTOM OF BODY. QUCK FIX UNTIL I ORGNAISE THE DATA INJECTION -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script> <!-- NEEDS TO BE EXPOSED TO GLOBAL SCOPE CUZ OF BAD INLINE TEMPLATE...-->
+        {% render_bundle 'vendor' 'js' %}
+        <!-- END TODO-->
+
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+            <script>
+
+                window.app = {};
+
+                window.results = {};
+                window.userInfo = {};
+                window.userInfo.firstName = "{{ user.first_name }}";
+                window.userInfo.companyName = "{{ company.title }}";
+                window.userInfo.company = "{{ company.slug }}";
+                window.userInfo.companyId = "{{ company.id }}";
+                window.userInfo.ideaID = "{{ idea.id }}";
+                window.userInfo.ID = "{{ request.user.id }}";
+                window.userInfo.email = "{{ request.user.email }}";
+                window.ALGOLIA_APP_ID = "{% get_settings_value "ALGOLIA_APP_ID" %}";
+                window.ALGOLIA_SEARCH_KEY = "{% get_settings_value "ALGOLIA_SEARCH_KEY" %}";
+
+                window.companyBlank = "{{ company.blank_home }}";
+                {% if company.blank_home %}
+                window.ideaListVisible = false;
+                {% else %}
+                window.ideaListVisible = true;
+                {% endif %}
+
+                {% if request.path != "/"|add:company.slug|add:"/" %}
+                window.ideaListVisible = true;
+                {% endif %}
+
+                window.voted_ideas = [];
+                {% if user.is_authenticated %}
+                {% get_voted_ideas as voted_ideas %} 
+                window.voted_ideas = {{ voted_ideas }};
+                {% endif %}
+
+                window.app.ideas = [];
+                {% for idea in ideas %}
+                    window.app.ideas[{{forloop.counter0}}] = {}; 
+                    window.app.ideas[{{forloop.counter0}}].idea_id = {{ idea.id }};
+                    //jQuery hack to replace HTML special characters
+                    window.app.ideas[{{forloop.counter0}}].title = $("<div />").html("{{ idea.title|capfirst  }}").text().replace(/<br\s*[\/]?>/gi, "\n");
+                    window.app.ideas[{{forloop.counter0}}].category = "{{ idea.category }}";
+
+                    if("{{ idea.category.id }}" == "") {
+                        window.app.ideas[{{forloop.counter0}}].category_id = null  
+                    } else {
+                        window.app.ideas[{{forloop.counter0}}].category_id = "{{ idea.category.id }}";
+                    }
+                    window.app.ideas[{{forloop.counter0}}].vote_count = {{ idea.vote_count }};
+                    
+                    if(jQuery.inArray( {{ idea.id }}, window.voted_ideas ) == -1 ) {
+                        window.app.ideas[{{forloop.counter0}}].voted = "not_voted";
+                    } else {
+                        window.app.ideas[{{forloop.counter0}}].voted = "voted";
+                    }
+                    window.app.ideas[{{forloop.counter0}}].comment_count = {{ idea.comment_count }};
+
+                    window.app.ideas[{{forloop.counter0}}].status = {};
+                    window.app.ideas[{{forloop.counter0}}].status.id = "{{ idea.status.id }}";
+                    window.app.ideas[{{forloop.counter0}}].status.title = "{{ idea.status }}";
+                    window.app.ideas[{{forloop.counter0}}].status.color = "{{ idea.status.color }}";
+
+                    window.app.ideas[{{forloop.counter0}}].created_by = {};
+                    window.app.ideas[{{forloop.counter0}}].created_by.id = {{ idea.created_by.id }};
+                    window.app.ideas[{{forloop.counter0}}].created_by.gravatar_url = "{% gravatar_url idea.created_by %}";
+
+                    window.app.ideas[{{forloop.counter0}}].voted_users = {};
+                    window.app.ideas[{{forloop.counter0}}].voted_users.id = [];
+                    window.app.ideas[{{forloop.counter0}}].voted_users.gravatar_url = [];
+
+
+                    {% for voted_user in idea.idea_votes.all|slice:":2" %}
+                    window.app.ideas[{{forloop.parentloop.counter0}}].voted_users.id[{{forloop.counter0}}] = {{ voted_user.user.id }};
+                    window.app.ideas[{{forloop.parentloop.counter0}}].voted_users.gravatar_url[{{forloop.counter0}}] = "{% gravatar_url voted_user.user %}";
+                    {% endfor %}
+
+
+
+                    window.app.ideas[{{forloop.counter0}}].last_activity = {};
+                    window.app.ideas[{{forloop.counter0}}].last_activity.action = "{{ idea.last_activity.action }}";
+                    window.app.ideas[{{forloop.counter0}}].last_activity.user = {};
+                    window.app.ideas[{{forloop.counter0}}].last_activity.user.id = "{{ idea.last_activity.user.id }}";
+                    window.app.ideas[{{forloop.counter0}}].last_activity.user.gravatar_url = "{% gravatar_url idea.last_activity.user %}";
+                    window.app.ideas[{{forloop.counter0}}].last_activity.user.first_name = "{{ idea.last_activity.user.first_name }}";
+                    window.app.ideas[{{forloop.counter0}}].last_activity.created_at = "{{ idea.last_activity.created_at|better_timesince }}";
+                {% endfor %}
+
+                {% if company.company_categories.all.count >= 1 %}
+                window.userInfo.noCategories = false;
+                window.categories = [];
+                
+                {% for cat in company.company_categories.all %}
+
+                    window.categories[{{forloop.counter0}}] = {};
+                    window.categories[{{forloop.counter0}}].title = "{{ cat.title }}";
+                    window.categories[{{forloop.counter0}}].id = "{{ cat.id }}";
+
+                {% endfor %}
+
+                {% else %}
+                window.userInfo.noCategories = true;
+                {% endif %}
+
+
+                        
+                // Hex code based favicon FIXIT: move to somewhere better
+                function encodeHex(s) {
+                        s = s.substring(1, 7);
+                        if (s.length < 6) {
+                                s = s[0] + s[0] + s[1] + s[1] + s[2] + s[2];
+                        }
+                        return encodeRGB(
+                        parseInt(s[0] + s[1], 16), parseInt(s[2] + s[3], 16), parseInt(s[4] + s[5], 16));
+                }
+
+                function encodeRGB(r, g, b) {
+                        return encode_triplet(0, r, g) + encode_triplet(b, 255, 255);
+                }
+
+                function encode_triplet(e1, e2, e3) {
+                        var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+                        enc1 = e1 >> 2;
+                        enc2 = ((e1 & 3) << 4) | (e2 >> 4);
+                        enc3 = ((e2 & 15) << 2) | (e3 >> 6);
+                        enc4 = e3 & 63;
+                        return keyStr.charAt(enc1) + keyStr.charAt(enc2) + keyStr.charAt(enc3) + keyStr.charAt(enc4);
+                }
+
+
+                function generatePixel(color) {
+                        return "data:image/gif;base64,R0lGODlhAQABAPAA" + color + "/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
+                }
+
+                // scripts are loaded in a closure in jsFiddle
+                // so make function global
+                window["generateHex"] = function generateHex(company_color) {
+                        var hex = company_color;
+                        var color = encodeHex(hex);
+                        var data = generatePixel(color);
+                        
+                        var link = document.createElement('link');
+                        link.type = 'image/x-icon';
+                        link.rel = 'shortcut icon';
+                        
+                        link.href = data;
+                        document.getElementsByTagName('head')[0].appendChild(link);
+                }
+                var company_color = "#{{ company.color|default:'e94095' }}";
+                generateHex(company_color);
+            </script>
+
+         <style>
+
+            .company--color {
+                color: #{{ company.color }};
+            }
+
+            .company--border {
+                border-color: #{{ company.color }};
+            }
+
+
+
+            .view-ideaDetail .-idea-detail .col-row .-col-vote .-cont-vote.voted .-score {
+                color: #{{ company.color }};
+            }
+
+            .view-activity .-settings-menu .-inner-cont a.active {
+                color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .view-my-activity .-settings-menu .-inner-cont a.active {
+                color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .view-manageMembers .-export-members-link,
+            .view-manageCategories .-export-members-link,
+            .view-manageCategories .-export-members-link,
+            .view-manageIdeas .-export-members-link {
+                color: #{{ company.color }};
+            }
+
+            .-merge-info-blurb a {
+                color: #{{ company.color }};
+            }
+
+            .comp-merge .comp-merge__result-item .comp-merge__result-item__btn-select {
+                background-color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .view-stats .toggle-button-cont .-btn-chart-toggle-people {
+                border-color: #{{ company.color }} !important;
+                color: #{{ company.color }};
+            }
+
+            .view-stats .toggle-button-cont.is-voteChartVisible .-btn-chart-toggle-people {
+                border: none !important;
+                color: #000;
+            }
+
+            .view-stats .toggle-button-cont.is-voteChartVisible .-btn-chart-charts {
+                border-color: #{{ company.color }} !important;
+                color: #{{ company.color }};
+            }
+
+            .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+                background-color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .pagination>li>a, .pagination>li>span, .pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+                color: #{{ company.color }};
+            }
+
+            .comp-yourIdea .-highlight {
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-vote .-cont-vote .-btn-vote.voted, .comp-ideaList .-idea .-col-vote-small .-cont-vote .-btn-vote.voted {
+                border-color: #{{ company.color }};
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-vote .-cont-vote .-btn-vote.voted, .comp-ideaList .-idea .-col-vote-small .-cont-vote .-btn-vote.not_voted {
+                border-color: #{{ company.color }};
+                color: #{{ company.color }};
+            }
+
+            .view-ideaDetail .-idea-detail .-col-info .-cont-info .-activity .-category a:hover {
+                color: #{{ company.color }};
+            }
+
+            .btn-vote.voted {
+                border-color: #{{ company.color }};
+                color: #{{ company.color }};
+            }
+
+            .btn-vote.not_voted:hover {
+                border-color: #{{ company.color }};
+                background: #{{ company.color }};
+                color: #fff;
+            }
+
+            .comp-ideaList .-idea .-col-vote .-cont-vote.voted .-btn-vote {
+                border-color: #{{ company.color }};
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-vote .-cont-vote.voted .-score {
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-vote .-cont-vote.not_voted .-btn-vote:hover {
+                border-color: #{{ company.color }};
+                background: #{{ company.color }};
+                color: #fff;
+            }
+
+            .comp-yourIdea .-highlight {
+                border-color: #{{ company.color }};
+            }
+
+            .btn-fill {
+                background: #{{ company.color }};
+            }
+
+            .btn-fill-primary {
+                background: #{{ company.color }};
+            }
+
+            .btn-fill-primary:hover {
+                background: #{{ company.color }};
+            }
+
+            .dataTables_wrapper .pagination .paginate_button a {
+                border-color: #{{ company.color }};
+            }
+
+            .dataTables_wrapper .pagination .paginate_button:hover a {
+                border: 1px solid #{{ company.color }};
+            }
+        
+            .dataTables_wrapper .pagination .paginate_button a:hover {
+                border: 1px solid #{{ company.color }};
+            }
+
+            .btn-fill-primary-small {
+                background: #{{ company.color }};
+            }
+
+            .comp-yourIdea .-cat-dropdown-menu ul .-all {
+                color: #{{ company.color }};
+            }
+
+            .comp-yourIdea .-cat-dropdown-menu ul li a._active {
+                 color: #{{ company.color }};
+            }
+
+
+            .dataTables_wrapper .pagination .paginate_button.active a {
+                background: #{{ company.color }};
+            }
+
+            .btn-dropdown .-custom-dropdown li.active a {
+                color: #{{ company.color }};
+            }
+
+            .comp-activity .-activity-cont .-activity-item .-right-col .-message a {
+                color: #{{ company.color }};
+            }
+
+
+            .comp-notificationsPreview .-notification-item a .-description .comp-notificationsPreview__name {
+                color: #{{ company.color }};
+            }
+
+            .comp-notificationsPreview .-notification-item a .-description .comp-notificationsPreview__idea-title {
+                color: #{{ company.color }};
+            }
+
+            .comp-notificationsPreview .-btn-all-notifications {
+                background: #{{ company.color }};
+            }
+
+            .banner {
+                background: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-info .-cont-info .-title:hover {
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-info .-cont-info .-activity .-category:hover {
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-info .-cont-info .-activity .-recent .-profile-link:hover {
+                color: #{{ company.color }};
+            }
+
+            .view-ideaDetail .-idea .-col-info .-cont-info .-activity .-category a:hover {
+                color: #{{ company.color }};
+            }
+
+            .view-ideaDetail .-idea .-col-info .-cont-info .-activity .-recent a:hover span {
+                color: #{{ company.color }};
+            }
+
+            .dropdownMenu li.active a {
+                color: #{{ company.color }};
+            }
+
+            .dropdownMenu li.active a:hover {
+                color: #{{ company.color }};
+            }
+
+            .comp-ideaList .-idea .-col-info .-cont-info a:hover .-comments {
+                color: #{{ company.color }};
+            }
+
+            .btn-fill-primary {
+                background: #{{ company.color }};
+            }
+            
+            .view-profileSettings .-settings-menu .-inner-cont a.active {
+                color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .comp-manageTable tbody tr td.-member-action a {
+                color: #{{ company.color }};
+            }
+
+            .view-manageIdeas .-import, .view-manageIdeas .-export {
+                color: #{{ company.color }};
+            }
+            
+            .view-manageIdeas .-import, .view-manageIdeas .-import {
+                color: #{{ company.color }};
+            }
+
+            .view-ideaDetail .-idea-detail .-col-info .-cont-info .-activity .-recent a:hover span {
+                color: #{{ company.color }};
+            }
+
+            .btn-dropdown .-custom__ideaList  {
+                color: #{{ company.color }};
+            }
+
+            .view .-view__settings-menu .-inner-cont a.active  {
+                color: #{{ company.color }};
+                border-color: #{{ company.color }};
+            }
+
+            .noResults__item {
+                padding-top: 20px;
+            }
+
+            .color-link, .noResults__link, .noResults__link:hover {
+                color: #{% if company.color %}{{ company.color }}{% else %}e94095{% endif %} !important;
+            }
+
+            .tweet_user-name {
+                color: #{{ company.color }};
+            }
+
+            .twitter-search__searchbar .keyword .keyword-wrap {
+                background: #{{ company.color }} !important;
+            }
+
+            .invite_cta {
+                color: #{{ company.color }} !important;
+            }
+
+         </style> 
+            {% block inside_head %}
+            {% endblock inside_head %}
+
+    </head>
+    <body>
+        <div id="auth" data-authed="{{ user.is_authenticated.value }}"></div>
+        {% if company %}
+            <!-- Searchbar START-->
+            {% include 'partials/_header.html' %}
+            <!-- Searchbar END-->
+        {% endif %}
+
+        <!-- Main Content START-->
+        {% block content %}
+        {% endblock content %}
+        <!-- Main Content END-->
+
+        <!-- Modals START -->
+        {% include 'partials/_modals.html' %}
+        <!-- Modals END -->
+
+        <div id="liveSearch"></div>
+
+        <!-- Body Scripts START -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+
+        {% if company %}
+                <script>
+                    $(document).ready(function() {
+
+                            var client = algoliasearch('{% get_settings_value "ALGOLIA_APP_ID" %}', '{% get_settings_value "ALGOLIA_SEARCH_KEY" %}');
+                            console.log('ALGOLIA CLIENT');
+                            console.log(client);
+                            var index = client.initIndex('idea_index');
+                            console.log('ALGOLIA INDEX');
+                            console.log(index);
+
+                        try {
+                            var client = algoliasearch('{% get_settings_value "ALGOLIA_APP_ID" %}', '{% get_settings_value "ALGOLIA_SEARCH_KEY" %}');
+                            console.log('ALGOLIA CLIENT');
+                            console.log(client);
+                            var index = client.initIndex('idea_index');
+                            console.log('ALGOLIA INDEX');
+                            console.log(index);
+                        } catch(error) {
+                            console.log('ALGOLIA ERROR');
+                            console.log(error);
+                        }
+                        
+
+                        var $search_input = $('._searchInput');
+                        $search_input.keyup(function(event) {
+
+                            console.log($(event.target).val());
+
+                            if($(event.target).val().length > 0) {
+                                _hideUIElements('searchInput');
+
+                                index.search($(event.target).val(), {
+                                    numericFilters: 'company_id={{ company.id }}',
+                                    hitsPerPage: 30,
+                                    facets: '*'
+                                }, function fireCallback(err, content){
+                                    console.log(content);
+                                    searchCallback(err, content, 'searchInput', $(event.target).val());
+                                });
+                            } else {
+                                _showUIElements('searchInput');
+                                searchCallback(null, null, 'searchInput', $(event.target).val());
+                            }
+                        });
+
+                        var searchNavBtn = $('._searchNavBtn');
+                        searchNavBtn.on('click', function(){
+                            _hideUIElements('mobileSearchInput');
+                        });
+
+                        var _closeMobileSearch = $('._closeMobileSearch');
+                        _closeMobileSearch.on('click', function(){
+                            $('._mobileSearch').fadeOut();
+                            _showUIElements('searchInput');
+                            searchCallback(null, null, 'searchInput', '');
+                            $.event.trigger({
+                                    type: "liveSearchStarted",
+                                    results: null,
+                                    searchSource: 'searchInput',  
+                                    searchTerm: ''
+                                });
+                        });
+
+                        var $idea_input = $('._yourIdea');
+                        $idea_input.keyup(function() {
+                            
+                            if($idea_input.text().length >= 3) {
+
+                                $('._allIdeasLink').hide();
+                                _hideUIElements('ideaInput');
+
+                                index.search($idea_input.text(), {
+                                    numericFilters: 'company_id={{ company.id }}',
+                                    hitsPerPage: 30,
+                                    facets: '*'
+                                }, function fireCallback(err, content){
+                                    searchCallback(err, content, 'ideaInput', $idea_input.text());
+                                });
+                            } else {
+                                $('._allIdeasLink').show();
+                                _showUIElements('ideaInput');
+                                
+                                $.event.trigger({
+                                    type: "liveSearchStarted",
+                                    results: null,
+                                    searchSource: 'ideaInput'
+                                });
+                            }
+                            
+                        });
+
+                    });
+
+
+                    function searchCallback(err, content, source, searchTerm) {
+
+                        if(source === 'searchInput') {
+
+                            console.log(searchTerm);
+
+                            if(searchTerm.length <= 0) {
+                                $.event.trigger({
+                                    type: "liveSearchStarted",
+                                    results: null,
+                                    searchSource: 'searchInput',  
+                                    searchTerm: searchTerm
+                                });
+                            } else {
+                                $.event.trigger({
+                                    type: "liveSearchStarted",
+                                    results: content,
+                                    searchSource: 'searchInput',
+                                    searchTerm: searchTerm
+                                });
+                            }
+
+                            
+                        } else {
+                            $.event.trigger({
+                                type: "liveSearchStarted",
+                                results: content,
+                                searchSource: 'ideaInput',
+                                searchTerm: searchTerm
+                            });
+                        }
+                    };
+
+
+                    function _hideUIElements (searchSource) {
+                        
+                        if(searchSource === 'searchInput') {
+
+
+                            $('._hideOnLiveSearch').hide();
+                            $('._headerBrand').hide();
+                            $('._header').addClass('l-header--isLogoSmall');
+                            $('.pagination.pagination-centered, ._idea-count').hide();
+                            $('._filterBar').hide();
+
+                        } else if(searchSource === 'mobileSearchInput'){
+                            $('._hideOnLiveSearch').hide();
+                            $('.pagination.pagination-centered, ._idea-count').hide();
+                            $('._filterBar').hide();
+
+                            if($('.comp-yourIdea').length <= 0) {
+
+                            }
+                        }
+                    }
+
+                    function _showUIElements(searchSource) {
+                        if(searchSource === 'searchInput') {
+                            $('._hideOnLiveSearch').show();
+                            $('._headerBrand').show();
+                            //check we are on the home page (bit hacky)
+                            if($('.comp-yourIdea').length > 0) {
+                                $('._header').removeClass('l-header--isLogoSmall');
+                            }
+
+                            $('.pagination.pagination-centered, ._idea-count').show();
+                            $('._filterBar').show();  
+                        } else if(searchSource === 'mobileSearchInput'){
+                            $('._hideOnLiveSearch').show();
+                            $('.pagination.pagination-centered, ._idea-count').show();
+                            $('._filterBar').show();  
+                        }
+                    }
+                </script>
+        {% endif %}
+
+        <!--MixPanel START -->
+        {% include 'partials/_mixpanel.html' %}
+        <!--MixPanel END -->
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-59179808-6', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        {% render_bundle 'app' 'js' %}
+        {% render_bundle 'main' 'js' %}
+        <!-- Body Scripts END-->
+
+        <!-- Intercom Snippet -->
+        <script>
+          window.intercomSettings = {
+            app_id: "{{ intercom_app_id }}",
+            name: "{{ request.user.first_name }} {{ request.user.last_name }}", // Full name
+            email: "{{ request.user.email }}", // Email address
+            created_at: "{{ request.user.date_joined|date:"U" }}", // Signup date as a Unix timestamp
+            user_hash: "{{ user_hash }}"
+          };
+        </script>
+        <script>(function () {
+            var w = window;
+            var ic = w.Intercom;
+            if (typeof ic === "function") {
+                ic('reattach_activator');
+                ic('update', intercomSettings);
+            } else {
+                var d = document;
+                var i = function () {
+                    i.c(arguments)
+                };
+                i.q = [];
+                i.c = function (args) {
+                    i.q.push(args)
+                };
+                w.Intercom = i;
+                function l() {
+                    var s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = 'https://widget.intercom.io/widget/{{ intercom_app_id }}';
+                    var x = d.getElementsByTagName('script')[0];
+                    x.parentNode.insertBefore(s, x);
+                }
+
+                if (w.attachEvent) {
+                    w.attachEvent('onload', l);
+                } else {
+                    w.addEventListener('load', l, false);
+                }
+            }
+        })()</script>
+        <!-- End Intercom Snippet -->
+        
+        <!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '840263572738436');
+        fbq('track', "PageView");</script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=840263572738436&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- End Facebook Pixel Code -->
+    </body>
+</html>

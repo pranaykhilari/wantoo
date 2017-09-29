@@ -1,0 +1,70 @@
+.view-my-activity
+	.-settings-menu
+		width 100%
+		padding-bottom 10px
+		
+		.-inner-cont
+			margin-top 40px
+			
+			a
+				display inline
+				font-size 18px
+				margin-right 64px
+				color #000
+				text-decoration none
+				
+				&:last-child
+					margin-right 0
+				
+				&:hover
+					opacity .8	
+				
+				&.active
+					color highlightPrimary
+					font-weight bold
+					border-bottom 2px solid highlightPrimary
+					padding-bottom 2px
+					
+
+	.-member-header
+		clearfix()
+		margin-bottom 70px
+		margin-top 40px
+		
+		.-left-col
+			margin-right 25px
+			width 80px
+			float left
+			
+			img
+				width 100%
+				border-radius 50%
+		
+		.-right-col
+			float left
+			
+			.-name
+				font-size 30px
+				font-weight bold	
+				margin 10px 0 5px	
+			
+			.-stats
+				font-weight 16px
+				color #959595	
+	
+	.-activity-filter
+		margin-top -140px			
+			
+
+@media (max-width: 650px)
+	.view-my-activity
+		.-activity-filter
+			float left
+			margin-top -66px		
+	
+	.view-my-activity
+		.-settings-menu
+			.-inner-cont	
+				a
+					font-size 14px
+					margin-right 10px		

@@ -1,0 +1,153 @@
+.form
+	input, button, label, textarea
+		display block
+	
+	.checkbox
+		padding-left 20px
+		font-size 12px
+		color #959595	
+		position relative
+		
+		input[type="checkbox"]
+			position absolute
+			height auto
+			top 0	
+			
+	&.x-standard
+		max-width 610px
+		width 100%	
+		
+		.form-group
+			width 100%
+			float left
+			margin 0
+		
+		.-height-small
+			input, textarea
+				height 40px	
+		
+		
+		label
+			float left
+			width 11%
+			text-align right
+			margin-right 4%
+			color #a7a7a7
+			font-size 16px
+			margin-top 5px
+
+		input, textarea, select
+			float left
+			width 85%	
+			margin-bottom 32px
+			border 2px solid #c7c7c7
+			font-size 16px
+		
+		textarea
+			resize none	
+		
+		select
+			max-width 281px	
+		
+		button[type="submit"]
+			margin-left 93px
+			float left
+		
+		.-btn-cancel
+			float left
+		
+		.-btn-delete
+			border none
+			width 140px
+			height 60px
+			background transparent
+			font-size 18px
+			font-weight bold
+			color #eb212e
+			display block
+			float right
+			text-decoration none !important
+			text-align center
+			line-height 60px
+			outline none 	
+			
+
+.form-wantoo
+	width 100%
+	max-width 600px
+	
+	label
+		display inline-block
+		
+	&.form-wantoo--settingsNotifications
+		.form-group
+			margin-bottom 15px
+	
+
+	&.x-no-label
+		label
+			display none
+			
+	&.x-cta-centred
+		button[type="submit"]
+			float none
+			margin 0 auto				
+	
+	.form-group
+		margin-bottom 30px
+		
+	.checkbox
+		padding-left 0
+		max-width 650px
+		
+		label
+			color #000
+			font-size 16px
+			padding-left 0
+			display block
+			
+			input[type="checkbox"]
+				position relative
+				float right 	
+		
+	input
+		border 1px solid #aaaaaa
+		border-radius 0
+		height 40px
+		font-size 18px
+	
+	textarea
+		border 1px solid #aaaaaa
+		border-radius 0
+		border-radius none
+		font-size 18px
+			
+		
+		&:focus
+			border 1px solid #07a0f8
+		
+	button[type="submit"]
+		float left
+		margin-top 40px
+		
+		&:disabled
+			background #959595	
+			opacity .5
+
+	.-stupid-counter
+		color #a7a7a7
+		float right
+	
+	.-btn-cancel
+		margin-top 40px
+		float left	
+	
+	.-btn-delete 
+		float right !important	
+		&:hover 
+			color: red;
+		
+
+#form-add-idea
+	textarea
+		height 140px		

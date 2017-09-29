@@ -1,0 +1,281 @@
+{% extends override_base|default:"base.html" %}
+{% load mytags %}
+{% block content %}
+    <style>
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#private_login_password').hide();
+            $('#private_signup_password').hide();
+            $('#private_forgot_password').hide();
+            $('#request_access').hide();
+            $('#private_signup_form').hide();
+            $('#private_submit').hide();
+            var company, email_value;
+            $("#private_id_login").keyup(function (e) {
+                var str = $('#private_id_login').val();
+                if (/^[a-zA-Z0-9- ]*$/.test(str) == false) {
+                    $("#private_button").prop("disabled", false);
+                }
+                else if (e.keyCode == 50) {
+                    $("#private_button").prop("disabled", false);
+
+                }
+            });
+
+            $("#private_button").on('click', function (e) {
+                company = "{{ company.slug }}";
+                email_value = ($("#private_id_login").val());
+                validateemail(e);
+            });
+
+            function validateemail(e) {
+
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: '{% url 'board_access' %}',
+                    data: {email_value: email_value, company: company},
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 'true') {
+                            $('#private_login_password').show();
+                            $('#private_forgot_password').show();
+                            $('#request_access').hide();
+                            $('#pass_error').hide();
+                            $('#board_nav_bar').hide();
+                            $('#private_button').hide();
+                            $('#private_submit').show();
+                        }
+                        else if (data == "false") {
+                            $('#private_login_password').hide();
+                            $('#private_forgot_password').hide();
+                            $('#request_access').show();
+                            $('#pass_error').hide();
+                            $('#board_nav_bar').hide();
+                        }
+                        else if (data == "signup") {
+                            $('#private_login_form').hide();
+                            $('#private_signup_form').show();
+                            $('#board_nav_bar').hide();
+                            $('#pass_error').hide();
+                            var signup = $('#private_signup_email').val($('#private_id_login').val());
+                            $('#private_signup_password').show();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    {% if company.is_private and not user.is_authenticated and not member_exist or company.is_private and user.is_authenticated and not member_exist %}
+        <div class="comp-contMain">
+            <div class="private_container"
+                 style="position: relative; margin: 0 auto; max-width: 364px">
+                <div>
+                    <a href="/{{ company.slug }}" class="private_main-logo _headerBrand"><img
+                            src="{{ company.logo_url }}" alt=""
+                            style="width: 70%;position: relative; margin: 0 auto; display: block"></a>
+                </div>
+                <div class="board_status">
+                    <h3 class="private_notice_weight">This board is private</h3>
+                    <h4>Login to access</h4>
+                </div>
+                <form class="form-wantoo form-validate x-no-label x-cta-centred" method="POST" id="private_login_form"
+                      action="{% url 'private_login_view' %}">
+                    {% csrf_token %}
+
+                    <div class="private_email">
+                        <div class="form-group"><label class="control-label" for="private_id_login">E-mail</label><input
+                                autofocus="autofocus" class="form-control error" id="private_id_login" name="login"
+                                placeholder="Email" title="" type="email" required="" aria-required="true"
+                                aria-invalid="true">
+                        </div>
+                    </div>
+                    <div class="private_email">
+                        <div class="form-group"><label class="control-label"
+                                                       for="private_login_password">Password</label><input
+                                autofocus="autofocus" class="form-control error" id="private_login_password"
+                                name="password"
+                                placeholder="Password" title="password" type="password" required="" aria-required="true"
+                                aria-invalid="true">
+
+                        </div>
+                    </div>
+                    <div class="private_forgot_password">
+                        <a href="{% url 'account_reset_password' %}" class="-text-link"
+                           data-label="Forgot password - login page" id="private_forgot_password">Forgot password?</a>
+                    </div>
+
+                    <input type="hidden" name="next" value="{{ request.path }}">
+
+                    <div class="join_button_position">
+                        <button class="btn-fill-primary join_button_position" type="button"
+                                data-label="Login - login page" disabled
+                                id="private_button"><span class="button_name">Join board</span>
+                        </button>
+                    </div>
+                    <p class="email_error" id="request_access">Login with a different email
+                    </p>
+
+                    <div class="form-group private_submit_button">
+                        <button class="btn-fill-primary" type="submit" data-label="Login - login page" disabled
+                                onclick="this.form.submit();" id="private_submit">Join board
+                        </button>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == "password error" %}
+                                <div class="-idea-link">
+                                    <p class="email_error" id="pass_error">{{ message }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <p class="-signup create_board">Create your own <a
+                            href="/my-boards" class="wantoo_color">Wantoo board</a></p>
+                </form>
+
+            </div>
+
+            <!--Form for sign up user-->
+
+            <div style="position: relative; margin: 0 auto; max-width: 364px">
+                <form class="form-wantoo form-validate x-no-label x-cta-centred" method="POST" id="private_signup_form"
+                      action="/accounts/signup/?next=/{{ company.slug }}/ideas/">
+                    {% csrf_token %}
+                    <div class="signup_email_id">
+
+                        <div class="form-group"><label class="control-label" for="signup_name">Name</label><input
+                                autofocus="autofocus" class="form-control error" id="signup_name" name="full_name"
+                                placeholder="Full name" title="" type="name" required="" aria-required="true"
+                                aria-invalid="true">
+                        </div>
+
+                        <div class="form-group"><label class="control-label"
+                                                       for="private_signup_email">E-mail</label><input
+                                autofocus="autofocus" class="form-control error" id="private_signup_email" name="email"
+                                placeholder="Email" title="" type="email" required="" aria-required="true"
+                                aria-invalid="true">
+                        </div>
+
+                        <div class="form-group"><label class="control-label"
+                                                       for="private_signup_password">Password</label><input
+                                autofocus="autofocus" class="form-control error" id="private_signup_password"
+                                name="password1"
+                                placeholder="Create password" title="password" type="password" required=""
+                                aria-required="true"
+                                aria-invalid="true">
+                        </div>
+
+
+                        <div class="form-group signup_submit_button">
+                            <div>
+                                <button class="btn-fill-primary" id="submit_model_login" type="submit"
+                                        data-label="Sign up - signup page" disabled
+                                        onclick="this.form.submit();">Join board
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="-signup signup_create_board">Create your own <a
+                            href="/my-boards" class="wantoo_color">Wantoo board</a></p>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="comp-contMain">
+
+            {% if company.logo_url %}
+                <a href="/{{ company.slug }}" class="main-logo _headerBrand"><img src="{{ company.logo_url }}"
+                                                                                  alt=""></a>
+            {% else %}
+                <a class="main-company-title _headerBrand" href="/{{ company.slug }}"><h2>{{ company.title }}</h2></a>
+            {% endif %}
+
+
+            <div class="view view-main">
+
+                <div class="comp-yourIdea row-sm _mainIdeaSubmission _hideOnLiveSearch">
+                    <p class="-yourIdea-mainQuestion">{{ company.question }}</p>
+{#                    <p class="-copy -idea _yourIdea-idea" style="display: inline;   "><span id="Add_idea" class="_yourIdea -highlight"#}
+{#                                                                contentEditable="true" data-max-char="70">&nbsp;Add your idea</span>#}
+{#                    </p><p id="counter" style="display: inline; font-size: 15px; color:#{{company.color}};">70</p>#}
+               <div class="-copy -idea _yourIdea-idea">
+                <span class="-copy -idea _yourIdea-idea" style="display: inline;"><span id="Add_idea" class="_yourIdea -highlight"
+                                                                contentEditable="true" data-max-char="70">&nbsp;Add your idea</span>
+                    <p id="counter" style="display: inline; font-size: 15px; color:#{{company.color}};">70</p></span><br></div>
+
+                    <p class="-copy -category _yourIdea-category">My idea best fits in <span
+                            class="_catDropdownButton -highlight"> all ideas</span></p>
+                    <div class="-buttons-cont _addIdeaButtons">
+                        <!--<p class="-stupid-counter">Num</p>-->
+
+                        <button class="-btn-action btn-fill-primary _step-1 _addIdeaAddButton">Add idea</button>
+                        <button class="-btn-action btn-fill-transparent _addIdeaCancelButton">Cancel</button>
+
+                    </div>
+
+                    <div class="-cat-dropdown-menu _catDropdownMenu">
+
+                        <ul>
+                            <li><a class="_categorySelect _active" href="#">all ideas</a></li>
+                            {% for cat in company.company_categories.all %}
+                                {% if not cat.parent %}
+                                    <li class="{% active request cat.id %}"><a href="#" class="_categorySelect"
+                                                                               data-id="{{ cat.id }}"
+                                                                               data-cat="{{ cat.title|lower }}">{{ cat.title|capfirst }}
+                                    </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <a id="see_all_ideas" href="/{{ company.slug }}/ideas/" class="-idea-link _allIdeasLink">See all
+                        ideas</a>
+                </div>
+
+                {% include 'partials/_idea_list.html' %}
+
+                {% if ideas.paginator.num_pages > 1 %}
+                    <ul class="pagination pagination-centered">
+                        {% if ideas.has_previous %}
+                            <li><a href="?page={{ ideas.previous_page_number }}">&laquo; Prev</a></li>
+                        {% endif %}
+
+                        <li class="active"><a>{{ ideas.number }} of {{ ideas.paginator.num_pages }}</a></li>
+
+                        {% if ideas.has_next %}
+                            <li><a href="?page={{ ideas.next_page_number }}">Next &raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <script>
+            $("#Add_idea").click(function () {
+                window.Intercom("trackEvent", " Add Idea");
+            });
+        $('#Add_idea').keyup(function(e){
+            var count = $(this).text().length;
+            var maxLength= parseInt($(this).data('max-char'));
+            var remaining = maxLength - count
+            document.querySelector('#counter').innerHTML = remaining.toString();
+        });
+
+
+         </script>
+
+    {% endif %}
+{% endblock content %}
