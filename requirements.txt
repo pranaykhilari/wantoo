@@ -15,7 +15,7 @@ django-debug-toolbar==1.6
 django-rest-swagger==0.3.10
 django-sslify
 django-toolbelt
-djangorestframework==3.5.3
+djangorestframework==3.11.2
 djrill==2.1.0
 enum34==1.1.6
 gunicorn==19.6.0
