@@ -44,7 +44,7 @@ static3==0.7.0
 templated-emails
 tweepy
 unicodecsv
-urllib3==1.19
+urllib3==1.26.5
 wheel==0.30.0a0
 whitenoise==3.2.2
 django-webpack-loader==0.4.1
